@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOYBOX.exe | Corporate Site</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body>
+
+    <div class="desktop-icons-container">
+        
+        <div class="desktop-icon draggable-icon" id="iconAbout" style="top: 20px; left: 20px;">
+            <div class="icon-img">👤</div>
+            <div class="icon-label">ABOUT</div>
+        </div>
+
+        <div class="desktop-icon draggable-icon" id="iconWork" style="top: 100px; left: 20px;">
+            <div class="icon-img">📁</div>
+            <div class="icon-label">WORK</div>
+        </div>
+
+        <div class="desktop-icon draggable-icon" id="iconIllust" style="top: 180px; left: 20px;">
+            <div class="icon-img">🎨</div>
+            <div class="icon-label">ILLUST</div>
+        </div>
+
+        <div class="desktop-icon draggable-icon" id="iconContact" style="top: 260px; left: 20px;">
+            <div class="icon-img">✉️</div>
+            <div class="icon-label">CONTACT</div>
+        </div>
+
+    </div>
+    
+    <div class="window-frame draggable-window" id="mainWindow" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <div class="window-header" id="mainHeader">
+            <span class="window-title">TOYBOX.exe</span>
+            <div class="window-controls">
+                <button class="control-btn btn-min no-drag" id="minBtn"><img src="images/min.svg" alt="min"></button>
+                <button class="control-btn btn-max no-drag" id="maxBtn"><img src="images/max.svg" alt="max"></button>
+                <button class="control-btn btn-close no-drag" id="closeBtn"><img src="images/close.svg" alt="close"></button>
+            </div>
+        </div>
+        
+        <div class="window-body">
+            <h1>WELCOME</h1>
+            <p>
+                ここはエントランスです。<br>
+                アイコンやウィンドウを<br>
+                自由に動かして遊んでください。
+            </p>
+            <a href="#" class="pop-button">GAME START</a>
+        </div>          
+    </div>
+
+    <div class="window-frame draggable-window" id="aboutWindow" style="display: none; width: 400px; top: 45%; left: 55%;">
+        <div class="window-header" id="aboutHeader">
+            <span class="window-title">ℹ️ User_Profile.prop</span>
+            <div class="window-controls">
+                <button class="control-btn btn-close no-drag" id="aboutCloseBtn"><img src="images/close.svg" alt="close"></button>
+            </div>
+        </div>
+        <div class="window-body prop-body">
+            <div class="prop-tabs">
+                <div class="prop-tab active" data-tab="tab-general">全般</div>
+                <div class="prop-tab" data-tab="tab-skills">スキル</div>
+                <div class="prop-tab" data-tab="tab-history">履歴</div>
+            </div>
+            
+            <div class="prop-content active" id="tab-general">
+                <div class="prop-row" style="text-align: center; margin-bottom: 15px;">
+                    <div style="font-size: 3rem;">🧸</div>
+                    <div style="font-weight: bold;">TOYBOX Administrator</div>
+                </div>
+                <div class="prop-list">
+                    <div class="prop-item"><span class="label">種類:</span> 人間 (Web Developer)</div>
+                    <div class="prop-item"><span class="label">場所:</span> C:\Users\Toybox\Brain</div>
+                    <div class="prop-item"><span class="label">サイズ:</span> 157cm / XXkg</div>
+                    <div class="prop-item"><span class="label">作成日:</span> 199X年 XX月 XX日</div>
+                </div>
+            </div>
+
+            <div class="prop-content" id="tab-skills">
+                <p style="margin-bottom: 10px;">実装済みモジュール:</p>
+                <div class="skill-bar"><label>HTML/CSS/JavaScript</label><div class="bar"><div class="fill" style="width: 90%;"></div></div></div>
+                <div class="skill-bar"><label>PHP</label><div class="bar"><div class="fill" style="width: 70%;"></div></div></div>
+                <div class="skill-bar"><label>Design</label><div class="bar"><div class="fill" style="width: 70%;"></div></div></div>
+                <div class="skill-bar"><label>Humor</label><div class="bar"><div class="fill" style="width: 100%;"></div></div></div>
+            </div>
+
+            <div class="prop-content" id="tab-history">
+                <p style="margin-bottom: 10px;">更新履歴:</p>
+                <ul style="text-align: left; font-size: 0.85rem; padding-left: 20px;">
+                    <li>2026.01 - TOYBOX.exe 起動</li>
+                    <li>2025.12 - デザイン構想開始</li>
+                </ul>
+            </div>
+
+            <div class="prop-footer">
+                <button class="pop-button small-btn" id="aboutOkBtn">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="window-frame draggable-window" id="workWindow" style="display: none; width: 450px; top: 40%; left: 40%;">
+        <div class="window-header">
+            <span class="window-title">📁 Projects</span>
+            <div class="window-controls">
+                <button class="control-btn btn-close no-drag" id="workCloseBtn"><img src="images/close.svg" alt="close"></button>
+            </div>
+        </div>
+        <div class="window-body prop-body">
+            <p style="margin-bottom: 20px;">制作実績リスト:</p>
+            <div class="prop-list">
+                <div class="prop-item">
+                    <span class="label">Project A:</span> 
+                    <a href="#" style="color: blue;">details.html</a>
+                </div>
+                <div class="prop-item">
+                    <span class="label">Project B:</span> 
+                    <a href="#" style="color: blue;">details.html</a>
+                </div>
+                <div class="prop-item">
+                    <span class="label">Project C:</span> 
+                    <a href="#" style="color: blue;">details.html</a>
+                </div>
+            </div>
+            <p style="font-size: 0.8rem; margin-top: 20px; color: #666;">(Double click to open)</p>
+        </div>
+    </div>
+
+    <div class="window-frame draggable-window" id="illustWindow" style="display: none; width: 400px; top: 50%; left: 60%;">
+        <div class="window-header">
+            <span class="window-title">🎨 Gallery_Viewer</span>
+            <div class="window-controls">
+                <button class="control-btn btn-close no-drag" id="illustCloseBtn"><img src="images/close.svg" alt="close"></button>
+            </div>
+        </div>
+        <div class="window-body">
+            <p>イラストギャラリー</p>
+            <div style="background: #eee; height: 150px; display: flex; align-items: center; justify-content: center; border: 2px solid black; margin-bottom: 10px;">
+                NO IMAGE
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button class="small-btn">PREV</button>
+                <button class="small-btn">NEXT</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="window-frame draggable-window" id="contactWindow" style="display: none; width: 400px; top: 30%; left: 70%;">
+        <div class="window-header">
+            <span class="window-title">✉️ Mailer_Daemon</span>
+            <div class="window-controls">
+                <button class="control-btn btn-close no-drag" id="contactCloseBtn"><img src="images/close.svg" alt="close"></button>
+            </div>
+        </div>
+        <div class="window-body prop-body">
+            <p>お問い合わせはこちらへ</p>
+            <div style="text-align: left;">
+                <label style="display:block; font-size:0.8rem; font-weight:bold;">To:</label>
+                <div style="border: 2px solid black; background: white; padding: 5px; margin-bottom: 10px;">info@toybox.exe</div>
+                
+                <label style="display:block; font-size:0.8rem; font-weight:bold;">Subject:</label>
+                <div style="border: 2px solid black; background: white; padding: 5px; margin-bottom: 10px;">ご依頼について</div>
+                
+                <label style="display:block; font-size:0.8rem; font-weight:bold;">Message:</label>
+                <div style="border: 2px solid black; background: white; height: 80px; padding: 5px;"></div>
+            </div>
+            <div class="prop-footer">
+                <button class="pop-button small-btn" id="contactSendBtn">送信(S)</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup-overlay" id="customPopup">
+        <div class="window-frame popup-size draggable-window" style="position: relative;">
+            <div class="window-header" id="popupHeader">
+                <span class="window-title">⚠️ SYSTEM MSG</span>
+                <div class="window-controls">
+                    <button class="control-btn btn-close no-drag" id="popupCloseX"><img src="images/close.svg" alt="close"></button>
+                </div>
+            </div>
+            <div class="window-body popup-content">
+                <p>
+                    あれ？<br>
+                    消すつもりですか？
+                </p>
+                <div class="popup-buttons">
+                    <button class="pop-button small-btn" id="popupBtnSend">消す(S)</button>
+                    <button class="pop-button small-btn black-btn" id="popupBtnCancel">消さない(O)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup-overlay" id="sentPopup">
+        <div class="window-frame popup-size draggable-window" style="position: relative;">
+            <div class="window-header" id="sentHeader">
+                <span class="window-title">✅ SUCCESS</span>
+                <div class="window-controls">
+                    <button class="control-btn btn-close no-drag" id="sentCloseX"><img src="images/close.svg" alt="close"></button>
+                </div>
+            </div>
+            <div class="window-body popup-content">
+                <p>HAHAHA...<br>残念ながら消す機能は存在しません。</p>
+                <div class="popup-buttons">
+                    <button class="pop-button small-btn" id="sentBtnOk">了解</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

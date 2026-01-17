@@ -1,0 +1,432 @@
+:root {
+    --main-color: #0088a3;
+    --accent-black: #000000;
+    --accent-white: #ffffff;
+    --button-color: #0088a3;
+    --window-bg: #ffffff;
+    --gray-bg: #f0f0f0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "DotGothic16", sans-serif;
+    background-color: var(--main-color);
+    background-image: radial-gradient(rgba(255, 255, 255, 0.2) 2px, transparent 2px);
+    background-size: 30px 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* --- Desktop Icons --- */
+.desktop-icon {
+    position: absolute;
+    width: 60px;
+    text-align: center;
+    cursor: pointer;
+    z-index: 5;
+    transition: transform 0.1s;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.desktop-icon:hover {
+    filter: brightness(1.1);
+}
+
+.desktop-icon:active {
+    transform: scale(0.95);
+}
+
+.desktop-icon.dragging {
+    cursor: grabbing;
+    opacity: 0.8;
+    z-index: 100;
+}
+
+.icon-img {
+    font-size: 2rem;
+    margin-bottom: 5px;
+    filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.3));
+}
+
+.icon-label {
+    background-color: var(--accent-black);
+    color: var(--accent-white);
+    padding: 2px 4px;
+    font-size: 0.8rem;
+    border-radius: 0;
+    display: inline-block;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+}
+
+/* --- Window --- */
+.window-frame {
+    width: 90%;
+    max-width: 600px;
+    background-color: var(--window-bg);
+    border: 3px solid var(--accent-black);
+    box-shadow: 8px 8px 0px var(--accent-black);
+    transition: width 0.3s ease, height 0.3s ease, box-shadow 0.3s ease;
+    position: absolute; 
+    z-index: 10;
+    animation: float 4s ease-in-out infinite;
+    border-radius: 0;
+}
+
+.window-frame.dragging {
+    animation: none;
+    transition: none;
+    cursor: grabbing;
+    box-shadow: 10px 10px 0px rgba(0,0,0,0.2);
+    z-index: 100;
+}
+
+.window-frame.active-window {
+    z-index: 50;
+}
+
+@keyframes float {
+    0% { transform: translate(-50%, -50%) translateY(0px); }
+    50% { transform: translate(-50%, -50%) translateY(-10px); }
+    100% { transform: translate(-50%, -50%) translateY(0px); }
+}
+
+.window-frame.moved {
+    animation: none;
+    transform: none !important;
+}
+
+.window-header {
+    background-color: var(--accent-black);
+    padding: 6px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid var(--accent-black);
+    color: var(--accent-white);
+    font-weight: bold;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    cursor: grab;
+    user-select: none;
+}
+
+.window-frame.dragging .window-header {
+    cursor: grabbing;
+}
+
+.window-controls {
+    display: flex;
+    gap: 6px;
+}
+
+.control-btn {
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.1s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0;
+}
+
+.control-btn img {
+    width: 60%;
+    height: 60%;
+    display: block;
+    pointer-events: none;
+}
+
+.control-btn:hover {
+    transform: scale(1.1);
+}
+
+.control-btn:active {
+    transform: scale(0.9);
+}
+
+.btn-min { background-color: #ffbd2e; }
+.btn-max { background-color: #27c93f; }
+.btn-close { background-color: #ff5f56; }
+.no-drag { cursor: pointer; }
+
+.window-body {
+    padding: 30px;
+    text-align: center;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease;
+}
+
+.window-frame.minimized .window-body {
+    max-height: 0;
+    padding: 0;
+}
+
+.window-frame.minimized {
+    box-shadow: 4px 4px 0px var(--accent-black);
+    animation: none;
+}
+
+h1 {
+    color: var(--main-color);
+    text-shadow: 2px 2px 0 var(--accent-black);
+    font-size: 2rem;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    color: #333;
+    font-weight: bold;
+}
+
+.pop-button {
+    display: inline-block;
+    background-color: var(--button-color);
+    color: var(--accent-white);
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 10px 30px;
+    border: 3px solid var(--accent-black);
+    border-radius: 0;
+    box-shadow: 5px 5px 0px var(--accent-black);
+    transition: all 0.1s;
+    cursor: pointer;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+.pop-button:active {
+    box-shadow: 0px 0px 0px var(--accent-black);
+    top: 5px;
+    left: 5px;
+}
+
+.pop-button:hover {
+    filter: brightness(1.1);
+}
+
+/* --- About Window --- */
+.prop-body {
+    padding: 15px;
+    background-color: var(--gray-bg);
+    text-align: left;
+}
+
+.prop-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: -3px;
+    padding-left: 10px;
+}
+
+.prop-tab {
+    padding: 6px 15px;
+    background-color: #ccc;
+    border: 2px solid var(--accent-black);
+    border-bottom: none;
+    border-radius: 0;
+    cursor: pointer;
+    font-weight: bold;
+    color: #666;
+    position: relative;
+    top: 3px;
+    font-size: 0.9rem;
+}
+
+.prop-tab.active {
+    background-color: var(--window-bg);
+    color: var(--accent-black);
+    top: 0;
+    z-index: 2;
+    border-bottom: 3px solid var(--window-bg);
+    padding-bottom: 9px;
+}
+
+.prop-content {
+    display: none;
+    background-color: var(--window-bg);
+    border: 3px solid var(--accent-black);
+    padding: 20px;
+    min-height: 200px;
+    position: relative;
+    z-index: 1;
+}
+
+.prop-content.active {
+    display: block;
+}
+
+.prop-list .prop-item {
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    border-bottom: 1px dotted #ccc;
+    padding-bottom: 4px;
+}
+
+.prop-item .label {
+    font-weight: bold;
+    color: var(--main-color);
+    margin-right: 10px;
+}
+
+.skill-bar {
+    margin-bottom: 10px;
+}
+
+.skill-bar label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+.skill-bar .bar {
+    width: 100%;
+    height: 16px;
+    background: #eee;
+    border: 2px solid var(--accent-black);
+    border-radius: 0;
+    overflow: hidden;
+}
+
+.skill-bar .fill {
+    height: 100%;
+    background-color: var(--main-color);
+}
+
+.prop-footer {
+    text-align: right;
+    margin-top: 15px;
+}
+
+/* --- Popup --- */
+.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(2px);
+}
+
+.popup-size {
+    width: 350px;
+    max-width: 90%;
+    animation: none;
+    transform: scale(0.9);
+}
+
+.popup-content {
+    padding: 20px 15px;
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.small-btn {
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    border-width: 2px;
+    box-shadow: 3px 3px 0 var(--accent-black);
+    border-radius: 0;
+}
+
+.small-btn:active {
+    box-shadow: none;
+    top: 3px;
+    left: 3px;
+}
+
+.black-btn {
+    background-color: var(--accent-black);
+    color: var(--accent-white);
+}
+
+/* --- Responsive (スマホ対応) --- */
+@media (max-width: 600px) {
+    /* スクロールを許可 */
+    body {
+        display: block;
+        padding-top: 60px; /* メニューバーの分だけ下げる */
+        overflow: auto;
+    }
+
+    /* アイコンコンテナを上部固定メニューバーに変形 */
+    .desktop-icons-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 50px;
+        background-color: var(--accent-black);
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        z-index: 2000;
+        border-bottom: 2px solid var(--accent-white);
+    }
+
+    /* アイコン要素のスタイルリセット */
+    .desktop-icon {
+        position: static !important; /* 絶対配置を解除 */
+        width: auto;
+        transform: none !important;
+        margin: 0;
+        pointer-events: auto; /* タップ可能に */
+    }
+
+    /* 画像（絵文字）を非表示 */
+    .icon-img {
+        display: none;
+    }
+
+    /* テキストラベルのデザイン変更 */
+    .icon-label {
+        background: transparent;
+        color: var(--accent-white);
+        box-shadow: none;
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    /* メインウィンドウの位置調整 */
+    .window-frame {
+        position: relative;
+        top: auto !important;
+        left: auto !important;
+        transform: none !important;
+        margin: 20px auto;
+        width: 95% !important;
+    }
+
+    /* 文字サイズ調整 */
+    h1 { font-size: 1.8rem; }
+    p { font-size: 0.9rem; }
+    .prop-tab { padding: 6px 10px; font-size: 0.8rem; }
+}
