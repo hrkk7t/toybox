@@ -1,39 +1,40 @@
-// --- Elements ---
 const mainWindow = document.getElementById('mainWindow');
 
-// Icons
 const iconTop = document.getElementById('iconTop');
 const iconAbout = document.getElementById('iconAbout');
 const iconWork = document.getElementById('iconWork');
 const iconIllust = document.getElementById('iconIllust');
 const iconContact = document.getElementById('iconContact');
 
-// Sub Windows
 const aboutWindow = document.getElementById('aboutWindow');
 const workWindow = document.getElementById('workWindow');
 const illustWindow = document.getElementById('illustWindow');
 const contactWindow = document.getElementById('contactWindow');
 
-// Buttons
 const contactSendBtn = document.getElementById('contactSendBtn');
 const aboutOkBtn = document.getElementById('aboutOkBtn');
 const gameStartBtn = document.getElementById('gameStartBtn');
 
-// Popup Elements
 const sentPopup = document.getElementById('sentPopup');
 const sentCloseX = document.getElementById('sentCloseX');
 const sentBtnOk = document.getElementById('sentBtnOk');
 
-// RPG Elements
 const rpgOverlay = document.getElementById('rpgOverlay');
 const rpgEnemy = document.getElementById('rpgEnemy');
 const rpgText = document.getElementById('rpgText');
 const rpgDamage = document.getElementById('rpgDamage');
+const mainCommandBox = document.getElementById('mainCommandBox');
+const skillCommandBox = document.getElementById('skillCommandBox');
 const cmdAttack = document.getElementById('cmdAttack');
 const cmdSkill = document.getElementById('cmdSkill');
 const cmdRun = document.getElementById('cmdRun');
+const skillBack = document.getElementById('skillBack');
+const skillItems = document.querySelectorAll('.skill-item');
+const enemyHpBar = document.getElementById('enemyHpBar');
+const playerHpBar = document.getElementById('playerHpBar');
+const playerHpNum = document.getElementById('playerHpNum');
 
-// --- Functions ---
+
 let maxZIndex = 100;
 function bringToFront(el) {
     maxZIndex++;
@@ -54,6 +55,7 @@ const closeWindow = (win) => {
 const closeAllPopups = () => {
     sentPopup.style.display = 'none';
 };
+
 
 const setupWindowActions = (win, minBtnId, maxBtnId, closeBtnId) => {
     const minBtn = document.getElementById(minBtnId);
@@ -90,7 +92,6 @@ setupWindowActions(illustWindow, 'illustMinBtn', 'illustMaxBtn', 'illustCloseBtn
 setupWindowActions(contactWindow, 'contactMinBtn', 'contactMaxBtn', 'contactCloseBtn');
 
 
-// --- Drag Functionality ---
 const setupDrag = (selector, handleSelector = null) => {
     document.querySelectorAll(selector).forEach(el => {
         const handle = handleSelector ? el.querySelector(handleSelector) : el;
@@ -149,7 +150,6 @@ setupDrag('.draggable-window', '.window-header');
 setupDrag('.draggable-icon');
 
 
-// --- Tab Functionality ---
 const propTabs = document.querySelectorAll('.prop-tab');
 const propContents = document.querySelectorAll('.prop-content');
 
@@ -163,7 +163,6 @@ propTabs.forEach(tab => {
 });
 
 
-// --- Icon Click Events ---
 iconTop.addEventListener('click', () => openWindow(mainWindow));
 iconAbout.addEventListener('click', () => openWindow(aboutWindow));
 iconWork.addEventListener('click', () => openWindow(workWindow));
@@ -171,7 +170,6 @@ iconIllust.addEventListener('click', () => openWindow(illustWindow));
 iconContact.addEventListener('click', () => openWindow(contactWindow));
 
 
-// --- Button Events ---
 aboutOkBtn.addEventListener('click', () => closeWindow(aboutWindow));
 contactSendBtn.addEventListener('click', () => {
     closeWindow(contactWindow);
@@ -181,60 +179,203 @@ sentCloseX.addEventListener('click', closeAllPopups);
 sentBtnOk.addEventListener('click', closeAllPopups);
 
 
-// --- RPG Battle Logic ---
+const MAX_PLAYER_HP = 100;
+const MAX_ENEMY_HP = 500;
+
+let battleState = {
+    playerHp: MAX_PLAYER_HP,
+    enemyHp: MAX_ENEMY_HP,
+    isPlayerTurn: true,
+    isBattleOver: false
+};
+
+const updateBattleUI = () => {
+    const enemyPercent = Math.max(0, (battleState.enemyHp / MAX_ENEMY_HP) * 100);
+    enemyHpBar.style.width = `${enemyPercent}%`;
+    if(enemyPercent < 20) enemyHpBar.style.background = "#ff0000";
+    else if(enemyPercent < 50) enemyHpBar.style.background = "#ffff00";
+    else enemyHpBar.style.background = "#ff3333";
+
+    const playerPercent = Math.max(0, (battleState.playerHp / MAX_PLAYER_HP) * 100);
+    playerHpBar.style.width = `${playerPercent}%`;
+    playerHpNum.textContent = `${Math.max(0, battleState.playerHp)}/${MAX_PLAYER_HP}`;
+    if(playerPercent < 20) playerHpBar.style.background = "#ff0000";
+    else if(playerPercent < 50) playerHpBar.style.background = "#ffff00";
+    else playerHpBar.style.background = "#00ff00";
+};
+
 gameStartBtn.addEventListener('click', (e) => {
     e.preventDefault();
+    battleState.playerHp = MAX_PLAYER_HP;
+    battleState.enemyHp = MAX_ENEMY_HP;
+    battleState.isPlayerTurn = true;
+    battleState.isBattleOver = false;
+    
+    mainCommandBox.style.display = 'flex';
+    skillCommandBox.style.display = 'none';
+    gsap.set(rpgEnemy, {scale: 1, opacity: 1, rotation: 0});
     rpgOverlay.style.display = 'block';
+    
+    updateBattleUI();
     typeText("あ！　やせいの　バグが　とびだしてきた！");
 });
 
-// 文字を1文字ずつ表示する関数
-function typeText(text) {
+function typeText(text, callback = null) {
     rpgText.textContent = "";
     let i = 0;
-    const speed = 50; 
+    const speed = 30; 
     function type() {
         if (i < text.length) {
             rpgText.textContent += text.charAt(i);
             i++;
             setTimeout(type, speed);
+        } else {
+            if (callback) setTimeout(callback, 500);
         }
     }
     type();
 }
 
-// たたかう
-cmdAttack.addEventListener('click', () => {
-    typeText("TOYBOXの　こうげき！　しかし　バグは　ビクともしない！");
-});
-
-// スキル（デバッグ）
-cmdSkill.addEventListener('click', () => {
-    typeText("TOYBOXは　デバッグツールを　きどうした！");
-    setTimeout(() => {
-        // ダメージ演出
+function showDamage(target, amount, color = "red") {
+    rpgDamage.textContent = amount;
+    rpgDamage.style.color = color;
+    
+    if(target === "enemy") {
         gsap.to(rpgDamage, {opacity: 1, y: -50, duration: 0.5, onComplete: () => {
-            gsap.to(rpgDamage, {opacity: 0, duration: 0.2});
+            gsap.to(rpgDamage, {opacity: 0, duration: 0.2, y: 0});
         }});
+        rpgEnemy.classList.add('damage-anim');
+        setTimeout(() => rpgEnemy.classList.remove('damage-anim'), 300);
+    } else {
+        rpgOverlay.classList.add('shake-screen');
+        setTimeout(() => rpgOverlay.classList.remove('shake-screen'), 500);
+    }
+}
+
+function endPlayerTurn() {
+    battleState.isPlayerTurn = false;
+    if(battleState.enemyHp <= 0) {
+        battleState.isBattleOver = true;
+        battleState.enemyHp = 0;
+        updateBattleUI();
+        gsap.to(rpgEnemy, {scale: 0, opacity: 0, rotation: 360, duration: 1});
+        typeText("バグを　かんぜんに　しゅうせいした！　YOU WIN!", () => {
+            setTimeout(() => rpgOverlay.style.display = 'none', 2000);
+        });
+        return;
+    }
+    updateBattleUI();
+    setTimeout(enemyTurn, 1000);
+}
+
+function enemyTurn() {
+    if(battleState.isBattleOver) return;
+    typeText("バグの　こうげき！", () => {
+        const rand = Math.random();
+        let damage = 0;
+        if (rand < 0.2) {
+            typeText("バグは　もじばけしている…　なにもしてこない！");
+            damage = 0;
+        } else if (rand < 0.6) {
+            typeText("バグは　エラーメッセージを　はきだした！");
+            damage = 15 + Math.floor(Math.random() * 10);
+        } else {
+            typeText("バグは　フリーズこうせんを　はナった！");
+            damage = 30 + Math.floor(Math.random() * 10);
+        }
         
-        // 敵の消滅
-        gsap.to(rpgEnemy, {scale: 0, opacity: 0, rotation: 360, duration: 1, delay: 0.5});
-        
-        setTimeout(() => {
-            typeText("バグを　かんぜんに　しゅうせいした！　YOU WIN!");
+        if (damage > 0) {
             setTimeout(() => {
-                rpgOverlay.style.display = 'none';
-                // リセット
-                gsap.set(rpgEnemy, {scale: 1, opacity: 1, rotation: 0});
-            }, 3000);
-        }, 1500);
-    }, 1000);
+                showDamage("player", damage);
+                battleState.playerHp -= damage;
+                updateBattleUI();
+                if (battleState.playerHp <= 0) {
+                    battleState.playerHp = 0;
+                    battleState.isBattleOver = true;
+                    updateBattleUI();
+                    typeText("めのまえが　まっくらに　なった… (GAME OVER)", () => {
+                        setTimeout(() => rpgOverlay.style.display = 'none', 3000);
+                    });
+                    return;
+                }
+                setTimeout(() => {
+                    battleState.isPlayerTurn = true;
+                    typeText("どうする？");
+                }, 1000);
+            }, 1000);
+        } else {
+            setTimeout(() => {
+                battleState.isPlayerTurn = true;
+                typeText("どうする？");
+            }, 1000);
+        }
+    });
+}
+
+cmdAttack.addEventListener('click', () => {
+    if(!battleState.isPlayerTurn) return;
+    typeText("TOYBOXの　こうげき！ キーボードを　たたいた！", () => {
+        const dmg = 20 + Math.floor(Math.random() * 10);
+        battleState.enemyHp -= dmg;
+        showDamage("enemy", dmg);
+        endPlayerTurn();
+    });
 });
 
-// にげる
+cmdSkill.addEventListener('click', () => {
+    if(!battleState.isPlayerTurn) return;
+    mainCommandBox.style.display = 'none';
+    skillCommandBox.style.display = 'flex';
+    typeText("どの　スキルを　つかう？");
+});
+
+skillItems.forEach(item => {
+    item.addEventListener('click', (e) => {
+        const skillType = e.target.getAttribute('data-skill');
+        mainCommandBox.style.display = 'flex';
+        skillCommandBox.style.display = 'none';
+        
+        if (skillType === 'debug') {
+            typeText("デバッグツールを　きどうした！", () => {
+                const dmg = 80 + Math.floor(Math.random() * 20);
+                battleState.enemyHp -= dmg;
+                showDamage("enemy", dmg, "cyan");
+                endPlayerTurn();
+            });
+        } else if (skillType === 'reload') {
+            typeText("ブラウザを　さいよみこみした！ HPがかいふくした！", () => {
+                const heal = 50;
+                battleState.playerHp = Math.min(MAX_PLAYER_HP, battleState.playerHp + heal);
+                updateBattleUI();
+                endPlayerTurn();
+            });
+        } else if (skillType === 'force') {
+            typeText("タスクマネージャーで　きょうせいしゅうりょう！", () => {
+                if(Math.random() > 0.5) {
+                    const dmg = 9999;
+                    battleState.enemyHp -= dmg;
+                    showDamage("enemy", dmg, "purple");
+                } else {
+                    showDamage("enemy", "MISS", "white");
+                    typeText("しかし　おうとうが　ない！");
+                }
+                endPlayerTurn();
+            });
+        }
+    });
+});
+
+skillBack.addEventListener('click', () => {
+    mainCommandBox.style.display = 'flex';
+    skillCommandBox.style.display = 'none';
+    typeText("どうする？");
+});
+
 cmdRun.addEventListener('click', () => {
-    typeText("TOYBOXは　デスクトップへ　にげだした！");
-    setTimeout(() => {
-        rpgOverlay.style.display = 'none';
-    }, 1500);
+    if(!battleState.isPlayerTurn) return;
+    typeText("TOYBOXは　ウィンドウを　とじて　にげだした！", () => {
+        setTimeout(() => {
+            rpgOverlay.style.display = 'none';
+        }, 1000);
+    });
 });
