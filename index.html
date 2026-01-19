@@ -14,22 +14,27 @@
 
     <div class="desktop-icons-container">
         
-        <div class="desktop-icon draggable-icon" id="iconAbout" style="top: 20px; left: 20px;">
+        <div class="desktop-icon draggable-icon" id="iconTop" style="top: 20px; left: 20px;">
+            <div class="icon-img">🏠</div>
+            <div class="icon-label">TOP</div>
+        </div>
+
+        <div class="desktop-icon draggable-icon" id="iconAbout" style="top: 100px; left: 20px;">
             <div class="icon-img">👤</div>
             <div class="icon-label">ABOUT</div>
         </div>
 
-        <div class="desktop-icon draggable-icon" id="iconWork" style="top: 100px; left: 20px;">
+        <div class="desktop-icon draggable-icon" id="iconWork" style="top: 180px; left: 20px;">
             <div class="icon-img">📁</div>
             <div class="icon-label">WORK</div>
         </div>
 
-        <div class="desktop-icon draggable-icon" id="iconIllust" style="top: 180px; left: 20px;">
+        <div class="desktop-icon draggable-icon" id="iconIllust" style="top: 260px; left: 20px;">
             <div class="icon-img">🎨</div>
             <div class="icon-label">ILLUST</div>
         </div>
 
-        <div class="desktop-icon draggable-icon" id="iconContact" style="top: 260px; left: 20px;">
+        <div class="desktop-icon draggable-icon" id="iconContact" style="top: 340px; left: 20px;">
             <div class="icon-img">✉️</div>
             <div class="icon-label">CONTACT</div>
         </div>
@@ -53,7 +58,7 @@
                 アイコンやウィンドウを<br>
                 自由に動かして遊んでください。
             </p>
-            <a href="#" class="pop-button">GAME START</a>
+            <a href="#" class="pop-button" id="gameStartBtn">GAME START</a>
         </div>          
     </div>
 
@@ -61,6 +66,8 @@
         <div class="window-header" id="aboutHeader">
             <span class="window-title">ℹ️ User_Profile.prop</span>
             <div class="window-controls">
+                <button class="control-btn btn-min no-drag" id="aboutMinBtn"><img src="images/min.svg" alt="min"></button>
+                <button class="control-btn btn-max no-drag" id="aboutMaxBtn"><img src="images/max.svg" alt="max"></button>
                 <button class="control-btn btn-close no-drag" id="aboutCloseBtn"><img src="images/close.svg" alt="close"></button>
             </div>
         </div>
@@ -107,9 +114,11 @@
     </div>
 
     <div class="window-frame draggable-window" id="workWindow" style="display: none; width: 450px; top: 40%; left: 40%;">
-        <div class="window-header">
+        <div class="window-header" id="workHeader">
             <span class="window-title">📁 Projects</span>
             <div class="window-controls">
+                <button class="control-btn btn-min no-drag" id="workMinBtn"><img src="images/min.svg" alt="min"></button>
+                <button class="control-btn btn-max no-drag" id="workMaxBtn"><img src="images/max.svg" alt="max"></button>
                 <button class="control-btn btn-close no-drag" id="workCloseBtn"><img src="images/close.svg" alt="close"></button>
             </div>
         </div>
@@ -134,9 +143,11 @@
     </div>
 
     <div class="window-frame draggable-window" id="illustWindow" style="display: none; width: 400px; top: 50%; left: 60%;">
-        <div class="window-header">
+        <div class="window-header" id="illustHeader">
             <span class="window-title">🎨 Gallery_Viewer</span>
             <div class="window-controls">
+                <button class="control-btn btn-min no-drag" id="illustMinBtn"><img src="images/min.svg" alt="min"></button>
+                <button class="control-btn btn-max no-drag" id="illustMaxBtn"><img src="images/max.svg" alt="max"></button>
                 <button class="control-btn btn-close no-drag" id="illustCloseBtn"><img src="images/close.svg" alt="close"></button>
             </div>
         </div>
@@ -153,9 +164,11 @@
     </div>
 
     <div class="window-frame draggable-window" id="contactWindow" style="display: none; width: 400px; top: 30%; left: 70%;">
-        <div class="window-header">
+        <div class="window-header" id="contactHeader">
             <span class="window-title">✉️ Mailer_Daemon</span>
             <div class="window-controls">
+                <button class="control-btn btn-min no-drag" id="contactMinBtn"><img src="images/min.svg" alt="min"></button>
+                <button class="control-btn btn-max no-drag" id="contactMaxBtn"><img src="images/max.svg" alt="max"></button>
                 <button class="control-btn btn-close no-drag" id="contactCloseBtn"><img src="images/close.svg" alt="close"></button>
             </div>
         </div>
@@ -177,27 +190,6 @@
         </div>
     </div>
 
-    <div class="popup-overlay" id="customPopup">
-        <div class="window-frame popup-size draggable-window" style="position: relative;">
-            <div class="window-header" id="popupHeader">
-                <span class="window-title">⚠️ SYSTEM MSG</span>
-                <div class="window-controls">
-                    <button class="control-btn btn-close no-drag" id="popupCloseX"><img src="images/close.svg" alt="close"></button>
-                </div>
-            </div>
-            <div class="window-body popup-content">
-                <p>
-                    あれ？<br>
-                    消すつもりですか？
-                </p>
-                <div class="popup-buttons">
-                    <button class="pop-button small-btn" id="popupBtnSend">消す(S)</button>
-                    <button class="pop-button small-btn black-btn" id="popupBtnCancel">消さない(O)</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="popup-overlay" id="sentPopup">
         <div class="window-frame popup-size draggable-window" style="position: relative;">
             <div class="window-header" id="sentHeader">
@@ -207,9 +199,31 @@
                 </div>
             </div>
             <div class="window-body popup-content">
-                <p>HAHAHA...<br>残念ながら消す機能は存在しません。</p>
+                <p>送信完了。デジタル空間の藻屑となりました。</p>
                 <div class="popup-buttons">
                     <button class="pop-button small-btn" id="sentBtnOk">了解</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rpgOverlay">
+        <div class="rpg-battle-container">
+            <div class="rpg-enemy-area">
+                <div class="rpg-enemy" id="rpgEnemy">👾</div>
+                <div class="rpg-damage" id="rpgDamage">9999</div>
+            </div>
+
+            <div class="rpg-ui-box">
+                <div class="rpg-message-box">
+                    <p id="rpgText">あ！　やせいの　バグが　とびだしてきた！</p>
+                </div>
+                <div class="rpg-command-box">
+                    <ul>
+                        <li id="cmdAttack">たたかう</li>
+                        <li id="cmdSkill">スキル</li>
+                        <li id="cmdRun">にげる</li>
+                    </ul>
                 </div>
             </div>
         </div>
