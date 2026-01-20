@@ -104,24 +104,26 @@
 
     <div class="window-frame draggable-window" id="workWindow" style="display: none; width: 450px; top: 40%; left: 40%;">
         <div class="window-header" id="workHeader">
-            <span class="window-title">📁 Projects</span>
+            <span class="window-title">📁 Projects - Locked</span>
             <div class="window-controls">
-                <button class="control-btn btn-min no-drag" id="workMinBtn"><img src="images/min.svg" alt="min"></button>
-                <button class="control-btn btn-max no-drag" id="workMaxBtn"><img src="images/max.svg" alt="max"></button>
                 <button class="control-btn btn-close no-drag" id="workCloseBtn"><img src="images/close.svg" alt="close"></button>
             </div>
         </div>
-        <div class="window-body prop-body">
-            <p style="margin-bottom: 20px;">制作実績リスト:</p>
-            <div class="prop-list">
-                <div class="prop-item"><span class="label">Project A:</span> <a href="#" style="color: blue;">details.html</a></div>
-                <div class="prop-item"><span class="label">Project B:</span> <a href="#" style="color: blue;">details.html</a></div>
-                <div class="prop-item"><span class="label">Project C:</span> <a href="#" style="color: blue;">details.html</a></div>
+        <div class="window-body prop-body" id="workContentArea">
+            
+            <div id="passwordFormSection">
+                <p style="margin-bottom: 15px;">このフォルダは保護されています。<br>パスワードを入力してください。</p>
+                <div style="display: flex; gap: 5px; justify-content: center; margin-bottom: 20px;">
+                    <input type="password" id="workPasswordInput" style="font-family: inherit; padding: 5px; border: 2px solid black; outline: none;">
+                    <button class="pop-button small-btn" id="workPasswordSubmitBtn">解除</button>
+                </div>
+                <p id="passwordErrorMsg" style="color: red; display: none; font-size: 0.9rem;">パスワードが違います。</p>
             </div>
-            <p style="font-size: 0.8rem; margin-top: 20px; color: #666;">(Double click to open)</p>
+
+            <div id="secretWorkContent" style="display: none;"></div>
+            
         </div>
     </div>
-
     <div class="window-frame draggable-window" id="illustWindow" style="display: none; width: 400px; top: 50%; left: 60%;">
         <div class="window-header" id="illustHeader">
             <span class="window-title">🎨 Gallery_Viewer</span>
@@ -199,7 +201,6 @@
             </div>
 
             <div class="rpg-ui-wrapper">
-                
                 <div class="player-status-box">
                     <div class="hp-gauge-box">
                         <span class="hp-label">PLAYER</span>
@@ -218,6 +219,7 @@
                     <div class="rpg-command-box" id="mainCommandBox">
                         <ul>
                             <li id="cmdAttack">たたかう</li>
+
                             <li id="cmdSkill">スキル</li>
                             <li id="cmdRun">にげる</li>
                         </ul>

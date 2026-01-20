@@ -87,7 +87,8 @@ const setupWindowActions = (win, minBtnId, maxBtnId, closeBtnId) => {
 
 setupWindowActions(mainWindow, 'minBtn', 'maxBtn', 'closeBtn');
 setupWindowActions(aboutWindow, 'aboutMinBtn', 'aboutMaxBtn', 'aboutCloseBtn');
-setupWindowActions(workWindow, 'workMinBtn', 'workMaxBtn', 'workCloseBtn');
+// workWindowのボタンIDを変更したので修正
+setupWindowActions(workWindow, null, null, 'workCloseBtn');
 setupWindowActions(illustWindow, 'illustMinBtn', 'illustMaxBtn', 'illustCloseBtn');
 setupWindowActions(contactWindow, 'contactMinBtn', 'contactMaxBtn', 'contactCloseBtn');
 
@@ -379,3 +380,60 @@ cmdRun.addEventListener('click', () => {
         }, 1000);
     });
 });
+
+// ▼▼▼ ここから追加 ▼▼▼
+// --- Works Password Protection ---
+const workPasswordInput = document.getElementById('workPasswordInput');
+const workPasswordSubmitBtn = document.getElementById('workPasswordSubmitBtn');
+const passwordFormSection = document.getElementById('passwordFormSection');
+const secretWorkContent = document.getElementById('secretWorkContent');
+const passwordErrorMsg = document.getElementById('passwordErrorMsg');
+
+workPasswordSubmitBtn.addEventListener('click', async () => {
+    const password = workPasswordInput.value;
+    // エラーメッセージをリセット
+    passwordErrorMsg.style.display = 'none';
+
+    if (!password) return;
+
+    // ボタンを一時的に無効化（連打防止）
+    workPasswordSubmitBtn.disabled = true;
+    workPasswordSubmitBtn.textContent = '確認中...';
+
+    try {
+        // Netlify Functionsのエンドポイントにパスワードを送信
+        // ※ローカル開発環境では、このURLは機能しません。Netlify Devなどを使う必要があります。
+        const response = await fetch('/.netlify/functions/get-works', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ password: password }),
+        });
+
+        if (response.ok) {
+            // 認証成功
+            const data = await response.json();
+            // 受け取ったHTMLを流し込む
+            secretWorkContent.innerHTML = data.html;
+            // フォームを隠してコンテンツを表示
+            passwordFormSection.style.display = 'none';
+            secretWorkContent.style.display = 'block';
+            // ウィンドウタイトルを「Locked」から元に戻す
+            document.querySelector('#workHeader .window-title').textContent = '📁 Projects';
+            
+        } else {
+            // 認証失敗（401など）
+            passwordErrorMsg.style.display = 'block';
+            workPasswordInput.select(); // 入力欄を選択状態にする
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('通信エラーが発生しました。');
+    } finally {
+        // ボタンを元に戻す
+        workPasswordSubmitBtn.disabled = false;
+        workPasswordSubmitBtn.textContent = '解除';
+    }
+});
+// ▲▲▲ ここまで追加 ▲▲▲
