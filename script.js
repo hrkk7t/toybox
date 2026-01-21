@@ -436,3 +436,52 @@ workPasswordSubmitBtn.addEventListener('click', async () => {
         workPasswordSubmitBtn.textContent = '解除';
     }
 });
+
+// ▼▼▼ 起動アニメーションの処理 ▼▼▼
+const bootScreen = document.getElementById('bootScreen');
+const bootContainer = document.getElementById('bootContainer');
+
+// 表示したいメッセージのリスト
+const bootMessages = [
+    "Initialising TOYBOX kernel...",
+    "Loading memory... 64KB OK",
+    "Mounting volumes... OK",
+    "Checking user profile... Verified",
+    "Loading graphical interface...",
+    "Starting TOYBOX.exe...",
+    "Welcome, Administrator."
+];
+
+// 時間を置くための関数
+const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+// 起動シーケンスを実行する関数
+async function runBootSequence() {
+    // 最初の待機
+    await wait(500);
+
+    for (let msg of bootMessages) {
+        // メッセージ用divを作る
+        const line = document.createElement('div');
+        line.className = 'boot-line';
+        line.textContent = "> " + msg;
+        bootContainer.appendChild(line);
+
+        // ランダムな時間待つ（PCが処理している感を出す）
+        const randomDelay = Math.floor(Math.random() * 400) + 100;
+        await wait(randomDelay);
+    }
+
+    // 全て表示し終わったら少し待ってフェードアウト
+    await wait(800);
+    bootScreen.classList.add('fade-out');
+
+    // 完全に消えたらDOMから削除（邪魔にならないように）
+    setTimeout(() => {
+        bootScreen.style.display = 'none';
+    }, 1000); // CSSのtransition時間と同じにする
+}
+
+// ページ読み込み完了時に実行
+window.addEventListener('load', runBootSequence);
+// ▲▲▲ ここまで追加 ▲▲▲

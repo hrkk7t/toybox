@@ -760,3 +760,76 @@ p {
         font-size: 1rem;
     }
 }
+
+/* --- Boot Screen Animation --- */
+#bootScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000; /* 真っ黒な背景 */
+    color: #00ff00;            /* ターミナルっぽい緑文字 */
+    z-index: 999999;           /* 誰よりも手前に！ */
+    font-family: "DotGothic16", sans-serif;
+    /* padding: 20px; ←以前の記述は削除し、以下に変更 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;   /* 上下中央揃え */
+    align-items: center;       /* 左右中央揃え */
+    overflow: hidden;
+}
+
+/* ★追加：ロゴ画像のスタイル */
+.boot-logo {
+    margin-bottom: 30px; /* 画像と文字の間の余白 */
+}
+.boot-logo img {
+    width: 150px;  /* 画像の幅（お好みで調整してください） */
+    height: auto;
+    /* 少しピョコピョコ動かすアニメーション（お好みでON/OFF） */
+    animation: float-ghost 2s ease-in-out infinite;
+}
+/* お化けがフワフワ動くアニメーション定義 */
+@keyframes float-ghost {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* 文字コンテナのスタイル（中央揃えレイアウト用に調整） */
+#bootContainer {
+    width: 80%;          /* 横幅を少し制限 */
+    max-width: 500px;    /* 最大幅を指定 */
+    text-align: left;    /* 文字自体は左揃えで見やすく */
+}
+
+/* 文字の行 */
+.boot-line {
+    margin-bottom: 5px;
+    font-size: 1.2rem;
+    opacity: 0.9;
+    text-shadow: 0 0 5px #00ff00; /* 緑色に少し光らせる */
+}
+
+/* 点滅するカーソル */
+.blinking-cursor {
+    font-size: 1.2rem;
+    animation: blink 0.8s infinite;
+    margin-top: 5px;
+    /* カーソルも文字と同じ幅・配置に合わせる */
+    width: 80%;
+    max-width: 500px;
+    text-align: left;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* フェードアウト用クラス */
+.fade-out {
+    opacity: 0;
+    transition: opacity 1s ease-out;
+    pointer-events: none; /* 消えている間にクリックを邪魔しないように */
+}
