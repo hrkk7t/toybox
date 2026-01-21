@@ -436,4 +436,3 @@ workPasswordSubmitBtn.addEventListener('click', async () => {
         workPasswordSubmitBtn.textContent = '解除';
     }
 });
-// ▲▲▲ ここまで追加 ▲▲▲

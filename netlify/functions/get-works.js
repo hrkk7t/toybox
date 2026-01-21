@@ -1,5 +1,3 @@
-// このファイルはサーバー側で実行されます。ブラウザからは見えません。
-
 exports.handler = async (event, context) => {
   // POSTリクエスト以外は拒否
   if (event.httpMethod !== "POST") {
@@ -8,23 +6,53 @@ exports.handler = async (event, context) => {
 
   try {
     // ブラウザから送られてきたパスワードを取得
-    const { password } = JSON.parse(event.body);
+    constbody = JSON.parse(event.body);
+    const password = body.password;
 
-    // 重要：正解のパスワードはコードに直書きせず、Netlifyの管理画面で設定する「環境変数」から読み込む
-    // ここでは仮に環境変数名 "SECRET_WORK_PASSWORD" とします。
-    const correctPassword = process.env.SECRET_WORK_PASSWORD;
+    // ★重要★ Netlifyの環境変数に設定した正しいパスワードを読み込む
+    // Netlifyの管理画面でキー名を「SECRET_WORK_PASSWORD」にして設定してください。
+    // ローカルテストなどで環境変数が未設定の場合は仮のパスワード "test1234" で動くようにしています。
+    const correctPassword = process.env.SECRET_WORK_PASSWORD || "test1234";
 
     if (password === correctPassword) {
-      // 認証成功！機密データを返します。
-      // ここに、今まで index.html に書いていたWorksの中身をHTML文字列として定義します。
+      // 認証成功！ Worksの中身のHTMLを定義します。
+      // ここに、いただいた情報を流し込みます。
       const secretHtmlContent = `
-        <p style="margin-bottom: 20px;">認証成功。制作実績リストを表示します:</p>
-        <div class="prop-list">
-            <div class="prop-item"><span class="label">秘密の案件A:</span> <a href="#" style="color: blue;">details_a.html</a></div>
-            <div class="prop-item"><span class="label">すごい案件B:</span> <a href="#" style="color: blue;">details_b.html</a></div>
-            <div class="prop-item"><span class="label">非公開案件C:</span> <a href="#" style="color: blue;">details_c.html</a></div>
+        <p style="margin-bottom: 20px; font-weight: bold;">制作実績リスト (Web Site)</p>
+        
+        <div class="work-list-container">
+            <div class="work-item">
+                <div class="work-thumbnail">
+                    <img src="images/hp-01.jpg" alt="SNS運用代行サイトデザイン">
+                </div>
+                <div class="work-details">
+                    <h3>SNS運用代行サイトのデザイン</h3>
+                    <ul class="work-info-list">
+                        <li><span class="label">担当範囲:</span> HPデザイン、サービス紹介イラスト</li>
+                        <li><span class="label">制作期間:</span> 約20時間</li>
+                        <li><span class="label">使用技術:</span> Adobe Illustrator, Adobe XD</li>
+                        <li><span class="label">URL:</span> <span style="font-size: 0.9rem; color: #666;">(※現在は閉鎖されています)</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="work-item">
+                <div class="work-thumbnail">
+                    <a href="https://www.toho-ew.co.jp/" target="_blank" rel="noopener noreferrer">
+                        <img src="images/hp-02.jpg" alt="建設工事会社のWebサイト">
+                    </a>
+                </div>
+                <div class="work-details">
+                    <h3>建設工事会社のWebサイト</h3>
+                    <ul class="work-info-list">
+                        <li><span class="label">担当範囲:</span> HPデザイン</li>
+                        <li><span class="label">制作期間:</span> 約15時間</li>
+                        <li><span class="label">使用技術:</span> Adobe XD</li>
+                        <li><span class="label">URL:</span> <a href="https://www.toho-ew.co.jp/" target="_blank" style="color: blue; text-decoration: underline;">https://www.toho-ew.co.jp/</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <p style="font-size: 0.8rem; margin-top: 20px; color: #666;">(Double click to open)</p>
       `;
 
       return {
@@ -41,7 +69,7 @@ exports.handler = async (event, context) => {
     }
 
   } catch (error) {
-    // エラー発生時
+    console.error('Function error:', error);
     return { statusCode: 500, body: "Internal Server Error" };
   }
 };
