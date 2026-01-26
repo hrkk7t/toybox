@@ -47,6 +47,10 @@
             <div class="icon-img">✉️</div>
             <div class="icon-label">CONTACT</div>
         </div>
+		<div class="desktop-icon draggable-icon" id="iconReadme" style="top: 20px; left: 100px;">
+            <div class="icon-img">📄</div>
+            <div class="icon-label" style="color: black; background: transparent; text-shadow: 1px 1px 0 #fff;">Readme.txt</div>
+        </div>
 		<div class="desktop-icon draggable-icon" id="iconDanger" style="top: 20px; right: 20px; left: auto;">
             <div class="icon-img">⚠️</div>
             <div class="icon-label" style="background: red;">DANGER</div>
@@ -213,6 +217,44 @@
             </div>
             <div class="prop-footer">
                 <button class="pop-button small-btn" id="contactSendBtn">送信(S)</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="window-frame draggable-window" id="readmeWindow" style="display: none; width: 400px; top: 20%; left: 30%;">
+        <div class="window-header" id="readmeHeader" style="background: #000080; color: white;">
+            <span class="window-title">📄 Readme.txt - メモ帳</span>
+            <div class="window-controls">
+                <button class="control-btn btn-min no-drag" id="readmeMinBtn"><img src="images/min.svg" alt="min"></button>
+                <button class="control-btn btn-max no-drag" id="readmeMaxBtn"><img src="images/max.svg" alt="max"></button>
+                <button class="control-btn btn-close no-drag" id="readmeCloseBtn"><img src="images/close.svg" alt="close"></button>
+            </div>
+        </div>
+        <div class="window-body notepad-body">
+            <div class="notepad-content">
+【TOYBOX.exe へようこそ】
+
+このサイトは、Web制作者 [hal.T] の
+ポートフォリオサイトです。
+
+■ 基本操作
+・デスクトップ上のアイコンは
+　マウスや指で自由に動かせます（Drag & Drop）。
+・ウィンドウは最小化・最大化が可能です。
+
+■ 隠し要素について
+・「WORK」フォルダはパスワードで保護されています。
+・「DANGER」アイコンは押さないでください。
+　システムエラーの原因になります。
+
+■ 推奨環境
+・Google Chrome (Latest)
+・Safari (Latest)
+・解像度: 1024x768 以上推奨
+　（スマホでも動作しますが、一部表示が異なります）
+
+--------------------------------------------------
+Copyright (C) 2026 TOYBOX.exe All Rights Reserved.
             </div>
         </div>
     </div>

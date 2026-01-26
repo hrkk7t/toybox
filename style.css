@@ -193,6 +193,7 @@ body {
 
 
 
+
 .window-controls {
     display: flex;
     gap: 6px;
@@ -862,7 +863,7 @@ p {
     margin-bottom: 20px;
 }
 
-/* --- Start Menu (追加分) --- */
+/* --- Start Menu --- */
 #startMenu {
     position: fixed;
     bottom: 42px;
@@ -932,7 +933,6 @@ p {
     body {
         display: block;
         padding-top: 60px;
-        /* タスクバーの分だけ下に余白を追加 */
         padding-bottom: 50px; 
         overflow: auto;
     }
@@ -1021,7 +1021,6 @@ p {
         font-size: 1rem;
     }
     
-    /* BSOD Fix for Mobile */
     .bsod-content p:first-child {
         font-size: 4rem; 
     }
@@ -1033,4 +1032,36 @@ p {
     #iconDanger .icon-label {
         padding: 4px 8px;
     }
+}
+
+/* --- Readme (Notepad style) --- */
+.notepad-body {
+    padding: 0;
+    background-color: white;
+    text-align: left;
+    height: 100%;
+    min-height: 300px;
+    overflow-y: auto;
+}
+
+.notepad-content {
+    font-family: "MS Gothic", "Consolas", monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    padding: 10px;
+    white-space: pre-wrap;
+    color: black;
+}
+
+.notepad-body::-webkit-scrollbar {
+    width: 15px;
+}
+.notepad-body::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-left: 1px solid #888;
+}
+.notepad-body::-webkit-scrollbar-thumb {
+    background: #c0c0c0;
+    border: 1px solid #fff;
+    box-shadow: 1px 1px 0 #000;
 }

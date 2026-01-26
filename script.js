@@ -6,11 +6,13 @@ const iconAbout = document.getElementById('iconAbout');
 const iconWork = document.getElementById('iconWork');
 const iconIllust = document.getElementById('iconIllust');
 const iconContact = document.getElementById('iconContact');
+const iconReadme = document.getElementById('iconReadme');
 
 const aboutWindow = document.getElementById('aboutWindow');
 const workWindow = document.getElementById('workWindow');
 const illustWindow = document.getElementById('illustWindow');
 const contactWindow = document.getElementById('contactWindow');
+const readmeWindow = document.getElementById('readmeWindow');
 
 const contactSendBtn = document.getElementById('contactSendBtn');
 const aboutOkBtn = document.getElementById('aboutOkBtn');
@@ -120,6 +122,7 @@ setupWindowActions(aboutWindow, 'aboutMinBtn', 'aboutMaxBtn', 'aboutCloseBtn');
 setupWindowActions(workWindow, null, null, 'workCloseBtn');
 setupWindowActions(illustWindow, 'illustMinBtn', 'illustMaxBtn', 'illustCloseBtn');
 setupWindowActions(contactWindow, 'contactMinBtn', 'contactMaxBtn', 'contactCloseBtn');
+setupWindowActions(readmeWindow, 'readmeMinBtn', 'readmeMaxBtn', 'readmeCloseBtn');
 
 
 // --- Draggable System ---
@@ -331,7 +334,6 @@ function enemyTurn() {
                     updateBattleUI();
                     typeText("めのまえが　まっくらに　なった… (GAME OVER)", () => {
                         setTimeout(() => rpgOverlay.style.display = 'none', 3000);
-
                     });
                     return;
                 }
@@ -476,23 +478,19 @@ galleryNextBtn.addEventListener('click', () => {
 updateGallery();
 
 
-// --- Works Password System (簡易版) ---
+// --- Works Password System ---
 workPasswordSubmitBtn.addEventListener('click', async () => {
     const password = workPasswordInput.value;
     passwordErrorMsg.style.display = 'none';
 
     if (!password) return;
 
-    // ボタンを一時的に無効化（演出）
     workPasswordSubmitBtn.disabled = true;
     workPasswordSubmitBtn.textContent = '照合中...';
     
-    // ちょっと待たせる演出（0.5秒）
     await wait(500);
 
-    // ★ここにパスワードを設定（toybox2026）
     if (password === "toybox2026") {
-        // パスワード正解！中身を表示するHTMLを作成
         const secretHtml = `
             <div class="work-list-container">
                 <p style="color:green; font-weight:bold;">>> Access Granted.</p>
@@ -524,7 +522,6 @@ workPasswordSubmitBtn.addEventListener('click', async () => {
         secretWorkContent.style.display = 'block';
         document.querySelector('#workHeader .window-title').textContent = '📁 Projects';
     } else {
-        // 間違い
         passwordErrorMsg.style.display = 'block';
         workPasswordInput.select();
     }
@@ -540,6 +537,7 @@ iconAbout.addEventListener('click', () => openWindow(aboutWindow));
 iconWork.addEventListener('click', () => openWindow(workWindow));
 iconIllust.addEventListener('click', () => openWindow(illustWindow));
 iconContact.addEventListener('click', () => openWindow(contactWindow));
+iconReadme.addEventListener('click', () => openWindow(readmeWindow));
 
 aboutOkBtn.addEventListener('click', () => closeWindow(aboutWindow));
 
