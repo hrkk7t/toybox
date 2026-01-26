@@ -1,4 +1,4 @@
-// --- DOM Elements ---
+﻿// --- DOM Elements ---
 const mainWindow = document.getElementById('mainWindow');
 
 const iconTop = document.getElementById('iconTop');
@@ -56,6 +56,9 @@ const startBtn = document.getElementById('startBtn');
 const iconDanger = document.getElementById('iconDanger');
 const bsodScreen = document.getElementById('bsodScreen');
 const bsodPercent = document.getElementById('bsodPercent');
+
+const startMenu = document.getElementById('startMenu');
+const shutdownScreen = document.getElementById('shutdownScreen');
 
 
 // --- Global Functions & Utilities ---
@@ -328,6 +331,7 @@ function enemyTurn() {
                     updateBattleUI();
                     typeText("めのまえが　まっくらに　なった… (GAME OVER)", () => {
                         setTimeout(() => rpgOverlay.style.display = 'none', 3000);
+
                     });
                     return;
                 }
@@ -474,42 +478,61 @@ galleryNextBtn.addEventListener('click', () => {
 updateGallery();
 
 
-// --- Works Password System ---
+// --- Works Password System (簡易版) ---
 workPasswordSubmitBtn.addEventListener('click', async () => {
     const password = workPasswordInput.value;
     passwordErrorMsg.style.display = 'none';
 
     if (!password) return;
 
+    // ボタンを一時的に無効化（演出）
     workPasswordSubmitBtn.disabled = true;
-    workPasswordSubmitBtn.textContent = '確認中...';
+    workPasswordSubmitBtn.textContent = '照合中...';
+    
+    // ちょっと待たせる演出（0.5秒）
+    await wait(500);
 
-    try {
-        const response = await fetch('/.netlify/functions/get-works', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ password: password }),
-        });
+    // ★ここにパスワードを設定（toybox2026）
+    if (password === "toybox2026") {
+        // パスワード正解！中身を表示するHTMLを作成
+        const secretHtml = `
+            <div class="work-list-container">
+                <p style="color:green; font-weight:bold;">>> Access Granted.</p>
+                
+                <div class="work-item">
+                    <div class="work-thumbnail">
+                        <a href="#" target="_blank"><img src="images/hp-01.jpg" alt="Work 01"></a>
+                    </div>
+                    <div class="work-details">
+                        <h3>Secret Project A</h3>
+                        <ul class="work-info-list">
+                            <li><span class="label">Role:</span>Design, Coding</li>
+                            <li><span class="label">Year:</span>2024</li>
+                        </ul>
+                    </div>
+                </div>
 
-        if (response.ok) {
-            const data = await response.json();
-            secretWorkContent.innerHTML = data.html;
-            passwordFormSection.style.display = 'none';
-            secretWorkContent.style.display = 'block';
-            document.querySelector('#workHeader .window-title').textContent = '📁 Projects';
-        } else {
-            passwordErrorMsg.style.display = 'block';
-            workPasswordInput.select();
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('通信エラーが発生しました。');
-    } finally {
-        workPasswordSubmitBtn.disabled = false;
-        workPasswordSubmitBtn.textContent = '解除';
+                <div class="work-item">
+                     <div class="work-details">
+                        <h3>Confidential Data B</h3>
+                        <p>詳細は面談にてお話しします。</p>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        secretWorkContent.innerHTML = secretHtml;
+        passwordFormSection.style.display = 'none';
+        secretWorkContent.style.display = 'block';
+        document.querySelector('#workHeader .window-title').textContent = '📁 Projects';
+    } else {
+        // 間違い
+        passwordErrorMsg.style.display = 'block';
+        workPasswordInput.select();
     }
+
+    workPasswordSubmitBtn.disabled = false;
+    workPasswordSubmitBtn.textContent = '解除';
 });
 
 
@@ -563,6 +586,7 @@ iconDanger.addEventListener('click', () => {
     } else if (dangerClickCount >= 3) {
         triggerBSOD();
     }
+
 });
 
 function triggerBSOD() {
@@ -593,9 +617,6 @@ function rebootSystem() {
 }
 
 // --- Start Menu ---
-const startMenu = document.getElementById('startMenu');
-const shutdownScreen = document.getElementById('shutdownScreen');
-
 startBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     if (startMenu.style.display === 'none') {
