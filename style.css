@@ -774,11 +774,100 @@ p {
     animation: shake 0.3s;
 }
 
+/* --- Taskbar & Clock --- */
+.taskbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background-color: #c0c0c0;
+    border-top: 2px solid #ffffff;
+    box-shadow: 0 -2px 0 var(--accent-black);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 5px;
+    z-index: 9000;
+    user-select: none;
+}
+
+.start-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 100%;
+    padding: 0 10px;
+    background-color: #c0c0c0;
+    border-top: 2px solid #ffffff;
+    border-left: 2px solid #ffffff;
+    border-right: 2px solid #000000;
+    border-bottom: 2px solid #000000;
+    font-family: "DotGothic16", sans-serif;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 1px 1px 0 black;
+}
+
+.start-btn:active {
+    border-top: 2px solid #000000;
+    border-left: 2px solid #000000;
+    border-right: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+.taskbar-right {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    border: 2px solid;
+    border-color: #888 #fff #fff #888;
+    padding: 0 10px;
+    background-color: #c0c0c0;
+    margin-right: 2px;
+}
+
+.taskbar-clock {
+    font-family: "DotGothic16", sans-serif;
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+/* --- BSOD (Blue Screen of Death) --- */
+#bsodScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0078d7;
+    color: white;
+    z-index: 9999999;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 10% 10%;
+    cursor: none;
+}
+
+.bsod-content {
+    font-size: 1.5rem;
+    line-height: 1.5;
+}
+
+.bsod-content p:first-child {
+    font-size: 6rem;
+    margin-bottom: 20px;
+}
+
 /* --- Mobile Responsive --- */
 @media (max-width: 600px) {
     body {
         display: block;
         padding-top: 60px;
+        /* タスクバーの分だけ下に余白を追加 */
+        padding-bottom: 50px; 
         overflow: auto;
     }
 
@@ -865,109 +954,17 @@ p {
     .work-details h3 {
         font-size: 1rem;
     }
-}
-
-/* --- Taskbar & Clock --- */
-.taskbar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 40px;
-    background-color: #c0c0c0; /* レトロなグレー */
-    border-top: 2px solid #ffffff;
-    box-shadow: 0 -2px 0 var(--accent-black); /* 黒い線を上に */
-    display: flex;
-    justify-content: space-between; /* 両端に配置 */
-    align-items: center;
-    padding: 3px 5px;
-    z-index: 9000; /* アイコンより上、ポップアップより下 */
-    user-select: none;
-}
-
-.start-btn {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    height: 100%;
-    padding: 0 10px;
-    background-color: #c0c0c0;
-    border-top: 2px solid #ffffff;
-    border-left: 2px solid #ffffff;
-    border-right: 2px solid #000000;
-    border-bottom: 2px solid #000000;
-    font-family: "DotGothic16", sans-serif;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    box-shadow: 1px 1px 0 black;
-}
-
-.start-btn:active {
-    border-top: 2px solid #000000;
-    border-left: 2px solid #000000;
-    border-right: 2px solid #ffffff;
-    border-bottom: 2px solid #ffffff;
-    transform: translateY(1px);
-    box-shadow: none;
-}
-
-.taskbar-right {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    border: 2px solid;
-    border-color: #888 #fff #fff #888; /* 凹んでいるように見せる枠 */
-    padding: 0 10px;
-    background-color: #c0c0c0;
-    margin-right: 2px;
-}
-
-.taskbar-clock {
-    font-family: "DotGothic16", sans-serif;
-    font-size: 1rem;
-    letter-spacing: 1px;
-}
-
-/* --- BSOD (Blue Screen of Death) --- */
-#bsodScreen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #0078d7; /* 最近のWindowsっぽい青 */
-    /* レトロな濃い青がいい場合は #0000aa にしてください */
-    color: white;
-    z-index: 9999999; /* 何よりも一番手前！ */
-    font-family: 'Segoe UI', sans-serif; /* あえてOS標準フォントっぽく */
-    padding: 10% 10%;
-    cursor: none; /* マウスカーソルも消す */
-}
-
-.bsod-content {
-    font-size: 1.5rem;
-    line-height: 1.5;
-}
-
-.bsod-content p:first-child {
-    font-size: 6rem; /* 顔文字 :( を大きく */
-    margin-bottom: 20px;
-}
-
-/* --- Mobile Fix for BSOD --- */
-@media (max-width: 600px) {
-    /* スマホでは顔文字を少し小さくする */
+    
+    /* BSOD Fix for Mobile */
     .bsod-content p:first-child {
         font-size: 4rem; 
     }
     
     .bsod-content {
-        font-size: 1rem; /* エラー文章も少し小さく */
+        font-size: 1rem;
     }
     
-    /* DANGERアイコンをスマホのメニューバー内で目立たせる */
     #iconDanger .icon-label {
-        padding: 4px 8px; /* 文字が読みやすいように余白調整 */
+        padding: 4px 8px;
     }
 }

@@ -1,30 +1,25 @@
 // --- DOM Elements ---
 const mainWindow = document.getElementById('mainWindow');
 
-// Icons
 const iconTop = document.getElementById('iconTop');
 const iconAbout = document.getElementById('iconAbout');
 const iconWork = document.getElementById('iconWork');
 const iconIllust = document.getElementById('iconIllust');
 const iconContact = document.getElementById('iconContact');
 
-// Windows
 const aboutWindow = document.getElementById('aboutWindow');
 const workWindow = document.getElementById('workWindow');
 const illustWindow = document.getElementById('illustWindow');
 const contactWindow = document.getElementById('contactWindow');
 
-// Buttons
 const contactSendBtn = document.getElementById('contactSendBtn');
 const aboutOkBtn = document.getElementById('aboutOkBtn');
 const gameStartBtn = document.getElementById('gameStartBtn');
 
-// Popups
 const sentPopup = document.getElementById('sentPopup');
 const sentCloseX = document.getElementById('sentCloseX');
 const sentBtnOk = document.getElementById('sentBtnOk');
 
-// RPG Elements
 const rpgOverlay = document.getElementById('rpgOverlay');
 const rpgEnemy = document.getElementById('rpgEnemy');
 const rpgText = document.getElementById('rpgText');
@@ -40,23 +35,27 @@ const enemyHpBar = document.getElementById('enemyHpBar');
 const playerHpBar = document.getElementById('playerHpBar');
 const playerHpNum = document.getElementById('playerHpNum');
 
-// Boot Screen Elements
 const bootScreen = document.getElementById('bootScreen');
 const bootContainer = document.getElementById('bootContainer');
 
-// Gallery Elements
 const galleryImg = document.getElementById('galleryImg');
 const galleryTitle = document.getElementById('galleryTitle');
 const galleryCounter = document.getElementById('galleryCounter');
 const galleryPrevBtn = document.getElementById('galleryPrevBtn');
 const galleryNextBtn = document.getElementById('galleryNextBtn');
 
-// Works Password Elements
 const workPasswordInput = document.getElementById('workPasswordInput');
 const workPasswordSubmitBtn = document.getElementById('workPasswordSubmitBtn');
 const passwordFormSection = document.getElementById('passwordFormSection');
 const secretWorkContent = document.getElementById('secretWorkContent');
 const passwordErrorMsg = document.getElementById('passwordErrorMsg');
+
+const taskbarClock = document.getElementById('taskbarClock');
+const startBtn = document.getElementById('startBtn');
+
+const iconDanger = document.getElementById('iconDanger');
+const bsodScreen = document.getElementById('bsodScreen');
+const bsodPercent = document.getElementById('bsodPercent');
 
 
 // --- Global Functions & Utilities ---
@@ -113,7 +112,6 @@ const setupWindowActions = (win, minBtnId, maxBtnId, closeBtnId) => {
     }
 };
 
-// Initialize Window Actions
 setupWindowActions(mainWindow, 'minBtn', 'maxBtn', 'closeBtn');
 setupWindowActions(aboutWindow, 'aboutMinBtn', 'aboutMaxBtn', 'aboutCloseBtn');
 setupWindowActions(workWindow, null, null, 'workCloseBtn');
@@ -473,7 +471,6 @@ galleryNextBtn.addEventListener('click', () => {
     updateGallery();
 });
 
-// Initialize Gallery
 updateGallery();
 
 
@@ -533,43 +530,31 @@ contactSendBtn.addEventListener('click', () => {
 sentCloseX.addEventListener('click', closeAllPopups);
 sentBtnOk.addEventListener('click', closeAllPopups);
 
-// ▼▼▼ タスクバーと時計の機能 ▼▼▼
-const taskbarClock = document.getElementById('taskbarClock');
-const startBtn = document.getElementById('startBtn');
 
-// 時計を更新する関数
+// --- Taskbar & Clock ---
 function updateClock() {
     const now = new Date();
     
-    // 年月日と時間を取得
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, '0');
     const day = String(now.getDate()).padStart(2, '0');
     const hours = String(now.getHours()).padStart(2, '0');
     const minutes = String(now.getMinutes()).padStart(2, '0');
     
-    // 表示形式: 2026/01/26 14:30
-    // ※秒まで出したい場合は + ':' + String(now.getSeconds()).padStart(2, '0') を足してください
     const timeString = `${year}/${month}/${day} ${hours}:${minutes}`;
     
     taskbarClock.textContent = timeString;
 }
 
-// 1秒ごとに時計を更新
 setInterval(updateClock, 1000);
-// 読み込み時にも一度実行
 updateClock();
 
-// スタートボタンを押すと、とりあえずTOPウィンドウを開く（復活させる）
 startBtn.addEventListener('click', () => {
     openWindow(mainWindow);
 });
 
-// ▼▼▼ ブルースクリーン演出 ▼▼▼
-const iconDanger = document.getElementById('iconDanger');
-const bsodScreen = document.getElementById('bsodScreen');
-const bsodPercent = document.getElementById('bsodPercent');
 
+// --- BSOD System ---
 let dangerClickCount = 0;
 
 iconDanger.addEventListener('click', () => {
@@ -580,16 +565,13 @@ iconDanger.addEventListener('click', () => {
     } else if (dangerClickCount === 2) {
         alert("【警告】本当に危険です。\nデータが破損する可能性があります。");
     } else if (dangerClickCount >= 3) {
-        // 3回目でクラッシュ！
         triggerBSOD();
     }
 });
 
 function triggerBSOD() {
-    // 画面をブルースクリーンにする
     bsodScreen.style.display = 'block';
     
-    // パーセントをカウントアップさせる演出
     let percent = 0;
     const interval = setInterval(() => {
         percent += Math.floor(Math.random() * 10) + 1;
@@ -598,22 +580,18 @@ function triggerBSOD() {
 
         if (percent === 100) {
             clearInterval(interval);
-            setTimeout(rebootSystem, 1000); // 100%になったら再起動
+            setTimeout(rebootSystem, 1000);
         }
     }, 200);
 }
 
 function rebootSystem() {
-    // ブルースクリーンを隠す
     bsodScreen.style.display = 'none';
     
-    // 警告カウントをリセット
     dangerClickCount = 0;
 
-    // 起動画面（Boot Screen）をもう一度表示して「再起動」っぽく見せる
     bootScreen.style.display = 'flex';
     bootScreen.classList.remove('fade-out');
-    bootContainer.innerHTML = ''; // ログをクリア
-    runBootSequence(); // 起動アニメーション再実行
+    bootContainer.innerHTML = '';
+    runBootSequence();
 }
-// ▲▲▲ ここまで追加 ▲▲▲
