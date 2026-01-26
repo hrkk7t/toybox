@@ -1,24 +1,30 @@
+// --- DOM Elements ---
 const mainWindow = document.getElementById('mainWindow');
 
+// Icons
 const iconTop = document.getElementById('iconTop');
 const iconAbout = document.getElementById('iconAbout');
 const iconWork = document.getElementById('iconWork');
 const iconIllust = document.getElementById('iconIllust');
 const iconContact = document.getElementById('iconContact');
 
+// Windows
 const aboutWindow = document.getElementById('aboutWindow');
 const workWindow = document.getElementById('workWindow');
 const illustWindow = document.getElementById('illustWindow');
 const contactWindow = document.getElementById('contactWindow');
 
+// Buttons
 const contactSendBtn = document.getElementById('contactSendBtn');
 const aboutOkBtn = document.getElementById('aboutOkBtn');
 const gameStartBtn = document.getElementById('gameStartBtn');
 
+// Popups
 const sentPopup = document.getElementById('sentPopup');
 const sentCloseX = document.getElementById('sentCloseX');
 const sentBtnOk = document.getElementById('sentBtnOk');
 
+// RPG Elements
 const rpgOverlay = document.getElementById('rpgOverlay');
 const rpgEnemy = document.getElementById('rpgEnemy');
 const rpgText = document.getElementById('rpgText');
@@ -34,13 +40,36 @@ const enemyHpBar = document.getElementById('enemyHpBar');
 const playerHpBar = document.getElementById('playerHpBar');
 const playerHpNum = document.getElementById('playerHpNum');
 
+// Boot Screen Elements
+const bootScreen = document.getElementById('bootScreen');
+const bootContainer = document.getElementById('bootContainer');
 
+// Gallery Elements
+const galleryImg = document.getElementById('galleryImg');
+const galleryTitle = document.getElementById('galleryTitle');
+const galleryCounter = document.getElementById('galleryCounter');
+const galleryPrevBtn = document.getElementById('galleryPrevBtn');
+const galleryNextBtn = document.getElementById('galleryNextBtn');
+
+// Works Password Elements
+const workPasswordInput = document.getElementById('workPasswordInput');
+const workPasswordSubmitBtn = document.getElementById('workPasswordSubmitBtn');
+const passwordFormSection = document.getElementById('passwordFormSection');
+const secretWorkContent = document.getElementById('secretWorkContent');
+const passwordErrorMsg = document.getElementById('passwordErrorMsg');
+
+
+// --- Global Functions & Utilities ---
 let maxZIndex = 100;
 function bringToFront(el) {
     maxZIndex++;
     el.style.zIndex = maxZIndex;
 }
 
+const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+
+// --- Window Management ---
 const openWindow = (win) => {
     win.style.display = 'block';
     win.classList.remove('minimized');
@@ -55,7 +84,6 @@ const closeWindow = (win) => {
 const closeAllPopups = () => {
     sentPopup.style.display = 'none';
 };
-
 
 const setupWindowActions = (win, minBtnId, maxBtnId, closeBtnId) => {
     const minBtn = document.getElementById(minBtnId);
@@ -85,14 +113,15 @@ const setupWindowActions = (win, minBtnId, maxBtnId, closeBtnId) => {
     }
 };
 
+// Initialize Window Actions
 setupWindowActions(mainWindow, 'minBtn', 'maxBtn', 'closeBtn');
 setupWindowActions(aboutWindow, 'aboutMinBtn', 'aboutMaxBtn', 'aboutCloseBtn');
-// workWindowのボタンIDを変更したので修正
 setupWindowActions(workWindow, null, null, 'workCloseBtn');
 setupWindowActions(illustWindow, 'illustMinBtn', 'illustMaxBtn', 'illustCloseBtn');
 setupWindowActions(contactWindow, 'contactMinBtn', 'contactMaxBtn', 'contactCloseBtn');
 
 
+// --- Draggable System ---
 const setupDrag = (selector, handleSelector = null) => {
     document.querySelectorAll(selector).forEach(el => {
         const handle = handleSelector ? el.querySelector(handleSelector) : el;
@@ -151,6 +180,7 @@ setupDrag('.draggable-window', '.window-header');
 setupDrag('.draggable-icon');
 
 
+// --- About Window Tabs ---
 const propTabs = document.querySelectorAll('.prop-tab');
 const propContents = document.querySelectorAll('.prop-content');
 
@@ -164,22 +194,42 @@ propTabs.forEach(tab => {
 });
 
 
-iconTop.addEventListener('click', () => openWindow(mainWindow));
-iconAbout.addEventListener('click', () => openWindow(aboutWindow));
-iconWork.addEventListener('click', () => openWindow(workWindow));
-iconIllust.addEventListener('click', () => openWindow(illustWindow));
-iconContact.addEventListener('click', () => openWindow(contactWindow));
+// --- Boot Sequence Animation ---
+const bootMessages = [
+    "Initialising TOYBOX kernel...",
+    "Loading memory... 64KB OK",
+    "Mounting volumes... OK",
+    "Checking user profile... Verified",
+    "Loading graphical interface...",
+    "Starting TOYBOX.exe...",
+    "Welcome, Administrator."
+];
+
+async function runBootSequence() {
+    await wait(500);
+
+    for (let msg of bootMessages) {
+        const line = document.createElement('div');
+        line.className = 'boot-line';
+        line.textContent = "> " + msg;
+        bootContainer.appendChild(line);
+
+        const randomDelay = Math.floor(Math.random() * 400) + 100;
+        await wait(randomDelay);
+    }
+
+    await wait(800);
+    bootScreen.classList.add('fade-out');
+
+    setTimeout(() => {
+        bootScreen.style.display = 'none';
+    }, 1000);
+}
+
+window.addEventListener('load', runBootSequence);
 
 
-aboutOkBtn.addEventListener('click', () => closeWindow(aboutWindow));
-contactSendBtn.addEventListener('click', () => {
-    closeWindow(contactWindow);
-    sentPopup.style.display = 'flex';
-});
-sentCloseX.addEventListener('click', closeAllPopups);
-sentBtnOk.addEventListener('click', closeAllPopups);
-
-
+// --- RPG Battle System ---
 const MAX_PLAYER_HP = 100;
 const MAX_ENEMY_HP = 500;
 
@@ -204,22 +254,6 @@ const updateBattleUI = () => {
     else if(playerPercent < 50) playerHpBar.style.background = "#ffff00";
     else playerHpBar.style.background = "#00ff00";
 };
-
-gameStartBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    battleState.playerHp = MAX_PLAYER_HP;
-    battleState.enemyHp = MAX_ENEMY_HP;
-    battleState.isPlayerTurn = true;
-    battleState.isBattleOver = false;
-    
-    mainCommandBox.style.display = 'flex';
-    skillCommandBox.style.display = 'none';
-    gsap.set(rpgEnemy, {scale: 1, opacity: 1, rotation: 0});
-    rpgOverlay.style.display = 'block';
-    
-    updateBattleUI();
-    typeText("あ！　やせいの　バグが　とびだしてきた！");
-});
 
 function typeText(text, callback = null) {
     rpgText.textContent = "";
@@ -313,6 +347,22 @@ function enemyTurn() {
     });
 }
 
+gameStartBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    battleState.playerHp = MAX_PLAYER_HP;
+    battleState.enemyHp = MAX_ENEMY_HP;
+    battleState.isPlayerTurn = true;
+    battleState.isBattleOver = false;
+    
+    mainCommandBox.style.display = 'flex';
+    skillCommandBox.style.display = 'none';
+    gsap.set(rpgEnemy, {scale: 1, opacity: 1, rotation: 0});
+    rpgOverlay.style.display = 'block';
+    
+    updateBattleUI();
+    typeText("あ！　やせいの　バグが　とびだしてきた！");
+});
+
 cmdAttack.addEventListener('click', () => {
     if(!battleState.isPlayerTurn) return;
     typeText("TOYBOXの　こうげき！ キーボードを　たたいた！", () => {
@@ -381,28 +431,63 @@ cmdRun.addEventListener('click', () => {
     });
 });
 
-// ▼▼▼ ここから追加 ▼▼▼
-// --- Works Password Protection ---
-const workPasswordInput = document.getElementById('workPasswordInput');
-const workPasswordSubmitBtn = document.getElementById('workPasswordSubmitBtn');
-const passwordFormSection = document.getElementById('passwordFormSection');
-const secretWorkContent = document.getElementById('secretWorkContent');
-const passwordErrorMsg = document.getElementById('passwordErrorMsg');
 
+// --- Gallery Viewer System ---
+const galleryData = [
+    { src: 'images/loading.png', title: 'Loading Ghost' },
+    { src: 'images/hp-01.jpg',   title: 'Web Design Work 01' },
+    { src: 'images/hp-02.jpg',   title: 'Web Design Work 02' }
+];
+
+let currentGalleryIndex = 0;
+
+function updateGallery() {
+    if (galleryData.length === 0) return;
+
+    const data = galleryData[currentGalleryIndex];
+    
+    gsap.to(galleryImg, { opacity: 0, duration: 0.1, onComplete: () => {
+        galleryImg.src = data.src;
+        galleryTitle.textContent = data.title;
+        galleryCounter.textContent = `${currentGalleryIndex + 1} / ${galleryData.length}`;
+        
+        galleryImg.onload = () => {
+            gsap.to(galleryImg, { opacity: 1, duration: 0.2 });
+        };
+    }});
+}
+
+galleryPrevBtn.addEventListener('click', () => {
+    currentGalleryIndex--;
+    if (currentGalleryIndex < 0) {
+        currentGalleryIndex = galleryData.length - 1;
+    }
+    updateGallery();
+});
+
+galleryNextBtn.addEventListener('click', () => {
+    currentGalleryIndex++;
+    if (currentGalleryIndex >= galleryData.length) {
+        currentGalleryIndex = 0;
+    }
+    updateGallery();
+});
+
+// Initialize Gallery
+updateGallery();
+
+
+// --- Works Password System ---
 workPasswordSubmitBtn.addEventListener('click', async () => {
     const password = workPasswordInput.value;
-    // エラーメッセージをリセット
     passwordErrorMsg.style.display = 'none';
 
     if (!password) return;
 
-    // ボタンを一時的に無効化（連打防止）
     workPasswordSubmitBtn.disabled = true;
     workPasswordSubmitBtn.textContent = '確認中...';
 
     try {
-        // Netlify Functionsのエンドポイントにパスワードを送信
-        // ※ローカル開発環境では、このURLは機能しません。Netlify Devなどを使う必要があります。
         const response = await fetch('/.netlify/functions/get-works', {
             method: 'POST',
             headers: {
@@ -412,76 +497,70 @@ workPasswordSubmitBtn.addEventListener('click', async () => {
         });
 
         if (response.ok) {
-            // 認証成功
             const data = await response.json();
-            // 受け取ったHTMLを流し込む
             secretWorkContent.innerHTML = data.html;
-            // フォームを隠してコンテンツを表示
             passwordFormSection.style.display = 'none';
             secretWorkContent.style.display = 'block';
-            // ウィンドウタイトルを「Locked」から元に戻す
             document.querySelector('#workHeader .window-title').textContent = '📁 Projects';
-            
         } else {
-            // 認証失敗（401など）
             passwordErrorMsg.style.display = 'block';
-            workPasswordInput.select(); // 入力欄を選択状態にする
+            workPasswordInput.select();
         }
     } catch (error) {
         console.error('Error:', error);
         alert('通信エラーが発生しました。');
     } finally {
-        // ボタンを元に戻す
         workPasswordSubmitBtn.disabled = false;
         workPasswordSubmitBtn.textContent = '解除';
     }
 });
 
-// ▼▼▼ 起動アニメーションの処理 ▼▼▼
-const bootScreen = document.getElementById('bootScreen');
-const bootContainer = document.getElementById('bootContainer');
 
-// 表示したいメッセージのリスト
-const bootMessages = [
-    "Initialising TOYBOX kernel...",
-    "Loading memory... 64KB OK",
-    "Mounting volumes... OK",
-    "Checking user profile... Verified",
-    "Loading graphical interface...",
-    "Starting TOYBOX.exe...",
-    "Welcome, Administrator."
-];
+// --- General Event Listeners ---
+iconTop.addEventListener('click', () => openWindow(mainWindow));
+iconAbout.addEventListener('click', () => openWindow(aboutWindow));
+iconWork.addEventListener('click', () => openWindow(workWindow));
+iconIllust.addEventListener('click', () => openWindow(illustWindow));
+iconContact.addEventListener('click', () => openWindow(contactWindow));
 
-// 時間を置くための関数
-const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+aboutOkBtn.addEventListener('click', () => closeWindow(aboutWindow));
 
-// 起動シーケンスを実行する関数
-async function runBootSequence() {
-    // 最初の待機
-    await wait(500);
+contactSendBtn.addEventListener('click', () => {
+    closeWindow(contactWindow);
+    sentPopup.style.display = 'flex';
+});
 
-    for (let msg of bootMessages) {
-        // メッセージ用divを作る
-        const line = document.createElement('div');
-        line.className = 'boot-line';
-        line.textContent = "> " + msg;
-        bootContainer.appendChild(line);
+sentCloseX.addEventListener('click', closeAllPopups);
+sentBtnOk.addEventListener('click', closeAllPopups);
 
-        // ランダムな時間待つ（PCが処理している感を出す）
-        const randomDelay = Math.floor(Math.random() * 400) + 100;
-        await wait(randomDelay);
-    }
+// ▼▼▼ タスクバーと時計の機能 ▼▼▼
+const taskbarClock = document.getElementById('taskbarClock');
+const startBtn = document.getElementById('startBtn');
 
-    // 全て表示し終わったら少し待ってフェードアウト
-    await wait(800);
-    bootScreen.classList.add('fade-out');
-
-    // 完全に消えたらDOMから削除（邪魔にならないように）
-    setTimeout(() => {
-        bootScreen.style.display = 'none';
-    }, 1000); // CSSのtransition時間と同じにする
+// 時計を更新する関数
+function updateClock() {
+    const now = new Date();
+    
+    // 年月日と時間を取得
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    
+    // 表示形式: 2026/01/26 14:30
+    // ※秒まで出したい場合は + ':' + String(now.getSeconds()).padStart(2, '0') を足してください
+    const timeString = `${year}/${month}/${day} ${hours}:${minutes}`;
+    
+    taskbarClock.textContent = timeString;
 }
 
-// ページ読み込み完了時に実行
-window.addEventListener('load', runBootSequence);
-// ▲▲▲ ここまで追加 ▲▲▲
+// 1秒ごとに時計を更新
+setInterval(updateClock, 1000);
+// 読み込み時にも一度実行
+updateClock();
+
+// スタートボタンを押すと、とりあえずTOPウィンドウを開く（復活させる）
+startBtn.addEventListener('click', () => {
+    openWindow(mainWindow);
+});

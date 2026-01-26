@@ -1,3 +1,4 @@
+/* --- Base Variables & Reset --- */
 :root {
     --main-color: #0088a3;
     --accent-black: #000000;
@@ -26,6 +27,73 @@ body {
     position: relative;
 }
 
+/* --- Boot Screen Animation --- */
+#bootScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    color: #00ff00;
+    z-index: 999999;
+    font-family: "DotGothic16", sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.boot-logo {
+    margin-bottom: 30px;
+}
+
+.boot-logo img {
+    width: 150px;
+    height: auto;
+    animation: float-ghost 2s ease-in-out infinite;
+}
+
+@keyframes float-ghost {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+#bootContainer {
+    width: 80%;
+    max-width: 500px;
+    text-align: left;
+}
+
+.boot-line {
+    margin-bottom: 5px;
+    font-size: 1.2rem;
+    opacity: 0.9;
+    text-shadow: 0 0 5px #00ff00;
+}
+
+.blinking-cursor {
+    font-size: 1.2rem;
+    animation: blink 0.8s infinite;
+    margin-top: 5px;
+    width: 80%;
+    max-width: 500px;
+    text-align: left;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 1s ease-out;
+    pointer-events: none;
+}
+
+/* --- Desktop Icons --- */
 .desktop-icon {
     position: absolute;
     width: 60px;
@@ -67,6 +135,7 @@ body {
     box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
 }
 
+/* --- Window System (Frame & Controls) --- */
 .window-frame {
     width: 90%;
     max-width: 600px;
@@ -121,6 +190,7 @@ body {
 .window-frame.dragging .window-header {
     cursor: grabbing;
 }
+
 
 .window-controls {
     display: flex;
@@ -177,6 +247,7 @@ body {
     animation: none;
 }
 
+/* --- General Content Elements --- */
 h1 {
     color: var(--main-color);
     text-shadow: 2px 2px 0 var(--accent-black);
@@ -221,6 +292,26 @@ p {
     filter: brightness(1.1);
 }
 
+.small-btn {
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    border-width: 2px;
+    box-shadow: 3px 3px 0 var(--accent-black);
+    border-radius: 0;
+}
+
+.small-btn:active {
+    box-shadow: none;
+    top: 3px;
+    left: 3px;
+}
+
+.black-btn {
+    background-color: var(--accent-black);
+    color: var(--accent-white);
+}
+
+/* --- Specific: About/Profile Window --- */
 .prop-body {
     padding: 15px;
     background-color: var(--gray-bg);
@@ -314,6 +405,104 @@ p {
     margin-top: 15px;
 }
 
+/* --- Specific: Works List --- */
+.work-list-container {
+    margin-top: 15px;
+}
+
+.work-item {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    border-bottom: 2px dotted #ccc;
+    padding-bottom: 20px;
+    align-items: flex-start;
+}
+
+.work-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.work-thumbnail {
+    flex: 0 0 140px;
+}
+
+.work-thumbnail img {
+    width: 100%;
+    height: auto;
+    border: 2px solid var(--accent-black);
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+    transition: transform 0.1s;
+    display: block;
+}
+
+.work-thumbnail a:hover img {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+.work-details {
+    flex: 1;
+}
+
+.work-details h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.1rem;
+    color: var(--main-color);
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+}
+
+.work-info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.work-info-list li {
+    margin-bottom: 4px;
+}
+
+.work-info-list .label {
+    font-weight: bold;
+    margin-right: 5px;
+    color: #555;
+}
+
+/* --- Specific: Gallery Viewer --- */
+.gallery-container {
+    width: 100%;
+    height: 200px;
+    background-color: #eee;
+    border: 2px solid var(--accent-black);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    background-image: 
+        linear-gradient(45deg, #ddd 25%, transparent 25%), 
+        linear-gradient(-45deg, #ddd 25%, transparent 25%), 
+        linear-gradient(45deg, transparent 75%, #ddd 75%), 
+        linear-gradient(-45deg, transparent 75%, #ddd 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}
+
+.gallery-container img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
+
+/* --- Popups & Overlays --- */
 .popup-overlay {
     display: none;
     position: fixed;
@@ -345,25 +534,7 @@ p {
     gap: 10px;
 }
 
-.small-btn {
-    padding: 8px 20px;
-    font-size: 0.9rem;
-    border-width: 2px;
-    box-shadow: 3px 3px 0 var(--accent-black);
-    border-radius: 0;
-}
-
-.small-btn:active {
-    box-shadow: none;
-    top: 3px;
-    left: 3px;
-}
-
-.black-btn {
-    background-color: var(--accent-black);
-    color: var(--accent-white);
-}
-
+/* --- RPG Battle System --- */
 #rpgOverlay {
     display: none;
     position: fixed;
@@ -603,6 +774,7 @@ p {
     animation: shake 0.3s;
 }
 
+/* --- Mobile Responsive --- */
 @media (max-width: 600px) {
     body {
         display: block;
@@ -673,163 +845,86 @@ p {
     .hp-gauge-box {
         width: 140px;
     }
-}
 
-/* --- Works List Styles (Loaded dynamically) --- */
-.work-list-container {
-    margin-top: 15px;
-}
-
-.work-item {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 25px;
-    border-bottom: 2px dotted #ccc;
-    padding-bottom: 20px;
-    align-items: flex-start;
-}
-
-.work-item:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-}
-
-.work-thumbnail {
-    flex: 0 0 140px; /* 幅を固定 */
-}
-
-.work-thumbnail img {
-    width: 100%;
-    height: auto;
-    border: 2px solid var(--accent-black);
-    box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
-    transition: transform 0.1s;
-    display: block;
-}
-
-.work-thumbnail a:hover img {
-    transform: scale(1.05);
-    filter: brightness(1.1);
-}
-
-.work-details {
-    flex: 1;
-}
-
-.work-details h3 {
-    margin: 0 0 10px 0;
-    font-size: 1.1rem;
-    color: var(--main-color);
-    text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
-}
-
-.work-info-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    font-size: 0.9rem;
-    line-height: 1.5;
-}
-
-.work-info-list li {
-    margin-bottom: 4px;
-}
-
-.work-info-list .label {
-    font-weight: bold;
-    margin-right: 5px;
-    color: #555;
-}
-
-/* スマホ対応 */
-@media (max-width: 600px) {
     .work-item {
         flex-direction: column;
     }
+    
     .work-thumbnail {
         flex: none;
         width: 100%;
         text-align: center;
         margin-bottom: 10px;
     }
+    
     .work-thumbnail img {
         max-width: 100%;
         box-shadow: none;
     }
+    
     .work-details h3 {
         font-size: 1rem;
     }
 }
 
-/* --- Boot Screen Animation --- */
-#bootScreen {
+/* --- Taskbar & Clock --- */
+.taskbar {
     position: fixed;
-    top: 0;
+    bottom: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    background-color: #000000; /* 真っ黒な背景 */
-    color: #00ff00;            /* ターミナルっぽい緑文字 */
-    z-index: 999999;           /* 誰よりも手前に！ */
-    font-family: "DotGothic16", sans-serif;
-    /* padding: 20px; ←以前の記述は削除し、以下に変更 */
+    height: 40px;
+    background-color: #c0c0c0; /* レトロなグレー */
+    border-top: 2px solid #ffffff;
+    box-shadow: 0 -2px 0 var(--accent-black); /* 黒い線を上に */
     display: flex;
-    flex-direction: column;
-    justify-content: center;   /* 上下中央揃え */
-    align-items: center;       /* 左右中央揃え */
-    overflow: hidden;
+    justify-content: space-between; /* 両端に配置 */
+    align-items: center;
+    padding: 3px 5px;
+    z-index: 9000; /* アイコンより上、ポップアップより下 */
+    user-select: none;
 }
 
-/* ★追加：ロゴ画像のスタイル */
-.boot-logo {
-    margin-bottom: 30px; /* 画像と文字の間の余白 */
-}
-.boot-logo img {
-    width: 150px;  /* 画像の幅（お好みで調整してください） */
-    height: auto;
-    /* 少しピョコピョコ動かすアニメーション（お好みでON/OFF） */
-    animation: float-ghost 2s ease-in-out infinite;
-}
-/* お化けがフワフワ動くアニメーション定義 */
-@keyframes float-ghost {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-/* 文字コンテナのスタイル（中央揃えレイアウト用に調整） */
-#bootContainer {
-    width: 80%;          /* 横幅を少し制限 */
-    max-width: 500px;    /* 最大幅を指定 */
-    text-align: left;    /* 文字自体は左揃えで見やすく */
+.start-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 100%;
+    padding: 0 10px;
+    background-color: #c0c0c0;
+    border-top: 2px solid #ffffff;
+    border-left: 2px solid #ffffff;
+    border-right: 2px solid #000000;
+    border-bottom: 2px solid #000000;
+    font-family: "DotGothic16", sans-serif;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 1px 1px 0 black;
 }
 
-/* 文字の行 */
-.boot-line {
-    margin-bottom: 5px;
-    font-size: 1.2rem;
-    opacity: 0.9;
-    text-shadow: 0 0 5px #00ff00; /* 緑色に少し光らせる */
+.start-btn:active {
+    border-top: 2px solid #000000;
+    border-left: 2px solid #000000;
+    border-right: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    transform: translateY(1px);
+    box-shadow: none;
 }
 
-/* 点滅するカーソル */
-.blinking-cursor {
-    font-size: 1.2rem;
-    animation: blink 0.8s infinite;
-    margin-top: 5px;
-    /* カーソルも文字と同じ幅・配置に合わせる */
-    width: 80%;
-    max-width: 500px;
-    text-align: left;
+.taskbar-right {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    border: 2px solid;
+    border-color: #888 #fff #fff #888; /* 凹んでいるように見せる枠 */
+    padding: 0 10px;
+    background-color: #c0c0c0;
+    margin-right: 2px;
 }
 
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-}
-
-/* フェードアウト用クラス */
-.fade-out {
-    opacity: 0;
-    transition: opacity 1s ease-out;
-    pointer-events: none; /* 消えている間にクリックを邪魔しないように */
+.taskbar-clock {
+    font-family: "DotGothic16", sans-serif;
+    font-size: 1rem;
+    letter-spacing: 1px;
 }
