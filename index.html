@@ -42,6 +42,10 @@
             <div class="icon-img">✉️</div>
             <div class="icon-label">CONTACT</div>
         </div>
+		<div class="desktop-icon draggable-icon" id="iconDanger" style="top: 20px; right: 20px; left: auto;">
+            <div class="icon-img">⚠️</div>
+            <div class="icon-label" style="background: red;">DANGER</div>
+        </div>
     </div>
     
     <div class="window-frame draggable-window" id="mainWindow" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
@@ -283,6 +287,16 @@
         </button>
         <div class="taskbar-right">
             <div class="taskbar-clock" id="taskbarClock">00:00</div>
+        </div>
+    </div>
+	<div id="bsodScreen" style="display: none;">
+        <div class="bsod-content">
+            <p>:(</p>
+            <p>Your PC ran into a problem and needs to restart.</p>
+            <p>Stop Code: CRITICAL_PROCESS_DIED</p>
+            <p>Error: TOYBOX_OVERLOAD_EXCEPTION</p>
+            <br>
+            <p>Complete: <span id="bsodPercent">0</span>%</p>
         </div>
     </div>
     <script src="script.js"></script>

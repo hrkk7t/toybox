@@ -564,3 +564,56 @@ updateClock();
 startBtn.addEventListener('click', () => {
     openWindow(mainWindow);
 });
+
+// ▼▼▼ ブルースクリーン演出 ▼▼▼
+const iconDanger = document.getElementById('iconDanger');
+const bsodScreen = document.getElementById('bsodScreen');
+const bsodPercent = document.getElementById('bsodPercent');
+
+let dangerClickCount = 0;
+
+iconDanger.addEventListener('click', () => {
+    dangerClickCount++;
+
+    if (dangerClickCount === 1) {
+        alert("【警告】システムファイルです。\n触らないでください。");
+    } else if (dangerClickCount === 2) {
+        alert("【警告】本当に危険です。\nデータが破損する可能性があります。");
+    } else if (dangerClickCount >= 3) {
+        // 3回目でクラッシュ！
+        triggerBSOD();
+    }
+});
+
+function triggerBSOD() {
+    // 画面をブルースクリーンにする
+    bsodScreen.style.display = 'block';
+    
+    // パーセントをカウントアップさせる演出
+    let percent = 0;
+    const interval = setInterval(() => {
+        percent += Math.floor(Math.random() * 10) + 1;
+        if (percent > 100) percent = 100;
+        bsodPercent.textContent = percent;
+
+        if (percent === 100) {
+            clearInterval(interval);
+            setTimeout(rebootSystem, 1000); // 100%になったら再起動
+        }
+    }, 200);
+}
+
+function rebootSystem() {
+    // ブルースクリーンを隠す
+    bsodScreen.style.display = 'none';
+    
+    // 警告カウントをリセット
+    dangerClickCount = 0;
+
+    // 起動画面（Boot Screen）をもう一度表示して「再起動」っぽく見せる
+    bootScreen.style.display = 'flex';
+    bootScreen.classList.remove('fade-out');
+    bootContainer.innerHTML = ''; // ログをクリア
+    runBootSequence(); // 起動アニメーション再実行
+}
+// ▲▲▲ ここまで追加 ▲▲▲

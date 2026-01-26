@@ -928,3 +928,46 @@ p {
     font-size: 1rem;
     letter-spacing: 1px;
 }
+
+/* --- BSOD (Blue Screen of Death) --- */
+#bsodScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0078d7; /* 最近のWindowsっぽい青 */
+    /* レトロな濃い青がいい場合は #0000aa にしてください */
+    color: white;
+    z-index: 9999999; /* 何よりも一番手前！ */
+    font-family: 'Segoe UI', sans-serif; /* あえてOS標準フォントっぽく */
+    padding: 10% 10%;
+    cursor: none; /* マウスカーソルも消す */
+}
+
+.bsod-content {
+    font-size: 1.5rem;
+    line-height: 1.5;
+}
+
+.bsod-content p:first-child {
+    font-size: 6rem; /* 顔文字 :( を大きく */
+    margin-bottom: 20px;
+}
+
+/* --- Mobile Fix for BSOD --- */
+@media (max-width: 600px) {
+    /* スマホでは顔文字を少し小さくする */
+    .bsod-content p:first-child {
+        font-size: 4rem; 
+    }
+    
+    .bsod-content {
+        font-size: 1rem; /* エラー文章も少し小さく */
+    }
+    
+    /* DANGERアイコンをスマホのメニューバー内で目立たせる */
+    #iconDanger .icon-label {
+        padding: 4px 8px; /* 文字が読みやすいように余白調整 */
+    }
+}
