@@ -91,18 +91,41 @@
                     <div class="prop-item"><span class="label">作成日:</span> 199X年 XX月 XX日</div>
                 </div>
             </div>
-            <div class="prop-content" id="tab-skills">
+           <div class="prop-content" id="tab-skills">
                 <p style="margin-bottom: 10px;">実装済みモジュール:</p>
                 <div class="skill-bar"><label>HTML/CSS/JavaScript</label><div class="bar"><div class="fill" style="width: 90%;"></div></div></div>
                 <div class="skill-bar"><label>PHP</label><div class="bar"><div class="fill" style="width: 70%;"></div></div></div>
                 <div class="skill-bar"><label>Design</label><div class="bar"><div class="fill" style="width: 70%;"></div></div></div>
                 <div class="skill-bar"><label>Humor</label><div class="bar"><div class="fill" style="width: 100%;"></div></div></div>
-            </div>
+
+                <div style="margin-top: 20px; padding-top: 15px; border-top: 2px dashed #ccc;">
+                    <p style="margin-bottom: 10px;">ライセンス認証:</p>
+                    <ul style="font-size: 0.85rem; padding-left: 20px; line-height: 1.6;">
+                        <li>ITパスポート試験 (IP)</li>
+                        <li>高等学校教諭一種免許状 (国語)</li>
+                    </ul>
+                </div>
+                </div>
             <div class="prop-content" id="tab-history">
-                <p style="margin-bottom: 10px;">更新履歴:</p>
-                <ul style="text-align: left; font-size: 0.85rem; padding-left: 20px;">
-                    <li>2026.01 - TOYBOX.exe 起動</li>
-                    <li>2025.12 - デザイン構想開始</li>
+                <p style="margin-bottom: 10px;">システムログ (経歴):</p>
+                <ul style="text-align: left; font-size: 0.85rem; padding-left: 20px; line-height: 1.6;">
+                    <li style="margin-bottom: 10px;">
+                        <span style="font-weight:bold; color:var(--main-color);">2026.01</span> - Current<br>
+                        プロジェクト "TOYBOX.exe" 起動<br>
+                        <span style="font-size:0.8rem; color:#666;">>> Web Developerとして稼働中</span>
+                    </li>
+
+                    <li style="margin-bottom: 10px;">
+                        <span style="font-weight:bold;">20XX.XX</span> - System Reboot<br>
+                        モード切替: <span style="background:#eee; padding:0 4px;">Designer Mode</span><br>
+                        <span style="font-size:0.8rem; color:#666;">>> デザイン/クリエイティブ領域へ移行</span>
+                    </li>
+
+                    <li style="margin-bottom: 10px;">
+                        <span style="font-weight:bold;">20XX.XX</span> (8年間)<br>
+                        バックグラウンドプロセス: "Teacher"<br>
+                        <span style="font-size:0.8rem; color:#666;">>> 大学院M2より高等学校教諭(国語)として従事。<br>>> 言語化能力と言葉の教育を担当。</span>
+                    </li>
                 </ul>
             </div>
             <div class="prop-footer">
@@ -133,7 +156,8 @@
             
         </div>
     </div>
-    <div class="window-frame draggable-window" id="illustWindow" style="display: none; width: 400px; top: 50%; left: 60%;">
+    
+	<div class="window-frame draggable-window" id="illustWindow" style="display: none; width: 400px; top: 50%; left: 60%;">
         <div class="window-header" id="illustHeader">
             <span class="window-title">🎨 Gallery_Viewer</span>
             <div class="window-controls">
@@ -143,14 +167,21 @@
             </div>
         </div>
         <div class="window-body">
-            <p>イラストギャラリー</p>
-            <div style="background: #eee; height: 150px; display: flex; align-items: center; justify-content: center; border: 2px solid black; margin-bottom: 10px;">NO IMAGE</div>
+            <div class="gallery-container">
+                <img id="galleryImg" src="" alt="Gallery Image">
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <span id="galleryTitle" style="font-weight: bold; font-size: 0.9rem;">No Image</span>
+                <span id="galleryCounter" style="font-size: 0.8rem; background: black; color: white; padding: 2px 6px;">0/0</span>
+            </div>
+
             <div style="display: flex; gap: 10px; justify-content: center;">
-                <button class="small-btn">PREV</button>
-                <button class="small-btn">NEXT</button>
+                <button class="pop-button small-btn" id="galleryPrevBtn">◀ PREV</button>
+                <button class="pop-button small-btn" id="galleryNextBtn">NEXT ▶</button>
             </div>
         </div>
-    </div>
+        </div>
 
     <div class="window-frame draggable-window" id="contactWindow" style="display: none; width: 400px; top: 30%; left: 70%;">
         <div class="window-header" id="contactHeader">
