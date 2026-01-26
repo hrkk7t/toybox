@@ -549,10 +549,6 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-startBtn.addEventListener('click', () => {
-    openWindow(mainWindow);
-});
-
 
 // --- BSOD System ---
 let dangerClickCount = 0;
@@ -595,3 +591,50 @@ function rebootSystem() {
     bootContainer.innerHTML = '';
     runBootSequence();
 }
+
+// --- Start Menu ---
+const startMenu = document.getElementById('startMenu');
+const shutdownScreen = document.getElementById('shutdownScreen');
+
+startBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (startMenu.style.display === 'none') {
+        startMenu.style.display = 'flex';
+        startBtn.classList.add('active');
+    } else {
+        startMenu.style.display = 'none';
+        startBtn.classList.remove('active');
+    }
+});
+
+document.addEventListener('click', (e) => {
+    if (startMenu.style.display !== 'none' && !startMenu.contains(e.target) && e.target !== startBtn) {
+        startMenu.style.display = 'none';
+    }
+});
+
+const menuActions = {
+    'menuTop': mainWindow,
+    'menuAbout': aboutWindow,
+    'menuWork': workWindow,
+    'menuIllust': illustWindow,
+    'menuContact': contactWindow
+};
+
+Object.keys(menuActions).forEach(id => {
+    document.getElementById(id).addEventListener('click', () => {
+        openWindow(menuActions[id]);
+        startMenu.style.display = 'none';
+    });
+});
+
+document.getElementById('menuShutdown').addEventListener('click', () => {
+    startMenu.style.display = 'none';
+    shutdownScreen.style.display = 'block';
+    
+    gsap.to(shutdownScreen, { opacity: 1, duration: 0.5, onComplete: () => {
+        setTimeout(() => {
+            location.reload();
+        }, 1500);
+    }});
+});

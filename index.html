@@ -281,6 +281,25 @@
             </div>
         </div>
     </div>
+
+    <div id="startMenu" style="display: none;">
+        <div class="start-side-bar">
+            <span>TOYBOX <span style="font-size: 0.8em;">OS</span></span>
+        </div>
+        <div class="start-list">
+            <div class="start-item" id="menuTop"><span class="icon">🏠</span> TOP</div>
+            <div class="start-item" id="menuAbout"><span class="icon">👤</span> ABOUT</div>
+            <div class="start-item" id="menuWork"><span class="icon">📁</span> WORK</div>
+            <div class="start-item" id="menuIllust"><span class="icon">🎨</span> ILLUST</div>
+            <div class="start-item" id="menuContact"><span class="icon">✉️</span> CONTACT</div>
+            
+            <div class="start-divider"></div>
+            
+            <div class="start-item" id="menuShutdown"><span class="icon">🔌</span> SHUTDOWN...</div>
+        </div>
+    </div>
+    
+    <div id="shutdownScreen" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:black; z-index:99999999;"></div>
     <div class="taskbar">
         <button class="start-btn" id="startBtn">
             <span style="font-size: 1.2rem;">🧸</span> START
@@ -289,6 +308,7 @@
             <div class="taskbar-clock" id="taskbarClock">00:00</div>
         </div>
     </div>
+
 	<div id="bsodScreen" style="display: none;">
         <div class="bsod-content">
             <p>:(</p>
