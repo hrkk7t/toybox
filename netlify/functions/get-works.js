@@ -1,75 +1,64 @@
 exports.handler = async (event, context) => {
-  // POSTリクエスト以外は拒否
-  if (event.httpMethod !== "POST") {
-    return { statusCode: 405, body: "Method Not Allowed" };
-  }
-
-  try {
-    // ブラウザから送られてきたパスワードを取得
-    constbody = JSON.parse(event.body);
-    const password = body.password;
-
-    // ★重要★ Netlifyの環境変数に設定した正しいパスワードを読み込む
-    // Netlifyの管理画面でキー名を「SECRET_WORK_PASSWORD」にして設定してください。
-    // ローカルテストなどで環境変数が未設定の場合は仮のパスワード "test1234" で動くようにしています。
-    const correctPassword = process.env.SECRET_WORK_PASSWORD || "test1234";
-
-    if (password === correctPassword) {
-      // 認証成功！ Worksの中身のHTMLを定義します。
-      // ここに、いただいた情報を流し込みます。
-      const secretHtmlContent = `
-        <p style="margin-bottom: 20px; font-weight: bold;">制作実績リスト (Web Site)</p>
-        
-        <div class="work-list-container">
-            <div class="work-item">
-                <div class="work-thumbnail">
-                    <img src="images/hp-01.jpg" alt="SNS運用代行サイトデザイン">
-                </div>
-                <div class="work-details">
-                    <h3>SNS運用代行サイトのデザイン</h3>
-                    <ul class="work-info-list">
-                        <li><span class="label">担当範囲:</span> HPデザイン、サービス紹介イラスト</li>
-                        <li><span class="label">制作期間:</span> 約20時間</li>
-                        <li><span class="label">使用技術:</span> Adobe Illustrator, Adobe XD</li>
-                        <li><span class="label">URL:</span> <span style="font-size: 0.9rem; color: #666;">(※現在は閉鎖されています)</span></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="work-item">
-                <div class="work-thumbnail">
-                    <a href="https://www.toho-ew.co.jp/" target="_blank" rel="noopener noreferrer">
-                        <img src="images/hp-02.jpg" alt="建設工事会社のWebサイト">
-                    </a>
-                </div>
-                <div class="work-details">
-                    <h3>建設工事会社のWebサイト</h3>
-                    <ul class="work-info-list">
-                        <li><span class="label">担当範囲:</span> HPデザイン</li>
-                        <li><span class="label">制作期間:</span> 約15時間</li>
-                        <li><span class="label">使用技術:</span> Adobe XD</li>
-                        <li><span class="label">URL:</span> <a href="https://www.toho-ew.co.jp/" target="_blank" style="color: blue; text-decoration: underline;">https://www.toho-ew.co.jp/</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-      `;
-
-      return {
-        statusCode: 200,
-        body: JSON.stringify({ html: secretHtmlContent }),
-      };
-
-    } else {
-      // 認証失敗
-      return {
-        statusCode: 401,
-        body: JSON.stringify({ message: "Incorrect password" }),
-      };
+    // POSTリクエスト以外は拒否
+    if (event.httpMethod !== "POST") {
+        return { statusCode: 405, body: "Method Not Allowed" };
     }
 
-  } catch (error) {
-    console.error('Function error:', error);
-    return { statusCode: 500, body: "Internal Server Error" };
-  }
+    try {
+        // 送られてきたパスワードを読み取る
+        const data = JSON.parse(event.body);
+        const inputPassword = data.password;
+
+        // ★ここで正しいパスワードを設定（とりあえず 'toybox2026' にしています）
+        // ※本当はNetlifyの管理画面（環境変数）で設定するのがベストですが、まずはこれで動きます
+        const CORRECT_PASSWORD = process.env.WORK_PASSWORD || "toybox2026";
+
+        if (inputPassword === CORRECT_PASSWORD) {
+            // ■■■ パスワード正解時の「中身」をここに書く ■■■
+            // HTMLタグをそのまま書けます
+            const secretHtml = `
+                <div class="work-list-container">
+                    <p style="margin-bottom:20px; color:green; font-weight:bold;">>> Access Granted. Loading classified data...</p>
+
+                    <div class="work-item">
+                        <div class="work-thumbnail">
+                            <a href="#" target="_blank"><img src="images/hp-01.jpg" alt="Work 01"></a>
+                        </div>
+                        <div class="work-details">
+                            <h3>Secret Project A</h3>
+                            <ul class="work-info-list">
+                                <li><span class="label">Client:</span>某 株式会社 様</li>
+                                <li><span class="label">Role:</span>Design, Coding</li>
+                                <li><span class="label">Period:</span>2024.01 - 2024.03</li>
+                                <li><span class="label">Comment:</span>
+                                    ここには一般公開できない実績の詳細を書きます。<br>
+                                    苦労した点や、工夫したアニメーションなど。
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="work-item">
+                        <div class="work-details">
+                            <h3>Confidential Data B</h3>
+                            <p>画像がなくても、テキストだけで詳細を書くことも可能です。</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            return {
+                statusCode: 200,
+                body: JSON.stringify({ html: secretHtml }),
+            };
+        } else {
+            // パスワード間違い
+            return {
+                statusCode: 401,
+                body: JSON.stringify({ message: "Unauthorized" }),
+            };
+        }
+    } catch (error) {
+        return { statusCode: 500, body: "Internal Server Error" };
+    }
 };
