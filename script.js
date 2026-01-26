@@ -436,9 +436,7 @@ cmdRun.addEventListener('click', () => {
 
 // --- Gallery Viewer System ---
 const galleryData = [
-    { src: 'images/loading.png', title: 'Loading Ghost' },
-    { src: 'images/hp-01.jpg',   title: 'Web Design Work 01' },
-    { src: 'images/hp-02.jpg',   title: 'Web Design Work 02' }
+    { src: 'images/loading.png', title: 'Loading Ghost' }
 ];
 
 let currentGalleryIndex = 0;
@@ -586,7 +584,6 @@ iconDanger.addEventListener('click', () => {
     } else if (dangerClickCount >= 3) {
         triggerBSOD();
     }
-
 });
 
 function triggerBSOD() {
