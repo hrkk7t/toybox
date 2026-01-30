@@ -642,3 +642,14 @@ document.getElementById('menuShutdown').addEventListener('click', () => {
     }});
 
 });
+
+function openModal(imgSrc) {
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImg');
+    modalImg.src = imgSrc;
+    modal.style.display = 'flex';
+}
+
+function closeModal() {
+    document.getElementById('imageModal').style.display = 'none';
+}
