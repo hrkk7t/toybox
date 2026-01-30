@@ -24,7 +24,7 @@ exports.handler = async (event, context) => {
 
                     <div class="work-item">
                         <div class="work-thumbnail">
-                            <img src="images/hp-01.jpg" alt="Work 01">
+                            <img src="images/hp-01.jpg" alt="Work 01" onclick="openModal(this.src)>
                         </div>
                         <div class="work-details">
                             <h3>SNS運用代行 Webサイト</h3>
@@ -39,7 +39,7 @@ exports.handler = async (event, context) => {
 
                     <div class="work-item">
                         <div class="work-thumbnail">
-                            <a href="https://www.toho-ew.co.jp/" target="_blank"><img src="images/hp-02.jpg" alt="Work 02"></a>
+                            <a href="https://www.toho-ew.co.jp/" target="_blank"><img src="images/hp-02.jpg" alt="Work 02" onclick="openModal(this.src)></a>
                         </div>
                         <div class="work-details">
                             <h3>建設工事会社 Webサイト</h3>
@@ -54,7 +54,7 @@ exports.handler = async (event, context) => {
 
                     <div class="work-item">
                         <div class="work-thumbnail">
-                            <a href="https://crayon-beauty.jp/" target="_blank"><img src="images/hp-03.jpg" alt="Work 03"></a>
+                            <a href="https://crayon-beauty.jp/" target="_blank"><img src="images/hp-03.jpg" alt="Work 03" onclick="openModal(this.src)></a>
                         </div>
                         <div class="work-details">
                             <h3>美容室グループ Webサイト</h3>
@@ -67,7 +67,7 @@ exports.handler = async (event, context) => {
 
                     <div class="work-item">
                         <div class="work-thumbnail">
-                            <a href="https://aomori-shokkankyo.com/" target="_blank"><img src="images/hp-04.jpg" alt="Work 04"></a>
+                            <a href="https://aomori-shokkankyo.com/" target="_blank"><img src="images/hp-04.jpg" alt="Work 04" onclick="openModal(this.src)></a>
                         </div>
                         <div class="work-details">
                             <h3>食糧保管協会 Webサイト</h3>
@@ -96,7 +96,7 @@ exports.handler = async (event, context) => {
 
                     <div class="work-item">
                         <div class="work-thumbnail">
-                            <img src="images/graphic-02.jpg" alt="Main Visual">
+                            <img src="images/graphic-02.jpg" alt="Main Visual" onclick="openModal(this.src)>
                         </div>
                         <div class="work-details">
                             <h3>Webサイト用メインビジュアル</h3>
@@ -109,7 +109,7 @@ exports.handler = async (event, context) => {
                     </div>
                      <div class="work-item">
                         <div class="work-thumbnail">
-                            <img src="images/graphic-03.jpg" alt="Main Visual">
+                            <img src="images/graphic-03.jpg" alt="Main Visual" onclick="openModal(this.src)>
                         </div>
                         <div class="work-details">
                             <h3>Webサイト用メインビジュアル</h3>
@@ -140,6 +140,7 @@ exports.handler = async (event, context) => {
     }
 
 };
+
 
 
 
