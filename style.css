@@ -400,3 +400,18 @@ p {
     z-index: 1000000 !important;
 }
 
+/* スタートメニューの項目を指マークにする */
+.start-item {
+    cursor: pointer !important;
+}
+
+/* ついでにホバー時に色が変わるようにするとよりOSっぽくなります */
+.start-item:hover {
+    background-color: #000080;
+    color: white;
+}
+
+/* アイコンも指マークに */
+.desktop-icon {
+    cursor: pointer;
+}
