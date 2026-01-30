@@ -1,4 +1,4 @@
-// --- DOM Elements ---
+﻿// --- DOM Elements ---
 const mainWindow = document.getElementById('mainWindow');
 
 const iconTop = document.getElementById('iconTop');
