@@ -1,14 +1,19 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // 1. 各要素取得
-    const elements = {
-        startBtn: document.getElementById('startBtn'),
-        startMenu: document.getElementById('startMenu'),
-        clock: document.getElementById('taskbarClock'),
-        boot: document.getElementById('bootScreen'),
-        bsod: document.getElementById('bsodScreen'),
-        bsodP: document.getElementById('bsodPercent')
-    };
+window.onload = () => { // DOMContentLoadedより確実なwindow.onloadに変更
+    const boot = document.getElementById('bootScreen');
+    const startBtn = document.getElementById('startBtn');
+    const startMenu = document.getElementById('startMenu');
+    
+    // --- 1. Boot Screenを2秒後に確実に消す ---
+    setTimeout(() => {
+        if (boot) {
+            boot.style.transition = "opacity 0.5s";
+            boot.style.opacity = "0";
+            setTimeout(() => boot.style.display = "none", 500);
+        }
+    }, 2000);
 
+    // --- 2. ウィンドウ操作の基本セット ---
+    let maxZ = 1000;
     const wins = {
         top: document.getElementById('mainWindow'),
         about: document.getElementById('aboutWindow'),
@@ -18,109 +23,77 @@ document.addEventListener('DOMContentLoaded', () => {
         readme: document.getElementById('readmeWindow')
     };
 
-    let maxZ = 1000;
-
-    // 2. ブート画面（自動で消える設定）
-    setTimeout(() => {
-        if (elements.boot) elements.boot.style.display = 'none';
-    }, 2000);
-
-    // 3. ウィンドウ制御
-    const openWin = (win) => {
+    function openWin(win) {
         if (!win) return;
         win.style.display = 'block';
         maxZ++;
         win.style.zIndex = maxZ;
-        if (win.id === 'illustWindow') updateGallery();
-        gsap.fromTo(win, { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2 });
-    };
+        // GSAPが読み込まれていない場合のエラー回避
+        if (window.gsap) {
+            gsap.fromTo(win, {scale: 0.9, opacity: 0}, {scale: 1, opacity: 1, duration: 0.2});
+        }
+    }
 
-    // 4. ギャラリー（画像表示の核）
-    const galleryData = [
-        { src: 'images/illust1.png', title: 'Work 01' },
-        { src: 'images/illust2.png', title: 'Work 02' }
+    // --- 3. イベント紐付け (IDを一つずつ確実に) ---
+    const ids = [
+        {btn: 'iconTop', win: wins.top}, {btn: 'menuTop', win: wins.top},
+        {btn: 'iconAbout', win: wins.about}, {btn: 'menuAbout', win: wins.about},
+        {btn: 'iconWork', win: wins.work}, {btn: 'menuWork', win: wins.work},
+        {btn: 'iconIllust', win: wins.illust}, {btn: 'menuIllust', win: wins.illust},
+        {btn: 'iconContact', win: wins.contact}, {btn: 'menuContact', win: wins.contact},
+        {btn: 'iconReadme', win: wins.readme}
     ];
-    let gIdx = 0;
 
-    const updateGallery = () => {
-        const img = document.getElementById('galleryImg');
-        const title = document.getElementById('galleryTitle');
-        const counter = document.getElementById('galleryCounter');
-        if (img && galleryData[gIdx]) {
-            img.src = galleryData[gIdx].src;
-            title.textContent = galleryData[gIdx].title;
-            counter.textContent = `${gIdx + 1}/${galleryData.length}`;
-        }
-    };
+    ids.forEach(item => {
+        document.getElementById(item.btn)?.addEventListener('click', () => {
+            openWin(item.win);
+            startMenu.style.display = 'none';
+        });
+    });
 
-    document.getElementById('galleryNextBtn')?.addEventListener('click', () => { gIdx = (gIdx + 1) % galleryData.length; updateGallery(); });
-    document.getElementById('galleryPrevBtn')?.addEventListener('click', () => { gIdx = (gIdx - 1 + galleryData.length) % galleryData.length; updateGallery(); });
-
-    // 5. アイコン・メニュークリック
-    const bindClick = (id, win) => document.getElementById(id)?.addEventListener('click', () => openWin(win));
-    
-    // アイコン
-    bindClick('iconTop', wins.top);
-    bindClick('iconAbout', wins.about);
-    bindClick('iconWork', wins.work);
-    bindClick('iconIllust', wins.illust);
-    bindClick('iconContact', wins.contact);
-    bindClick('iconReadme', wins.readme);
-
-    // スタートメニュー内
-    bindClick('menuTop', wins.top);
-    bindClick('menuAbout', wins.about);
-    bindClick('menuWork', wins.work);
-    bindClick('menuIllust', wins.illust);
-    bindClick('menuContact', wins.contact);
-
-    // DANGER
-    let dCount = 0;
+    // --- 4. DANGER ---
+    let dClicks = 0;
     document.getElementById('iconDanger')?.addEventListener('click', () => {
-        dCount++;
-        if (dCount < 3) alert(`警告: システム領域 (${dCount}/3)`);
+        dClicks++;
+        if (dClicks < 3) alert(`警告: システム領域です (${dClicks}/3)`);
         else {
-            elements.bsod.style.display = 'block';
-            let p = 0;
-            const t = setInterval(() => {
-                p += 5; elements.bsodP.textContent = p;
-                if (p >= 100) { clearInterval(t); location.reload(); }
-            }, 50);
+            const bsod = document.getElementById('bsodScreen');
+            if (bsod) bsod.style.display = 'block';
+            setTimeout(() => location.reload(), 3000);
         }
     });
 
-    // 6. スタートメニュー開閉
-    elements.startBtn?.addEventListener('click', (e) => {
+    // --- 5. スタートメニュー ---
+    startBtn?.addEventListener('click', (e) => {
         e.stopPropagation();
-        elements.startMenu.style.display = (elements.startMenu.style.display === 'flex') ? 'none' : 'flex';
+        startMenu.style.display = (startMenu.style.display === 'flex') ? 'none' : 'flex';
     });
-    document.addEventListener('click', () => elements.startMenu.style.display = 'none');
+    document.addEventListener('click', () => { if(startMenu) startMenu.style.display = 'none'; });
 
-    // 7. 時計
-    const setTime = () => {
-        const d = new Date();
-        if (elements.clock) elements.clock.textContent = d.getHours().toString().padStart(2, '0') + ":" + d.getMinutes().toString().padStart(2, '0');
-    };
-    setInterval(setTime, 1000); setTime();
-
-    // 8. ドラッグ機能
-    const makeDraggable = (win, headId, closeId) => {
-        const h = document.getElementById(headId);
-        if (!h) return;
-        h.onmousedown = (e) => {
+    // --- 6. ドラッグ ---
+    document.querySelectorAll('.window-frame').forEach(win => {
+        const header = win.querySelector('.window-header');
+        if (!header) return;
+        header.onmousedown = (e) => {
             if (e.target.closest('.control-btn')) return;
             maxZ++; win.style.zIndex = maxZ;
-            let sx = e.clientX - win.offsetLeft, sy = e.clientY - win.offsetTop;
-            document.onmousemove = (m) => { win.style.left = (m.clientX - sx) + 'px'; win.style.top = (m.clientY - sy) + 'px'; };
+            let ox = e.clientX - win.offsetLeft, oy = e.clientY - win.offsetTop;
+            document.onmousemove = (me) => {
+                win.style.left = (me.clientX - ox) + 'px';
+                win.style.top = (me.clientY - oy) + 'px';
+            };
             document.onmouseup = () => document.onmousemove = null;
         };
-        document.getElementById(closeId)?.addEventListener('click', () => win.style.display = 'none');
-    };
+        // 閉じるボタン
+        win.querySelector('.btn-close')?.addEventListener('click', () => win.style.display = 'none');
+    });
 
-    makeDraggable(wins.top, 'mainHeader', 'closeBtn');
-    makeDraggable(wins.about, 'aboutHeader', 'aboutCloseBtn');
-    makeDraggable(wins.work, 'workHeader', 'workCloseBtn');
-    makeDraggable(wins.illust, 'illustHeader', 'illustCloseBtn');
-    makeDraggable(wins.contact, 'contactHeader', 'contactCloseBtn');
-    makeDraggable(wins.readme, 'readmeHeader', 'readmeCloseBtn');
-});
+    // --- 7. 時計 ---
+    setInterval(() => {
+        const clock = document.getElementById('taskbarClock');
+        if (clock) {
+            const d = new Date();
+            clock.textContent = d.getHours().toString().padStart(2, '0') + ":" + d.getMinutes().toString().padStart(2, '0');
+        }
+    }, 1000);
+};
