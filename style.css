@@ -1,8 +1,11 @@
+/* --- Base Variables & Reset --- */
 :root {
     --main-color: #0088a3;
     --accent-black: #000000;
     --accent-white: #ffffff;
     --button-color: #0088a3;
+    --window-bg: #ffffff;
+    --gray-bg: #f0f0f0;
 }
 
 * { box-sizing: border-box; }
@@ -13,51 +16,133 @@ body {
     background-color: var(--main-color);
     background-image: radial-gradient(rgba(255, 255, 255, 0.2) 2px, transparent 2px);
     background-size: 30px 30px;
-    height: 100vh; overflow: hidden; position: relative;
+    display: flex; justify-content: center; align-items: center;
+    min-height: 100vh; overflow: hidden; position: relative;
 }
 
-/* クリック・指マークの強制 */
-.desktop-icon, .start-btn, .start-item, .control-btn, .pop-button, #galleryNextBtn, #galleryPrevBtn {
-    cursor: pointer !important;
-    pointer-events: auto !important;
-}
-
-/* --- Boot Screen (固まる元凶を修正) --- */
+/* --- Boot Screen --- */
 #bootScreen {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background-color: #000000; color: #00ff00; z-index: 999999;
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    font-family: "DotGothic16", sans-serif;
+    display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden;
+}
+.boot-logo { margin-bottom: 30px; }
+.boot-logo img { width: 150px; height: auto; animation: float-ghost 2s ease-in-out infinite; }
+@keyframes float-ghost { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+#bootContainer { width: 80%; max-width: 500px; text-align: left; }
+.boot-line { margin-bottom: 5px; font-size: 1.2rem; opacity: 0.9; text-shadow: 0 0 5px #00ff00; }
+.blinking-cursor { font-size: 1.2rem; animation: blink 0.8s infinite; margin-top: 5px; width: 80%; max-width: 500px; text-align: left; }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+.fade-out { opacity: 0; transition: opacity 1s ease-out; pointer-events: none; }
+
+/* --- Desktop Icons --- */
+.desktop-icon {
+    position: absolute; width: 60px; text-align: center; cursor: pointer; z-index: 5;
+    transition: transform 0.1s; user-select: none; -webkit-user-select: none;
+}
+.desktop-icon:hover { filter: brightness(1.1); }
+.desktop-icon:active { transform: scale(0.95); }
+.icon-img { font-size: 2rem; margin-bottom: 5px; filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.3)); }
+.icon-label {
+    background-color: var(--accent-black); color: var(--accent-white);
+    padding: 2px 4px; font-size: 0.8rem; border-radius: 0;
+    display: inline-block; box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
 }
 
 /* --- Window System --- */
 .window-frame {
-    position: absolute; width: 90%; max-width: 600px;
-    background-color: #ffffff; border: 3px solid var(--accent-black);
+    width: 90%; max-width: 600px;
+    background-color: var(--window-bg); border: 3px solid var(--accent-black);
     box-shadow: 8px 8px 0px var(--accent-black);
-    display: none; z-index: 100;
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    z-index: 10; border-radius: 0; display: none; /* 初期状態は非表示 */
+    animation: float 4s ease-in-out infinite;
+}
+.window-frame.dragging {
+    animation: none; transition: none; cursor: grabbing;
+    box-shadow: 10px 10px 0px rgba(0,0,0,0.2); z-index: 100;
+}
+.window-frame.moved { animation: none; transform: none !important; }
+.window-frame.active-window { z-index: 50; }
+@keyframes float {
+    0% { transform: translate(-50%, -50%) translateY(0px); }
+    50% { transform: translate(-50%, -50%) translateY(-10px); }
+    100% { transform: translate(-50%, -50%) translateY(0px); }
 }
 .window-header {
-    background-color: var(--accent-black); color: white;
-    padding: 8px 10px; display: flex; justify-content: space-between; align-items: center;
-    cursor: grab;
+    background-color: var(--accent-black); padding: 6px 10px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 3px solid var(--accent-black); color: var(--accent-white);
+    font-weight: bold; font-size: 1rem; letter-spacing: 1px;
+    cursor: grab; user-select: none;
+}
+.window-controls { display: flex; gap: 6px; }
+.control-btn {
+    width: 20px; height: 20px; padding: 0; border: none; cursor: pointer;
+    transition: transform 0.1s; display: flex; justify-content: center; align-items: center; border-radius: 0;
+}
+.control-btn img { width: 60%; height: 60%; display: block; pointer-events: none; }
+.btn-min { background-color: #ffbd2e; } .btn-max { background-color: #27c93f; } .btn-close { background-color: #ff5f56; }
+.window-body {
+    padding: 30px; text-align: center; overflow-y: auto;
+    max-height: 70vh; transition: max-height 0.3s ease-out, padding 0.3s ease; scroll-behavior: smooth;
 }
 
-/* --- Taskbar & Menu --- */
+/* --- Content & Buttons --- */
+h1 { color: var(--main-color); text-shadow: 2px 2px 0 var(--accent-black); font-size: 2rem; margin-bottom: 15px; font-style: italic; }
+p { font-size: 0.95rem; line-height: 1.6; margin-bottom: 30px; color: #333; font-weight: bold; }
+.pop-button {
+    display: inline-block; background-color: var(--button-color); color: var(--accent-white);
+    font-size: 1.1rem; font-weight: bold; text-decoration: none; padding: 10px 30px;
+    border: 3px solid var(--accent-black); box-shadow: 5px 5px 0px var(--accent-black);
+    cursor: pointer; position: relative;
+}
+.pop-button:active { box-shadow: 0px 0px 0px var(--accent-black); top: 5px; left: 5px; }
+
+/* --- Gallery Viewer --- */
+.gallery-container {
+    width: 100%; height: 200px; background-color: #eee; border: 2px solid var(--accent-black);
+    margin-bottom: 10px; display: flex; align-items: center; justify-content: center; overflow: hidden;
+    position: relative;
+    background-image: linear-gradient(45deg, #ddd 25%, transparent 25%), linear-gradient(-45deg, #ddd 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ddd 75%), linear-gradient(-45deg, transparent 75%, #ddd 75%);
+    background-size: 20px 20px;
+}
+.gallery-container img { max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 2px 2px 5px rgba(0,0,0,0.2); }
+
+/* --- RPG & Popups --- */
+#rpgOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #111; z-index: 99999; font-family: "DotGothic16", sans-serif; color: white; }
+.popup-overlay {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px);
+    z-index: 9999; justify-content: center; align-items: center;
+    animation: modalFadeIn 0.3s ease-out forwards;
+}
+
+/* --- Taskbar & Start Menu --- */
 .taskbar {
     position: fixed; bottom: 0; left: 0; width: 100%; height: 40px;
-    background-color: #c0c0c0; border-top: 2px solid #ffffff;
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 0 10px; z-index: 10000;
+    background-color: #c0c0c0; border-top: 2px solid #ffffff; box-shadow: 0 -2px 0 var(--accent-black);
+    display: flex; justify-content: space-between; align-items: center; padding: 3px 5px; z-index: 9000;
 }
+.start-btn { padding: 0 10px; background-color: #c0c0c0; border: 2px solid; border-color: #fff #000 #000 #fff; font-weight: bold; cursor: pointer; }
 #startMenu {
-    position: fixed; bottom: 40px; left: 2px; width: 220px;
-    background-color: #c0c0c0; border: 2px solid; border-color: #fff #888 #888 #fff;
-    display: none; z-index: 9999;
+    position: fixed; bottom: 42px; left: 2px; width: 250px; background-color: #c0c0c0;
+    border: 2px solid; border-color: #fff #888 #888 #fff; display: none; z-index: 8999;
 }
-.start-item:hover { background: #000080; color: white; }
+.start-side-bar { width: 40px; background: linear-gradient(to bottom, #000080, #0000ff); color: white; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 10px; }
+.start-side-bar span { writing-mode: vertical-rl; transform: rotate(180deg); font-weight: bold; }
+.start-item { padding: 10px; cursor: pointer; }
+.start-item:hover { background-color: #000080; color: white; }
 
-/* BSOD (Blue Screen) */
+/* BSOD */
 #bsodScreen {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #0000aa; color: white; padding: 50px; display: none; z-index: 2000000;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #0078d7;
+    color: white; z-index: 9999999; padding: 10%; display: none;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    body { display: block; padding-top: 60px; padding-bottom: 50px; overflow: auto; }
+    .window-frame { position: relative; top: auto !important; left: auto !important; transform: none !important; margin: 20px auto; width: 95% !important; animation: none; }
 }
