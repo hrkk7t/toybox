@@ -37,54 +37,26 @@ body {
     background-color: #000000;
     color: #00ff00;
     z-index: 999999;
-    font-family: "DotGothic16", sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
-}
-
-.boot-logo {
-    margin-bottom: 30px;
 }
 
 .boot-logo img {
     width: 150px;
     height: auto;
-    animation: float-ghost 2s ease-in-out infinite;
-}
-
-@keyframes float-ghost {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
 }
 
 #bootContainer {
     width: 80%;
     max-width: 500px;
-    text-align: left;
 }
 
 .boot-line {
     margin-bottom: 5px;
     font-size: 1.2rem;
-    opacity: 0.9;
-    text-shadow: 0 0 5px #00ff00;
-}
-
-.blinking-cursor {
-    font-size: 1.2rem;
-    animation: blink 0.8s infinite;
-    margin-top: 5px;
-    width: 80%;
-    max-width: 500px;
-    text-align: left;
-}
-
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+    color: #00ff00;
 }
 
 .fade-out {
@@ -99,30 +71,13 @@ body {
     width: 60px;
     text-align: center;
     cursor: pointer;
-    z-index: 5;
+    z-index: 10; /* 重なり順を調整 */
     transition: transform 0.1s;
-    user-select: none;
-    -webkit-user-select: none;
-}
-
-.desktop-icon:hover {
-    filter: brightness(1.1);
-}
-
-.desktop-icon:active {
-    transform: scale(0.95);
-}
-
-.desktop-icon.dragging {
-    cursor: grabbing;
-    opacity: 0.8;
-    z-index: 100;
 }
 
 .icon-img {
     font-size: 2rem;
     margin-bottom: 5px;
-    filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.3));
 }
 
 .icon-label {
@@ -130,9 +85,6 @@ body {
     color: var(--accent-white);
     padding: 2px 4px;
     font-size: 0.8rem;
-    border-radius: 0;
-    display: inline-block;
-    box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
 }
 
 /* --- Window System --- */
@@ -143,35 +95,8 @@ body {
     border: 3px solid var(--accent-black);
     box-shadow: 8px 8px 0px var(--accent-black);
     position: absolute; 
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
-    border-radius: 0;
-    animation: float 4s ease-in-out infinite;
-}
-
-.window-frame.dragging {
-    animation: none;
-    transition: none;
-    cursor: grabbing;
-    box-shadow: 10px 10px 0px rgba(0,0,0,0.2);
-    z-index: 100;
-}
-
-.window-frame.moved {
-    animation: none;
-    transform: none !important;
-}
-
-.window-frame.active-window {
-    z-index: 50;
-}
-
-@keyframes float {
-    0% { transform: translate(-50%, -50%) translateY(0px); }
-    50% { transform: translate(-50%, -50%) translateY(-10px); }
-    100% { transform: translate(-50%, -50%) translateY(0px); }
+    z-index: 20;
+    /* アニメーション(float)を削除しました */
 }
 
 .window-header {
@@ -180,375 +105,15 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 3px solid var(--accent-black);
     color: var(--accent-white);
-    font-weight: bold;
-    font-size: 1rem;
-    letter-spacing: 1px;
     cursor: grab;
-    user-select: none;
 }
-
-.window-frame.dragging .window-header {
-    cursor: grabbing;
-}
-
-.window-controls {
-    display: flex;
-    gap: 6px;
-}
-
-.control-btn {
-    width: 20px;
-    height: 20px;
-    padding: 0;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.1s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 0;
-}
-
-.control-btn img {
-    width: 60%;
-    height: 60%;
-    display: block;
-    pointer-events: none;
-}
-
-.control-btn:hover { transform: scale(1.1); }
-.control-btn:active { transform: scale(0.9); }
-.btn-min { background-color: #ffbd2e; }
-.btn-max { background-color: #27c93f; }
-.btn-close { background-color: #ff5f56; }
 
 .window-body {
     padding: 30px;
     text-align: center;
-    overflow-y: auto; 
     max-height: 70vh;
-    transition: max-height 0.3s ease-out, padding 0.3s ease;
-    scroll-behavior: smooth;
-}
-
-.window-frame.minimized .window-body {
-    max-height: 0;
-    padding: 0;
-}
-
-.window-frame.minimized {
-    box-shadow: 4px 4px 0px var(--accent-black);
-    animation: none;
-}
-
-/* --- General Content --- */
-h1 {
-    color: var(--main-color);
-    text-shadow: 2px 2px 0 var(--accent-black);
-    font-size: 2rem;
-    margin-bottom: 15px;
-    font-style: italic;
-}
-
-p {
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin-bottom: 30px;
-    color: #333;
-    font-weight: bold;
-}
-
-.pop-button {
-    display: inline-block;
-    background-color: var(--button-color);
-    color: var(--accent-white);
-    font-size: 1.1rem;
-    font-weight: bold;
-    text-decoration: none;
-    padding: 10px 30px;
-    border: 3px solid var(--accent-black);
-    border-radius: 0;
-    box-shadow: 5px 5px 0px var(--accent-black);
-    transition: all 0.1s;
-    cursor: pointer;
-    position: relative;
-    top: 0;
-    left: 0;
-}
-
-.pop-button:active {
-    box-shadow: 0px 0px 0px var(--accent-black);
-    top: 5px;
-    left: 5px;
-}
-
-.pop-button:hover {
-    filter: brightness(1.1);
-}
-
-.small-btn {
-    padding: 8px 20px;
-    font-size: 0.9rem;
-    border-width: 2px;
-    box-shadow: 3px 3px 0 var(--accent-black);
-}
-
-.black-btn {
-    background-color: var(--accent-black);
-    color: var(--accent-white);
-}
-
-/* --- Profile Window --- */
-.prop-body {
-    padding: 15px;
-    background-color: var(--gray-bg);
-    text-align: left;
-}
-
-.prop-tabs {
-    display: flex;
-    gap: 4px;
-    margin-bottom: -3px;
-    padding-left: 10px;
-}
-
-.prop-tab {
-    padding: 6px 15px;
-    background-color: #ccc;
-    border: 2px solid var(--accent-black);
-    border-bottom: none;
-    cursor: pointer;
-    font-weight: bold;
-    color: #666;
-    position: relative;
-    top: 3px;
-    font-size: 0.9rem;
-}
-
-.prop-tab.active {
-    background-color: var(--window-bg);
-    color: var(--accent-black);
-    top: 0;
-    z-index: 2;
-    border-bottom: 3px solid var(--window-bg);
-    padding-bottom: 9px;
-}
-
-.prop-content {
-    display: none;
-    background-color: var(--window-bg);
-    border: 3px solid var(--accent-black);
-    padding: 20px;
-    min-height: 200px;
-    position: relative;
-    z-index: 1;
-}
-
-.prop-content.active {
-    display: block;
-}
-
-.prop-item {
-    margin-bottom: 8px;
-    font-size: 0.95rem;
-    border-bottom: 1px dotted #ccc;
-    padding-bottom: 4px;
-}
-
-.prop-item .label {
-    font-weight: bold;
-    color: var(--main-color);
-    margin-right: 10px;
-}
-
-.skill-bar {
-    margin-bottom: 10px;
-}
-
-.skill-bar label {
-    display: block;
-    font-size: 0.85rem;
-    font-weight: bold;
-    margin-bottom: 3px;
-}
-
-.skill-bar .bar {
-    width: 100%;
-    height: 16px;
-    background: #eee;
-    border: 2px solid var(--accent-black);
-    overflow: hidden;
-}
-
-.skill-bar .fill {
-    height: 100%;
-    background-color: var(--main-color);
-}
-
-/* --- Works List --- */
-.work-list-container {
-    margin-top: 15px;
-}
-
-.work-item {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 25px;
-    border-bottom: 2px dotted #ccc;
-    padding-bottom: 20px;
-    align-items: flex-start;
-}
-
-.work-thumbnail {
-    flex: 0 0 140px;
-}
-
-.work-thumbnail img {
-    width: 100%;
-    border: 2px solid var(--accent-black);
-    box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
-    transition: transform 0.1s;
-}
-
-.work-details h3 {
-    margin: 0 0 10px 0;
-    font-size: 1.1rem;
-    color: var(--main-color);
-}
-
-.work-info-list {
-    list-style: none;
-    padding: 0;
-    font-size: 0.9rem;
-}
-
-.work-cat-title {
-    font-size: 1.2rem;
-    color: var(--accent-black);
-    background: #e0e0e0;
-    padding: 5px 10px;
-    border: 2px solid var(--accent-black);
-    margin-top: 40px !important;
-}
-
-/* --- Gallery Viewer --- */
-.gallery-container {
-    width: 100%;
-    height: 200px;
-    background-color: #eee;
-    border: 2px solid var(--accent-black);
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
-    background-image: 
-        linear-gradient(45deg, #ddd 25%, transparent 25%), 
-        linear-gradient(-45deg, #ddd 25%, transparent 25%), 
-        linear-gradient(45deg, transparent 75%, #ddd 75%), 
-        linear-gradient(-45deg, transparent 75%, #ddd 75%);
-    background-size: 20px 20px;
-}
-
-.gallery-container img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-}
-
-/* --- Popups & Overlays --- */
-.popup-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 9999;
-    justify-content: center;
-    align-items: center;
-    backdrop-filter: blur(2px);
-}
-
-.popup-size {
-    width: 350px;
-    max-width: 90%;
-    transform: scale(0.9);
-}
-
-/* --- RPG Battle System --- */
-#rpgOverlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #111;
-    z-index: 99999;
-    font-family: "DotGothic16", sans-serif;
-    color: white;
-}
-
-.rpg-battle-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.rpg-enemy {
-    font-size: 8rem;
-    animation: bounce 2s infinite ease-in-out;
-}
-
-.hp-bar-frame {
-    width: 100%;
-    height: 15px;
-    border: 2px solid white;
-    background: #333;
-}
-
-.hp-bar-fill {
-    height: 100%;
-    background: #ff3333;
-    transition: width 0.3s ease-out;
-}
-
-.rpg-message-box {
-    width: 100%;
-    height: 120px;
-    border: 4px solid white;
-    background: black;
-    padding: 15px;
-}
-
-.rpg-command-box {
-    width: 100%;
-    border: 4px solid white;
-    background: black;
-    padding: 10px;
-}
-
-.rpg-command-box li:hover::before {
-    content: "▶";
-    margin-right: 5px;
-    color: #ffff00;
-}
-
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+    overflow-y: auto;
 }
 
 /* --- Taskbar & Start Menu --- */
@@ -564,12 +129,12 @@ p {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 3px 5px;
+    padding: 0 10px;
     z-index: 9000;
 }
 
 .start-btn {
-    padding: 0 10px;
+    height: 30px;
     background-color: #c0c0c0;
     border: 2px solid;
     border-color: #fff #000 #000 #fff;
@@ -577,158 +142,77 @@ p {
     cursor: pointer;
 }
 
+.start-btn.active {
+    border-color: #000 #fff #fff #000;
+}
+
 #startMenu {
     position: fixed;
-    bottom: 42px;
-    left: 2px;
-    width: 250px;
+    bottom: 40px;
+    left: 0;
+    width: 200px;
     background-color: #c0c0c0;
     border: 2px solid;
     border-color: #fff #888 #888 #fff;
-    display: flex;
+    display: none; /* 初期は非表示、JSで制御 */
+    flex-direction: row;
     z-index: 8999;
 }
 
 .start-side-bar {
-    width: 40px;
+    width: 30px;
     background: linear-gradient(to bottom, #000080, #0000ff);
     color: white;
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    padding-bottom: 10px;
+    padding-bottom: 5px;
 }
 
 .start-side-bar span {
     writing-mode: vertical-rl;
     transform: rotate(180deg);
-    font-weight: bold;
+    font-size: 0.8rem;
 }
 
-/* --- BSOD --- */
-#bsodScreen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #0078d7;
+.start-list {
+    flex-grow: 1;
+}
+
+.start-item {
+    padding: 8px 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.start-item:hover {
+    background-color: #000080;
     color: white;
-    z-index: 9999999;
-    padding: 10%;
 }
 
-/* --- Mobile Responsive --- */
-@media (max-width: 600px) {
-    body {
-        display: block;
-        padding-top: 60px;
-        padding-bottom: 50px;
-        overflow: auto;
-    }
+.taskbar-clock {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #000;
+}
 
+/* --- Mobile Responsive 修正 --- */
+@media (max-width: 600px) {
     .desktop-icons-container {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
-        height: 50px;
-        background-color: var(--accent-black);
+        height: auto; /* 画面を覆わないように修正 */
         display: flex;
-        justify-content: space-around;
-        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 10px;
+        pointer-events: none; /* 下の要素を触れるように */
         z-index: 2000;
     }
-
-    .icon-img { display: none; }
-
-    .window-frame {
-        position: relative;
-        top: auto !important;
-        left: auto !important;
-        transform: none !important;
-        margin: 20px auto;
-        width: 95% !important;
-        animation: none;
+    .desktop-icon {
+        position: static !important;
+        pointer-events: auto; /* アイコンだけ触れるように */
     }
-
-    .work-item { flex-direction: column; }
-    .work-thumbnail { width: 100%; }
-}
-
-/* --- Notepad (Readme) --- */
-.notepad-body {
-    background-color: white;
-    text-align: left;
-    height: 100%;
-    min-height: 300px;
-    overflow-y: auto;
-}
-
-.notepad-content {
-    font-family: "MS Gothic", monospace;
-    padding: 10px;
-    white-space: pre-wrap;
-    color: black;
-}
-
-/* --- Scrollbars --- */
-.window-body::-webkit-scrollbar { width: 12px; }
-.window-body::-webkit-scrollbar-track {
-    background: #f0f0f0;
-    border-left: 2px solid var(--accent-black);
-}
-.window-body::-webkit-scrollbar-thumb {
-    background: #c0c0c0;
-    border: 2px solid var(--accent-black);
-}
-
-.gallery-container img {
-    cursor: zoom-in;
-    transition: filter 0.2s;
-}
-.gallery-container img:hover {
-    filter: brightness(0.8);
-}
-
-/* --- Modal Animation Additions --- */
-
-/* 1. モーダル背景：ふわっと暗くする */
-.popup-overlay {
-    /* 既存の background を上書きして、より滑らかに */
-    background: rgba(0, 0, 0, 0.85); 
-    backdrop-filter: blur(5px);
-    transition: all 0.3s ease;
-    animation: modalFadeIn 0.3s ease-out forwards;
-}
-
-#modalImg {
-    max-width: 90%;
-    max-height: 90%;
-    border: 4px solid white;
-    box-shadow: 0 0 30px rgba(0,0,0,0.5);
-    /* 演出：ちょっとだけバウンドしながら拡大 */
-    animation: modalZoom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-}
-
-/* キーフレームの定義 */
-@keyframes modalFadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes modalZoom {
-    from { 
-        transform: scale(0.7); 
-        opacity: 0; 
-    }
-    to { 
-        transform: scale(1); 
-        opacity: 1; 
-    }
-}
-
-/* 閉じるボタンなどがある場合のホバー演出（おまけ） */
-.popup-overlay:hover {
-    cursor: zoom-out;
 }
