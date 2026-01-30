@@ -379,3 +379,24 @@ p {
     justify-content: center;
     align-items: center;
 }
+
+/* タスクバーを最前面に、かつクリックを有効に */
+.taskbar {
+    z-index: 99999 !important;
+}
+
+/* スタートメニューをタスクバーのすぐ後ろに */
+#startMenu {
+    z-index: 99998 !important;
+}
+
+/* デスクトップアイコンはウィンドウより後ろ */
+.desktop-icon {
+    z-index: 5 !important;
+}
+
+/* BSODとBootScreenはすべてを覆う */
+#bsodScreen, #bootScreen {
+    z-index: 1000000 !important;
+}
+
