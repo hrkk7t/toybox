@@ -27,7 +27,7 @@ body {
     position: relative;
 }
 
-/* --- Boot Screen Animation --- */
+/* --- Boot Screen --- */
 #bootScreen {
     position: fixed;
     top: 0;
@@ -135,8 +135,7 @@ body {
     box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
 }
 
-/* --- Window System (Frame & Controls) --- */
-/* --- Window System (Frame & Controls) --- */
+/* --- Window System --- */
 .window-frame {
     width: 90%;
     max-width: 600px;
@@ -144,17 +143,14 @@ body {
     border: 3px solid var(--accent-black);
     box-shadow: 8px 8px 0px var(--accent-black);
     position: absolute; 
-    /* !important を削除しました */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
     border-radius: 0;
-    /* アニメーションを復活 */
     animation: float 4s ease-in-out infinite;
 }
 
-/* ドラッグ中はアニメーションを止める */
 .window-frame.dragging {
     animation: none;
     transition: none;
@@ -163,10 +159,9 @@ body {
     z-index: 100;
 }
 
-/* 一度動かした後は中央固定を解除する */
 .window-frame.moved {
     animation: none;
-    transform: none !important; /* 動かした後は translate(-50%, -50%) を消す */
+    transform: none !important;
 }
 
 .window-frame.active-window {
@@ -177,11 +172,6 @@ body {
     0% { transform: translate(-50%, -50%) translateY(0px); }
     50% { transform: translate(-50%, -50%) translateY(-10px); }
     100% { transform: translate(-50%, -50%) translateY(0px); }
-}
-
-.window-frame.moved {
-    animation: none;
-    transform: none !important;
 }
 
 .window-header {
@@ -202,9 +192,6 @@ body {
 .window-frame.dragging .window-header {
     cursor: grabbing;
 }
-
-
-
 
 .window-controls {
     display: flex;
@@ -231,18 +218,11 @@ body {
     pointer-events: none;
 }
 
-.control-btn:hover {
-    transform: scale(1.1);
-}
-
-.control-btn:active {
-    transform: scale(0.9);
-}
-
+.control-btn:hover { transform: scale(1.1); }
+.control-btn:active { transform: scale(0.9); }
 .btn-min { background-color: #ffbd2e; }
 .btn-max { background-color: #27c93f; }
 .btn-close { background-color: #ff5f56; }
-.no-drag { cursor: pointer; }
 
 .window-body {
     padding: 30px;
@@ -263,7 +243,7 @@ body {
     animation: none;
 }
 
-/* --- General Content Elements --- */
+/* --- General Content --- */
 h1 {
     color: var(--main-color);
     text-shadow: 2px 2px 0 var(--accent-black);
@@ -313,13 +293,6 @@ p {
     font-size: 0.9rem;
     border-width: 2px;
     box-shadow: 3px 3px 0 var(--accent-black);
-    border-radius: 0;
-}
-
-.small-btn:active {
-    box-shadow: none;
-    top: 3px;
-    left: 3px;
 }
 
 .black-btn {
@@ -327,7 +300,7 @@ p {
     color: var(--accent-white);
 }
 
-/* --- Specific: About/Profile Window --- */
+/* --- Profile Window --- */
 .prop-body {
     padding: 15px;
     background-color: var(--gray-bg);
@@ -346,7 +319,6 @@ p {
     background-color: #ccc;
     border: 2px solid var(--accent-black);
     border-bottom: none;
-    border-radius: 0;
     cursor: pointer;
     font-weight: bold;
     color: #666;
@@ -378,7 +350,7 @@ p {
     display: block;
 }
 
-.prop-list .prop-item {
+.prop-item {
     margin-bottom: 8px;
     font-size: 0.95rem;
     border-bottom: 1px dotted #ccc;
@@ -407,7 +379,6 @@ p {
     height: 16px;
     background: #eee;
     border: 2px solid var(--accent-black);
-    border-radius: 0;
     overflow: hidden;
 }
 
@@ -416,12 +387,7 @@ p {
     background-color: var(--main-color);
 }
 
-.prop-footer {
-    text-align: right;
-    margin-top: 15px;
-}
-
-/* --- Specific: Works List --- */
+/* --- Works List --- */
 .work-list-container {
     margin-top: 15px;
 }
@@ -435,59 +401,39 @@ p {
     align-items: flex-start;
 }
 
-.work-item:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-}
-
 .work-thumbnail {
     flex: 0 0 140px;
 }
 
 .work-thumbnail img {
     width: 100%;
-    height: auto;
     border: 2px solid var(--accent-black);
     box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
     transition: transform 0.1s;
-    display: block;
-}
-
-.work-thumbnail a:hover img {
-    transform: scale(1.05);
-    filter: brightness(1.1);
-}
-
-.work-details {
-    flex: 1;
 }
 
 .work-details h3 {
     margin: 0 0 10px 0;
     font-size: 1.1rem;
     color: var(--main-color);
-    text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
 }
 
 .work-info-list {
     list-style: none;
     padding: 0;
-    margin: 0;
     font-size: 0.9rem;
-    line-height: 1.5;
 }
 
-.work-info-list li {
-    margin-bottom: 4px;
+.work-cat-title {
+    font-size: 1.2rem;
+    color: var(--accent-black);
+    background: #e0e0e0;
+    padding: 5px 10px;
+    border: 2px solid var(--accent-black);
+    margin-top: 40px !important;
 }
 
-.work-info-list .label {
-    font-weight: bold;
-    margin-right: 5px;
-    color: #555;
-}
-
-/* --- Specific: Gallery Viewer --- */
+/* --- Gallery Viewer --- */
 .gallery-container {
     width: 100%;
     height: 200px;
@@ -505,16 +451,12 @@ p {
         linear-gradient(45deg, transparent 75%, #ddd 75%), 
         linear-gradient(-45deg, transparent 75%, #ddd 75%);
     background-size: 20px 20px;
-    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
 }
 
 .gallery-container img {
     max-width: 100%;
     max-height: 100%;
-    width: auto;
-    height: auto;
     object-fit: contain;
-    display: block;
     box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
 }
 
@@ -536,18 +478,7 @@ p {
 .popup-size {
     width: 350px;
     max-width: 90%;
-    animation: none;
     transform: scale(0.9);
-}
-
-.popup-content {
-    padding: 20px 15px;
-}
-
-.popup-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
 }
 
 /* --- RPG Battle System --- */
@@ -576,87 +507,9 @@ p {
     margin: 0 auto;
 }
 
-.rpg-enemy-area {
-    width: 100%;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    min-height: 200px;
-}
-
 .rpg-enemy {
     font-size: 8rem;
-    position: relative;
-    color: white;
     animation: bounce 2s infinite ease-in-out;
-}
-
-.rpg-enemy.glitch-effect::before,
-.rpg-enemy.glitch-effect::after {
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #111;
-}
-
-.rpg-enemy.glitch-effect::before {
-    left: 2px;
-    text-shadow: -1px 0 red;
-    animation: glitch-anim-1 2s infinite linear alternate-reverse;
-}
-
-.rpg-enemy.glitch-effect::after {
-    left: -2px;
-    text-shadow: -1px 0 blue;
-    animation: glitch-anim-2 3s infinite linear alternate-reverse;
-}
-
-.rpg-damage {
-    position: absolute;
-    font-size: 3rem;
-    color: #ff3333;
-    font-weight: bold;
-    text-shadow: 2px 2px 0 #000;
-    opacity: 0;
-    z-index: 10;
-}
-
-.rpg-effect-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 5;
-}
-
-.shake-screen {
-    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
-}
-
-.hp-gauge-box {
-    width: 200px;
-    margin-bottom: 10px;
-}
-
-.enemy-hp-box {
-    position: relative;
-    margin-bottom: 20px;
-}
-
-.hp-label {
-    font-size: 1rem;
-    font-weight: bold;
-    margin-bottom: 2px;
-    display: block;
-    text-shadow: 1px 1px 0 #000;
 }
 
 .hp-bar-frame {
@@ -664,8 +517,6 @@ p {
     height: 15px;
     border: 2px solid white;
     background: #333;
-    padding: 1px;
-    border-radius: 4px;
 }
 
 .hp-bar-fill {
@@ -674,85 +525,24 @@ p {
     transition: width 0.3s ease-out;
 }
 
-.hp-num {
-    font-size: 0.9rem;
-    float: right;
-    margin-top: 2px;
-}
-
-.rpg-ui-wrapper {
-    width: 100%;
-    max-width: 600px;
-}
-
-.player-status-box {
-    width: 100%;
-    background: rgba(0,0,0,0.8);
-    border: 2px solid white;
-    border-bottom: none;
-    padding: 10px;
-    margin: 0 0 5px 0;
-}
-
-.rpg-ui-box {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: auto;
-    border: none;
-    background: transparent;
-    padding: 0;
-    gap: 5px;
-}
-
 .rpg-message-box {
     width: 100%;
     height: 120px;
     border: 4px solid white;
     background: black;
     padding: 15px;
-    font-size: 1.1rem;
-    line-height: 1.6;
-    overflow-y: auto;
-    box-sizing: border-box;
 }
 
 .rpg-command-box {
     width: 100%;
-    height: auto;
-    min-height: 100px;
     border: 4px solid white;
     background: black;
     padding: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    box-sizing: border-box;
-}
-
-.rpg-command-box ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.rpg-command-box li {
-    font-size: 1.1rem;
-    margin-bottom: 8px;
-    cursor: pointer;
-    padding-left: 15px;
-    position: relative;
-    white-space: nowrap;
-}
-
-.rpg-command-box li:hover {
-    color: #ffff00;
 }
 
 .rpg-command-box li:hover::before {
     content: "▶";
-    position: absolute;
-    left: 0;
+    margin-right: 5px;
     color: #ffff00;
 }
 
@@ -761,36 +551,7 @@ p {
     50% { transform: translateY(-10px); }
 }
 
-@keyframes glitch-anim-1 {
-    0% { clip-path: inset(20% 0 80% 0); }
-    20% { clip-path: inset(60% 0 10% 0); }
-    40% { clip-path: inset(40% 0 50% 0); }
-    60% { clip-path: inset(80% 0 5% 0); }
-    80% { clip-path: inset(10% 0 60% 0); }
-    100% { clip-path: inset(30% 0 20% 0); }
-}
-
-@keyframes glitch-anim-2 {
-    0% { clip-path: inset(10% 0 60% 0); }
-    20% { clip-path: inset(30% 0 20% 0); }
-    40% { clip-path: inset(70% 0 10% 0); }
-    60% { clip-path: inset(20% 0 50% 0); }
-    80% { clip-path: inset(60% 0 30% 0); }
-    100% { clip-path: inset(0% 0 90% 0); }
-}
-
-@keyframes shake {
-    10%, 90% { transform: translate3d(-2px, 0, 0); }
-    20%, 80% { transform: translate3d(4px, 0, 0); }
-    30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
-    40%, 60% { transform: translate3d(6px, 0, 0); }
-}
-
-.damage-anim {
-    animation: shake 0.3s;
-}
-
-/* --- Taskbar & Clock --- */
+/* --- Taskbar & Start Menu --- */
 .taskbar {
     position: fixed;
     bottom: 0;
@@ -805,79 +566,17 @@ p {
     align-items: center;
     padding: 3px 5px;
     z-index: 9000;
-    user-select: none;
 }
 
 .start-btn {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    height: 100%;
     padding: 0 10px;
     background-color: #c0c0c0;
-    border-top: 2px solid #ffffff;
-    border-left: 2px solid #ffffff;
-    border-right: 2px solid #000000;
-    border-bottom: 2px solid #000000;
-    font-family: "DotGothic16", sans-serif;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    box-shadow: 1px 1px 0 black;
-}
-
-.start-btn:active {
-    border-top: 2px solid #000000;
-    border-left: 2px solid #000000;
-    border-right: 2px solid #ffffff;
-    border-bottom: 2px solid #ffffff;
-    transform: translateY(1px);
-    box-shadow: none;
-}
-
-.taskbar-right {
-    display: flex;
-    align-items: center;
-    height: 100%;
     border: 2px solid;
-    border-color: #888 #fff #fff #888;
-    padding: 0 10px;
-    background-color: #c0c0c0;
-    margin-right: 2px;
+    border-color: #fff #000 #000 #fff;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-.taskbar-clock {
-    font-family: "DotGothic16", sans-serif;
-    font-size: 1rem;
-    letter-spacing: 1px;
-}
-
-/* --- BSOD (Blue Screen of Death) --- */
-#bsodScreen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #0078d7;
-    color: white;
-    z-index: 9999999;
-    font-family: 'Segoe UI', sans-serif;
-    padding: 10% 10%;
-    cursor: none;
-}
-
-.bsod-content {
-    font-size: 1.5rem;
-    line-height: 1.5;
-}
-
-.bsod-content p:first-child {
-    font-size: 6rem;
-    margin-bottom: 20px;
-}
-
-/* --- Start Menu --- */
 #startMenu {
     position: fixed;
     bottom: 42px;
@@ -886,10 +585,8 @@ p {
     background-color: #c0c0c0;
     border: 2px solid;
     border-color: #fff #888 #888 #fff;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-    z-index: 8999;
     display: flex;
-    font-family: "DotGothic16", sans-serif;
+    z-index: 8999;
 }
 
 .start-side-bar {
@@ -906,40 +603,19 @@ p {
     writing-mode: vertical-rl;
     transform: rotate(180deg);
     font-weight: bold;
-    font-size: 1.5rem;
-    letter-spacing: 2px;
 }
 
-.start-list {
-    flex: 1;
-    padding: 5px;
-}
-
-.start-item {
-    padding: 8px 10px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 0.95rem;
-    color: black;
-}
-
-.start-item:hover {
-    background-color: #000080;
+/* --- BSOD --- */
+#bsodScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0078d7;
     color: white;
-}
-
-.start-item .icon {
-    width: 20px;
-    text-align: center;
-}
-
-.start-divider {
-    height: 2px;
-    background-color: #888;
-    border-bottom: 1px solid #fff;
-    margin: 5px 2px;
+    z-index: 9999999;
+    padding: 10%;
 }
 
 /* --- Mobile Responsive --- */
@@ -947,7 +623,7 @@ p {
     body {
         display: block;
         padding-top: 60px;
-        padding-bottom: 50px; 
+        padding-bottom: 50px;
         overflow: auto;
     }
 
@@ -962,28 +638,9 @@ p {
         justify-content: space-around;
         align-items: center;
         z-index: 2000;
-        border-bottom: 2px solid var(--accent-white);
     }
 
-    .desktop-icon {
-        position: static !important;
-        width: auto;
-        transform: none !important;
-        margin: 0;
-        pointer-events: auto;
-    }
-
-    .icon-img {
-        display: none;
-    }
-
-    .icon-label {
-        background: transparent;
-        color: var(--accent-white);
-        box-shadow: none;
-        font-size: 1rem;
-        padding: 10px;
-    }
+    .icon-img { display: none; }
 
     .window-frame {
         position: relative;
@@ -992,65 +649,15 @@ p {
         transform: none !important;
         margin: 20px auto;
         width: 95% !important;
+        animation: none;
     }
 
-    h1 {
-        font-size: 1.8rem;
-    }
-
-    p {
-        font-size: 0.9rem;
-    }
-
-    .prop-tab {
-        padding: 6px 10px;
-        font-size: 0.8rem;
-    }
-
-    .rpg-enemy {
-        font-size: 5rem;
-    }
-
-    .hp-gauge-box {
-        width: 140px;
-    }
-
-    .work-item {
-        flex-direction: column;
-    }
-    
-    .work-thumbnail {
-        flex: none;
-        width: 100%;
-        text-align: center;
-        margin-bottom: 10px;
-    }
-    
-    .work-thumbnail img {
-        max-width: 100%;
-        box-shadow: none;
-    }
-    
-    .work-details h3 {
-        font-size: 1rem;
-    }
-    
-    .bsod-content p:first-child {
-        font-size: 4rem; 
-    }
-    
-    .bsod-content {
-        font-size: 1rem;
-    }
-    
-    #iconDanger .icon-label {
-        padding: 4px 8px;
-    }
+    .work-item { flex-direction: column; }
+    .work-thumbnail { width: 100%; }
 }
 
-/* --- Readme (Notepad style) --- */
+/* --- Notepad (Readme) --- */
 .notepad-body {
-    padding: 0;
     background-color: white;
     text-align: left;
     height: 100%;
@@ -1059,43 +666,14 @@ p {
 }
 
 .notepad-content {
-    font-family: "MS Gothic", "Consolas", monospace;
-    font-size: 0.9rem;
-    line-height: 1.6;
+    font-family: "MS Gothic", monospace;
     padding: 10px;
     white-space: pre-wrap;
     color: black;
 }
 
-.notepad-body::-webkit-scrollbar {
-    width: 15px;
-}
-.notepad-body::-webkit-scrollbar-track {
-    background: #f0f0f0;
-    border-left: 1px solid #888;
-}
-.notepad-body::-webkit-scrollbar-thumb {
-    background: #c0c0c0;
-    border: 1px solid #fff;
-    box-shadow: 1px 1px 0 #000;
-
-}
-
-/* 実績のカテゴリ見出し */
-.work-cat-title {
-    font-size: 1.2rem;
-    color: var(--accent-black);
-    background: #e0e0e0;
-    padding: 5px 10px;
-    border: 2px solid var(--accent-black);
-    margin-top: 40px !important;
-    box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
-}
-
-/* スクロールバーのデザインをOS風に（任意） */
-.window-body::-webkit-scrollbar {
-    width: 12px;
-}
+/* --- Scrollbars --- */
+.window-body::-webkit-scrollbar { width: 12px; }
 .window-body::-webkit-scrollbar-track {
     background: #f0f0f0;
     border-left: 2px solid var(--accent-black);
@@ -1103,8 +681,4 @@ p {
 .window-body::-webkit-scrollbar-thumb {
     background: #c0c0c0;
     border: 2px solid var(--accent-black);
-    box-shadow: inset 1px 1px 0 #fff;
 }
-
-
-
