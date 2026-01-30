@@ -682,3 +682,11 @@ p {
     background: #c0c0c0;
     border: 2px solid var(--accent-black);
 }
+
+.gallery-container img {
+    cursor: zoom-in;
+    transition: filter 0.2s;
+}
+.gallery-container img:hover {
+    filter: brightness(0.8);
+}
