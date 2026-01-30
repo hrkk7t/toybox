@@ -142,10 +142,11 @@ body {
     background-color: var(--window-bg);
     border: 3px solid var(--accent-black);
     box-shadow: 8px 8px 0px var(--accent-black);
-    transition: width 0.3s ease, height 0.3s ease, box-shadow 0.3s ease;
-    position: absolute; 
+    position: absolute;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
     z-index: 10;
-    animation: float 4s ease-in-out infinite;
     border-radius: 0;
 }
 
@@ -1068,3 +1069,4 @@ p {
     box-shadow: 1px 1px 0 #000;
 
 }
+
