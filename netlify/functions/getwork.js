@@ -11,7 +11,7 @@ exports.handler = async (event, context) => {
 
         // ★ここで正しいパスワードを設定（とりあえず 'toybox2026' にしています）
         // ※本当はNetlifyの管理画面（環境変数）で設定するのがベストですが、まずはこれで動きます
-        const CORRECT_PASSWORD = process.env.WORK_PASSWORD || "Pe9HjFLr";
+        const CORRECT_PASSWORD = process.env.WORK_PASSWORD || "123";
 
         if (inputPassword === CORRECT_PASSWORD) {
             // ■■■ パスワード正解時の「中身」をここに書く ■■■
@@ -63,3 +63,4 @@ exports.handler = async (event, context) => {
     }
 
 };
+
