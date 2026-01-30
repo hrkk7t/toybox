@@ -1,22 +1,22 @@
 // --- DOM Elements ---
-const mainWindow = document.getElementById('mainWindow');
-const aboutWindow = document.getElementById('aboutWindow');
-const workWindow = document.getElementById('workWindow');
-const illustWindow = document.getElementById('illustWindow');
-const contactWindow = document.getElementById('contactWindow');
-const readmeWindow = document.getElementById('readmeWindow');
-
 const startBtn = document.getElementById('startBtn');
 const startMenu = document.getElementById('startMenu');
-// CSSで新しく作ったクラス名に合わせて取得
 const taskbarClock = document.querySelector('.taskbar-time'); 
 
-const bootScreen = document.getElementById('bootScreen');
-const bootContainer = document.getElementById('bootContainer');
+// 各ウィンドウ
+const wins = {
+    readme: document.getElementById('readmeWindow'),
+    contact: document.getElementById('contactWindow'),
+    about: document.getElementById('aboutWindow'),
+    work: document.getElementById('workWindow'),
+    illust: document.getElementById('illustWindow'),
+    main: document.getElementById('mainWindow')
+};
 
 // --- Global Functions ---
 let maxZIndex = 100;
 function bringToFront(el) {
+    if (!el) return;
     maxZIndex++;
     el.style.zIndex = maxZIndex;
 }
@@ -36,6 +36,7 @@ const closeWindow = (win) => {
     if(win) win.style.display = 'none';
 };
 
+// ボタン類のイベント登録
 const setupWindowActions = (win, minBtnId, maxBtnId, closeBtnId) => {
     const minBtn = document.getElementById(minBtnId);
     const maxBtn = document.getElementById(maxBtnId);
@@ -49,62 +50,67 @@ const setupWindowActions = (win, minBtnId, maxBtnId, closeBtnId) => {
     if(closeBtn) closeBtn.addEventListener('click', (e) => { e.stopPropagation(); closeWindow(win); });
 };
 
-// 各ウィンドウのアクション設定
-setupWindowActions(mainWindow, 'minBtn', 'maxBtn', 'closeBtn');
-setupWindowActions(aboutWindow, 'aboutMinBtn', 'aboutMaxBtn', 'aboutCloseBtn');
-setupWindowActions(workWindow, null, null, 'workCloseBtn');
-setupWindowActions(illustWindow, 'illustMinBtn', 'illustMaxBtn', 'illustCloseBtn');
-setupWindowActions(contactWindow, 'contactMinBtn', 'contactMaxBtn', 'contactCloseBtn');
-setupWindowActions(readmeWindow, 'readmeMinBtn', 'readmeMaxBtn', 'readmeCloseBtn');
+setupWindowActions(wins.main, 'minBtn', 'maxBtn', 'closeBtn');
+setupWindowActions(wins.about, 'aboutMinBtn', 'aboutMaxBtn', 'aboutCloseBtn');
+setupWindowActions(wins.work, null, null, 'workCloseBtn');
+setupWindowActions(wins.illust, 'illustMinBtn', 'illustMaxBtn', 'illustCloseBtn');
+setupWindowActions(wins.contact, 'contactMinBtn', 'contactMaxBtn', 'contactCloseBtn');
+setupWindowActions(wins.readme, 'readmeMinBtn', 'readmeMaxBtn', 'readmeCloseBtn');
 
-// --- Draggable System ---
-const setupDrag = (selector, handleSelector = null) => {
+// --- Draggable System (クリックを邪魔しない修正版) ---
+const setupDrag = (selector, handleSelector) => {
     document.querySelectorAll(selector).forEach(el => {
-        const handle = handleSelector ? el.querySelector(handleSelector) : el;
+        const handle = el.querySelector(handleSelector);
         if(!handle) return;
         
         let isDragging = false;
-        let startX, startY;
+        let startX, startY, initialX, initialY;
 
-        const startDrag = (e, clientX, clientY) => {
-            if (window.innerWidth <= 600) return;
+        handle.addEventListener('mousedown', (e) => {
+            // ボタン（最小化・閉じるなど）をクリックした時はドラッグを開始しない
             if (e.target.closest('.control-btn')) return;
-
+            
             isDragging = true;
             el.classList.add('dragging');
             el.classList.add('moved');
             bringToFront(el);
             
+            startX = e.clientX;
+            startY = e.clientY;
             const rect = el.getBoundingClientRect();
-            startX = clientX - rect.left;
-            startY = clientY - rect.top;
+            initialX = rect.left;
+            initialY = rect.top;
             
             el.style.position = 'fixed';
             el.style.margin = '0';
             el.style.transform = 'none';
-        };
+        });
 
-        const moveDrag = (e, clientX, clientY) => {
+        window.addEventListener('mousemove', (e) => {
             if (!isDragging) return;
-            el.style.left = (clientX - startX) + 'px';
-            el.style.top = (clientY - startY) + 'px';
-        };
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            el.style.left = (initialX + dx) + 'px';
+            el.style.top = (initialY + dy) + 'px';
+        });
 
-        handle.addEventListener('mousedown', (e) => startDrag(e, e.clientX, e.clientY));
-        window.addEventListener('mousemove', (e) => moveDrag(e, e.clientX, e.clientY));
-        window.addEventListener('mouseup', () => { isDragging = false; el.classList.remove('dragging'); });
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+            el.classList.remove('dragging');
+        });
     });
 };
 
 setupDrag('.draggable-window', '.window-header');
 
-// --- Taskbar & Clock ---
+// --- Taskbar & Clock (確実に動く版) ---
 function updateClock() {
-    const now = new Date();
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    if (taskbarClock) {
-        taskbarClock.textContent = `${hours}:${minutes}`;
+    const clockEl = document.querySelector('.taskbar-time') || document.getElementById('taskbarClock');
+    if (clockEl) {
+        const now = new Date();
+        const h = String(now.getHours()).padStart(2, '0');
+        const m = String(now.getMinutes()).padStart(2, '0');
+        clockEl.textContent = `${h}:${m}`;
     }
 }
 setInterval(updateClock, 1000);
@@ -114,33 +120,42 @@ updateClock();
 if (startBtn) {
     startBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const isVisible = startMenu.style.display === 'flex';
-        startMenu.style.display = isVisible ? 'none' : 'flex';
+        const current = startMenu.style.display;
+        startMenu.style.display = (current === 'flex') ? 'none' : 'flex';
     });
 }
 
-document.addEventListener('click', () => {
-    if (startMenu) startMenu.style.display = 'none';
+document.addEventListener('click', (e) => {
+    // スタートメニューの中身をクリックした時は閉じないようにする
+    if (startMenu && !startMenu.contains(e.target)) {
+        startMenu.style.display = 'none';
+    }
+});
+
+// スタートメニュー内のアイテムをクリック可能にする
+document.querySelectorAll('#startMenu .menu-item, #startMenu li').forEach(item => {
+    item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const targetId = item.id;
+        if(targetId === 'menuTop') openWindow(wins.main);
+        if(targetId === 'menuAbout') openWindow(wins.about);
+        if(targetId === 'menuWork') openWindow(wins.work);
+        if(targetId === 'menuContact') openWindow(wins.contact);
+        startMenu.style.display = 'none';
+    });
 });
 
 // --- Boot Sequence ---
 async function runBootSequence() {
-    const bootMessages = ["System Check...", "Memory OK", "Welcome to TOYBOX"];
-    for (let msg of bootMessages) {
-        const line = document.createElement('div');
-        line.className = 'boot-line';
-        line.textContent = "> " + msg;
-        bootContainer.appendChild(line);
-        await wait(300);
-    }
-    await wait(500);
+    if (!bootScreen) return;
+    await wait(1000);
     bootScreen.classList.add('fade-out');
     setTimeout(() => { bootScreen.style.display = 'none'; }, 1000);
 }
 window.addEventListener('load', runBootSequence);
 
-// --- Icon Events ---
-document.getElementById('iconReadme')?.addEventListener('click', () => openWindow(readmeWindow));
-document.getElementById('iconContact')?.addEventListener('click', () => openWindow(contactWindow));
-document.getElementById('iconAbout')?.addEventListener('click', () => openWindow(aboutWindow));
-document.getElementById('iconWork')?.addEventListener('click', () => openWindow(workWindow));
+// --- Icons ---
+document.getElementById('iconReadme')?.addEventListener('click', () => openWindow(wins.readme));
+document.getElementById('iconContact')?.addEventListener('click', () => openWindow(wins.contact));
+document.getElementById('iconAbout')?.addEventListener('click', () => openWindow(wins.about));
+document.getElementById('iconWork')?.addEventListener('click', () => openWindow(wins.work));
