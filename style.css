@@ -699,11 +699,9 @@ p {
     background: rgba(0, 0, 0, 0.85); 
     backdrop-filter: blur(5px);
     transition: all 0.3s ease;
-    /* 表示時のアニメーション */
     animation: modalFadeIn 0.3s ease-out forwards;
 }
 
-/* 2. モーダル画像：少し弾むようにズームする */
 #modalImg {
     max-width: 90%;
     max-height: 90%;
@@ -732,5 +730,6 @@ p {
 
 /* 閉じるボタンなどがある場合のホバー演出（おまけ） */
 .popup-overlay:hover {
-    cursor: zoom-out; /* 画像の外をクリックして閉じれることを示唆 */
+    cursor: zoom-out;
 }
+
