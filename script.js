@@ -1,27 +1,25 @@
 // --- DOM Elements ---
 const startBtn = document.getElementById('startBtn');
 const startMenu = document.getElementById('startMenu');
-const taskbarClock = document.querySelector('.taskbar-time'); 
+const taskbarClock = document.getElementById('taskbarClock'); // HTMLのIDと一致
 
-// 各ウィンドウ
+// 各ウィンドウをオブジェクトで管理
 const wins = {
-    readme: document.getElementById('readmeWindow'),
-    contact: document.getElementById('contactWindow'),
+    main: document.getElementById('mainWindow'),
     about: document.getElementById('aboutWindow'),
     work: document.getElementById('workWindow'),
     illust: document.getElementById('illustWindow'),
-    main: document.getElementById('mainWindow')
+    contact: document.getElementById('contactWindow'),
+    readme: document.getElementById('readmeWindow')
 };
 
 // --- Global Functions ---
-let maxZIndex = 100;
+let maxZIndex = 1000; // タスクバーが9999なので、それ以下で前面に
 function bringToFront(el) {
     if (!el) return;
     maxZIndex++;
     el.style.zIndex = maxZIndex;
 }
-
-const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 // --- Window Management ---
 const openWindow = (win) => {
@@ -36,7 +34,7 @@ const closeWindow = (win) => {
     if(win) win.style.display = 'none';
 };
 
-// ボタン類のイベント登録
+// ウィンドウ操作ボタンの設定
 const setupWindowActions = (win, minBtnId, maxBtnId, closeBtnId) => {
     const minBtn = document.getElementById(minBtnId);
     const maxBtn = document.getElementById(maxBtnId);
@@ -50,6 +48,7 @@ const setupWindowActions = (win, minBtnId, maxBtnId, closeBtnId) => {
     if(closeBtn) closeBtn.addEventListener('click', (e) => { e.stopPropagation(); closeWindow(win); });
 };
 
+// 全ウィンドウに適用
 setupWindowActions(wins.main, 'minBtn', 'maxBtn', 'closeBtn');
 setupWindowActions(wins.about, 'aboutMinBtn', 'aboutMaxBtn', 'aboutCloseBtn');
 setupWindowActions(wins.work, null, null, 'workCloseBtn');
@@ -57,22 +56,18 @@ setupWindowActions(wins.illust, 'illustMinBtn', 'illustMaxBtn', 'illustCloseBtn'
 setupWindowActions(wins.contact, 'contactMinBtn', 'contactMaxBtn', 'contactCloseBtn');
 setupWindowActions(wins.readme, 'readmeMinBtn', 'readmeMaxBtn', 'readmeCloseBtn');
 
-// --- Draggable System (クリックを邪魔しない修正版) ---
+// --- Draggable System (修正版) ---
 const setupDrag = (selector, handleSelector) => {
     document.querySelectorAll(selector).forEach(el => {
-        const handle = el.querySelector(handleSelector);
-        if(!handle) return;
+        const handle = el.querySelector(handleSelector) || el;
         
         let isDragging = false;
         let startX, startY, initialX, initialY;
 
         handle.addEventListener('mousedown', (e) => {
-            // ボタン（最小化・閉じるなど）をクリックした時はドラッグを開始しない
-            if (e.target.closest('.control-btn')) return;
+            if (e.target.closest('.control-btn') || e.target.closest('.no-drag')) return;
             
             isDragging = true;
-            el.classList.add('dragging');
-            el.classList.add('moved');
             bringToFront(el);
             
             startX = e.clientX;
@@ -80,10 +75,9 @@ const setupDrag = (selector, handleSelector) => {
             const rect = el.getBoundingClientRect();
             initialX = rect.left;
             initialY = rect.top;
-            
-            el.style.position = 'fixed';
-            el.style.margin = '0';
-            el.style.transform = 'none';
+
+            el.style.margin = "0";
+            el.style.transform = "none";
         });
 
         window.addEventListener('mousemove', (e) => {
@@ -94,68 +88,100 @@ const setupDrag = (selector, handleSelector) => {
             el.style.top = (initialY + dy) + 'px';
         });
 
-        window.addEventListener('mouseup', () => {
-            isDragging = false;
-            el.classList.remove('dragging');
-        });
+        window.addEventListener('mouseup', () => { isDragging = false; });
     });
 };
 
 setupDrag('.draggable-window', '.window-header');
+setupDrag('.draggable-icon');
 
-// --- Taskbar & Clock (確実に動く版) ---
+// --- Clock ---
 function updateClock() {
-    const clockEl = document.querySelector('.taskbar-time') || document.getElementById('taskbarClock');
-    if (clockEl) {
+    if (taskbarClock) {
         const now = new Date();
         const h = String(now.getHours()).padStart(2, '0');
         const m = String(now.getMinutes()).padStart(2, '0');
-        clockEl.textContent = `${h}:${m}`;
+        taskbarClock.textContent = `${h}:${m}`;
     }
 }
 setInterval(updateClock, 1000);
 updateClock();
 
-// --- Start Menu ---
+// --- Start Menu & Shutdown ---
 if (startBtn) {
     startBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const current = startMenu.style.display;
-        startMenu.style.display = (current === 'flex') ? 'none' : 'flex';
+        const isNone = startMenu.style.display === 'none';
+        startMenu.style.display = isNone ? 'flex' : 'none';
     });
 }
 
 document.addEventListener('click', (e) => {
-    // スタートメニューの中身をクリックした時は閉じないようにする
     if (startMenu && !startMenu.contains(e.target)) {
         startMenu.style.display = 'none';
     }
 });
 
-// スタートメニュー内のアイテムをクリック可能にする
-document.querySelectorAll('#startMenu .menu-item, #startMenu li').forEach(item => {
+// スタートメニューの中身
+document.querySelectorAll('.start-item').forEach(item => {
     item.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const targetId = item.id;
-        if(targetId === 'menuTop') openWindow(wins.main);
-        if(targetId === 'menuAbout') openWindow(wins.about);
-        if(targetId === 'menuWork') openWindow(wins.work);
-        if(targetId === 'menuContact') openWindow(wins.contact);
+        const id = item.id;
+        if(id === 'menuTop') openWindow(wins.main);
+        if(id === 'menuAbout') openWindow(wins.about);
+        if(id === 'menuWork') openWindow(wins.work);
+        if(id === 'menuIllust') openWindow(wins.illust);
+        if(id === 'menuContact') openWindow(wins.contact);
+        if(id === 'menuShutdown') location.reload();
         startMenu.style.display = 'none';
     });
 });
 
-// --- Boot Sequence ---
-async function runBootSequence() {
-    if (!bootScreen) return;
-    await wait(1000);
-    bootScreen.classList.add('fade-out');
-    setTimeout(() => { bootScreen.style.display = 'none'; }, 1000);
-}
-window.addEventListener('load', runBootSequence);
+// --- Danger / BSOD ---
+let dangerCount = 0;
+document.getElementById('iconDanger')?.addEventListener('click', () => {
+    dangerCount++;
+    if(dangerCount < 3) alert("システムファイルに触らないでください。");
+    else {
+        document.getElementById('bsodScreen').style.display = 'block';
+        let p = 0;
+        const itv = setInterval(() => {
+            p += 5;
+            document.getElementById('bsodPercent').textContent = p;
+            if(p >= 100) { clearInterval(itv); location.reload(); }
+        }, 100);
+    }
+});
 
-// --- Icons ---
-document.getElementById('iconReadme')?.addEventListener('click', () => openWindow(wins.readme));
-document.getElementById('iconContact')?.addEventListener('click', () => openWindow(wins.contact));
+// --- Boot Sequence ---
+window.addEventListener('load', () => {
+    const boot = document.getElementById('bootScreen');
+    const container = document.getElementById('bootContainer');
+    const msgs = ["System Initializing...", "Loading TOYBOX.exe...", "User Verified."];
+    
+    msgs.forEach((m, i) => {
+        setTimeout(() => {
+            const div = document.createElement('div');
+            div.textContent = "> " + m;
+            container.appendChild(div);
+        }, i * 400);
+    });
+
+    setTimeout(() => {
+        boot.style.opacity = '0';
+        setTimeout(() => boot.style.display = 'none', 1000);
+    }, 2000);
+});
+
+// --- Icon Click Events ---
+document.getElementById('iconTop')?.addEventListener('click', () => openWindow(wins.main));
 document.getElementById('iconAbout')?.addEventListener('click', () => openWindow(wins.about));
 document.getElementById('iconWork')?.addEventListener('click', () => openWindow(wins.work));
+document.getElementById('iconIllust')?.addEventListener('click', () => openWindow(wins.illust));
+document.getElementById('iconContact')?.addEventListener('click', () => openWindow(wins.contact));
+document.getElementById('iconReadme')?.addEventListener('click', () => openWindow(wins.readme));
+
+// RPG起動
+document.getElementById('gameStartBtn')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.getElementById('rpgOverlay').style.display = 'block';
+});
