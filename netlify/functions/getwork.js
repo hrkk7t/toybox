@@ -116,6 +116,51 @@ exports.handler = async (event, context) => {
                             </ul>
                         </div>
                     </div>
+
+                    <h2 class="work-cat-title" style="border-left: 5px solid orange; padding-left: 10px; margin: 40px 0 15px;">LOGO DESIGN</h2>
+
+                    <div class="work-item">
+                        <div class="work-thumbnail">
+                            <img src="images/logo-01.jpg" alt="Logo 01" onclick="openModal(this.src)">
+                        </div>
+                        <div class="work-details">
+                            <h3>法律事務所 ロゴデザイン</h3>
+                            <ul class="work-info-list">
+                                <li><span class="label">Role:</span>ロゴデザイン</li>
+                                <li><span class="label">Tools:</span>Adobe Illustrator</li>
+                                <li><span class="label">Comment:</span>イニシャルと法律の柱のイメージを組み合わせ、信頼感のあるデザインに仕上げました。</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="work-item">
+                        <div class="work-thumbnail">
+                            <img src="images/logo-02.jpg" alt="Logo 02" onclick="openModal(this.src)">
+                        </div>
+                        <div class="work-details">
+                            <h3>保険代理店 ロゴデザイン</h3>
+                            <ul class="work-info-list">
+                                <li><span class="label">Role:</span>ロゴデザイン、タイトルデザイン</li>
+                                <li><span class="label">Tools:</span>Adobe Illustrator</li>
+                                <li><span class="label">Comment:</span>相談者に安心感を与えるよう、温かみのある印象になるように制作しました。</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="work-item">
+                        <div class="work-thumbnail">
+                            <img src="images/logo-03.jpg" alt="Logo 03" onclick="openModal(this.src)">
+                        </div>
+                        <div class="work-details">
+                            <h3>体操教室 ロゴデザイン</h3>
+                            <ul class="work-info-list">
+                                <li><span class="label">Role:</span>ロゴデザイン、タイトルデザイン</li>
+                                <li><span class="label">Tools:</span>Adobe Illustrator</li>
+                                <li><span class="label">Comment:</span>器具を用いた体操教室という特徴をふまえ、躍動感のあるシンボルを制作しました。</li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
             `;
 
