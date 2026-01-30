@@ -148,7 +148,6 @@ body {
     transform: translate(-50%, -50%);
     z-index: 10;
     border-radius: 0;
-    animation: float 4s ease-in-out infinite;
 }
 
 .window-frame.dragging {
@@ -732,3 +731,4 @@ p {
 .popup-overlay:hover {
     cursor: zoom-out;
 }
+
