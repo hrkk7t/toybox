@@ -101,8 +101,22 @@ exports.handler = async (event, context) => {
                         <div class="work-details">
                             <h3>Webサイト用メインビジュアル</h3>
                             <ul class="work-info-list">
-                                <li><span class="label">Role:</span>合成・レタッチ・タイポグラフィ</li>
-                                <li><span class="label">Tools:</span>Photoshop</li>
+                                <li><span class="label">Role:</span>イラストデザイン</li>
+                                <li><span class="label">Tools:</span>Clip Studio</li>
+                                <li><span class="label">Comment:</span>クライアントの要望に合わせた主線のないイラストの制作。</li>
+                            </ul>
+                        </div>
+                    </div>
+                     <div class="work-item">
+                        <div class="work-thumbnail">
+                            <img src="images/graphic-03.jpg" alt="Main Visual">
+                        </div>
+                        <div class="work-details">
+                            <h3>Webサイト用メインビジュアル</h3>
+                            <ul class="work-info-list">
+                                <li><span class="label">Role:</span>イラストデザイン</li>
+                                <li><span class="label">Tools:</span>Adobe Illustrator</li>
+                                <li><span class="label">Comment:</span>アイソメトリック図法を使いつつ、丸みのある柔らかい雰囲気のイラストを制作した。</li>
                             </ul>
                         </div>
                     </div>
@@ -126,6 +140,7 @@ exports.handler = async (event, context) => {
     }
 
 };
+
 
 
 
