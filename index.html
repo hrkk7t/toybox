@@ -1,343 +1,252 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TOYBOX.exe | Corporate Site</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>TOYBOX OS</title>
     <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <link rel="stylesheet" href="style.css">
-    <style type="text/css">
-        body,td,th {
-            font-family: DotGothic16, sans-serif;
-        }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
 <body>
+
     <div id="bootScreen">
         <div class="boot-logo">
-            <img src="images/loading.png" alt="Loading...">
+            <img src="images/ghost.png" alt="Ghost" onerror="this.src='https://placehold.co/150x150/000/fff?text=👻'">
         </div>
         <div id="bootContainer"></div>
-        <div class="blinking-cursor">_</div>
     </div>
 
-    <div class="desktop-icons-container">
-        <div class="desktop-icon draggable-icon" id="iconTop" style="top: 20px; left: 20px;">
-            <div class="icon-img">🏠</div>
-            <div class="icon-label">TOP</div>
-        </div>
-        <div class="desktop-icon draggable-icon" id="iconAbout" style="top: 100px; left: 20px;">
-            <div class="icon-img">👤</div>
-            <div class="icon-label">ABOUT</div>
-        </div>
-        <div class="desktop-icon draggable-icon" id="iconWork" style="top: 180px; left: 20px;">
-            <div class="icon-img">📁</div>
-            <div class="icon-label">WORK</div>
-        </div>
-        <div class="desktop-icon draggable-icon" id="iconIllust" style="top: 260px; left: 20px;">
-            <div class="icon-img">🎨</div>
-            <div class="icon-label">ILLUST</div>
-        </div>
-        <div class="desktop-icon draggable-icon" id="iconContact" style="top: 340px; left: 20px;">
-            <div class="icon-img">✉️</div>
-            <div class="icon-label">CONTACT</div>
-        </div>
-        <div class="desktop-icon draggable-icon" id="iconReadme" style="top: 20px; left: 100px;">
-            <div class="icon-img">📄</div>
-            <div class="icon-label" style="color: black; background: transparent; text-shadow: 1px 1px 0 #fff;">Readme.txt</div>
-        </div>
-        <div class="desktop-icon draggable-icon" id="iconDanger" style="top: 20px; right: 20px; left: auto;">
-            <div class="icon-img">⚠️</div>
-            <div class="icon-label" style="background: red;">DANGER</div>
-        </div>
+    <div id="iconReadme" class="desktop-icon" style="top: 20px; left: 20px;">
+        <div class="icon-img">📝</div>
+        <div class="icon-label">Readme.txt</div>
+    </div>
+    <div id="iconTop" class="desktop-icon" style="top: 120px; left: 20px;">
+        <div class="icon-img">🏠</div>
+        <div class="icon-label">Top</div>
+    </div>
+    <div id="iconAbout" class="desktop-icon" style="top: 220px; left: 20px;">
+        <div class="icon-img">👤</div>
+        <div class="icon-label">Profile</div>
+    </div>
+    <div id="iconWork" class="desktop-icon" style="top: 320px; left: 20px;">
+        <div class="icon-img">📁</div>
+        <div class="icon-label">Works</div>
+    </div>
+    <div id="iconIllust" class="desktop-icon" style="top: 420px; left: 20px;">
+        <div class="icon-img">🎨</div>
+        <div class="icon-label">Illust</div>
+    </div>
+    <div id="iconContact" class="desktop-icon" style="top: 520px; left: 20px;">
+        <div class="icon-img">✉️</div>
+        <div class="icon-label">Contact</div>
     </div>
     
-    <div class="window-frame draggable-window" id="mainWindow" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
-        <div class="window-header" id="mainHeader">
-            <span class="window-title">TOYBOX.exe</span>
+    <div id="iconDanger" class="desktop-icon" style="top: 20px; right: 20px;">
+        <div class="icon-img">💀</div>
+        <div class="icon-label">DANGER</div>
+    </div>
+
+    <div id="mainWindow" class="window-frame draggable-window" style="display:none;">
+        <div class="window-header">
+            <span>🏠 Main Menu</span>
             <div class="window-controls">
-                <button class="control-btn btn-min no-drag" id="minBtn"><img src="images/min.svg" alt="min"></button>
-                <button class="control-btn btn-max no-drag" id="maxBtn"><img src="images/max.svg" alt="max"></button>
-                <button class="control-btn btn-close no-drag" id="closeBtn"><img src="images/close.svg" alt="close"></button>
+                <button id="minBtn" class="control-btn btn-min"></button>
+                <button id="maxBtn" class="control-btn btn-max"></button>
+                <button id="closeBtn" class="control-btn btn-close"></button>
             </div>
         </div>
         <div class="window-body">
-            <h1>WELCOME</h1>
-            <p>
-                ここはエントランスです。<br>
-                アイコンやウィンドウを<br>
-                自由に動かして遊んでください。
-            </p>
-            <a href="#" class="pop-button no-drag" id="gameStartBtn">GAME START</a>
-        </div>          
+            <h1>Welcome to TOYBOX</h1>
+            <p>ここは私の頭の中のおもちゃ箱です。</p>
+            <button id="gameStartBtn" class="pop-button">バグと戦う (RPG Start)</button>
+        </div>
     </div>
 
-    <div class="window-frame draggable-window" id="aboutWindow" style="display: none; width: 400px; top: 45%; left: 55%;">
-        <div class="window-header" id="aboutHeader">
-            <span class="window-title">ℹ️ User_Profile.prop</span>
+    <div id="aboutWindow" class="window-frame draggable-window" style="display:none;">
+        <div class="window-header">
+            <span>👤 Profile</span>
             <div class="window-controls">
-                <button class="control-btn btn-min no-drag" id="aboutMinBtn"><img src="images/min.svg" alt="min"></button>
-                <button class="control-btn btn-max no-drag" id="aboutMaxBtn"><img src="images/max.svg" alt="max"></button>
-                <button class="control-btn btn-close no-drag" id="aboutCloseBtn"><img src="images/close.svg" alt="close"></button>
+                <button id="aboutMinBtn" class="control-btn btn-min"></button>
+                <button id="aboutMaxBtn" class="control-btn btn-max"></button>
+                <button id="aboutCloseBtn" class="control-btn btn-close"></button>
             </div>
         </div>
-        <div class="window-body prop-body">
+        <div class="window-body">
             <div class="prop-tabs">
-                <div class="prop-tab active" data-tab="tab-general">全般</div>
-                <div class="prop-tab" data-tab="tab-skills">スキル</div>
-                <div class="prop-tab" data-tab="tab-history">履歴</div>
+                <div class="prop-tab active" data-tab="tab1">Main</div>
+                <div class="prop-tab" data-tab="tab2">Skill</div>
             </div>
-            <div class="prop-content active" id="tab-general">
-                <div class="prop-row" style="text-align: center; margin-bottom: 15px;">
-                    <div style="font-size: 3rem;">🧸</div>
-                    <div style="font-weight: bold;">TOYBOX Administrator</div>
+            <div class="prop-body">
+                <div id="tab1" class="prop-content active">
+                    <p>名前：[あなたの名前]</p>
+                    <p>職業：Web Creator</p>
+                    <p>好きなもの：レトロゲーム、ドット絵</p>
                 </div>
-                <div class="prop-list">
-                    <div class="prop-item"><span class="label">種類:</span> 人間 (Web Developer)</div>
-                    <div class="prop-item"><span class="label">場所:</span> C:\Users\Toybox\Brain</div>
-                    <div class="prop-item"><span class="label">サイズ:</span> 157cm / XXkg</div>
-                    <div class="prop-item"><span class="label">作成日:</span> 199X年 XX月 XX日</div>
+                <div id="tab2" class="prop-content">
+                    <p>HTML/CSS: <div class="skill-bar"><div class="bar"><div class="fill" style="width:90%"></div></div></div></p>
+                    <p>JavaScript: <div class="skill-bar"><div class="bar"><div class="fill" style="width:70%"></div></div></div></p>
                 </div>
             </div>
-            <div class="prop-content" id="tab-skills">
-                <p style="margin-bottom: 10px;">実装済みモジュール:</p>
-                <div class="skill-bar"><label>HTML/CSS/JavaScript</label><div class="bar"><div class="fill" style="width: 90%;"></div></div></div>
-                <div class="skill-bar"><label>PHP</label><div class="bar"><div class="fill" style="width: 70%;"></div></div></div>
-                <div class="skill-bar"><label>Design</label><div class="bar"><div class="fill" style="width: 70%;"></div></div></div>
-                <div class="skill-bar"><label>Humor</label><div class="bar"><div class="fill" style="width: 100%;"></div></div></div>
-
-                <div style="margin-top: 20px; padding-top: 15px; border-top: 2px dashed #ccc;">
-                    <p style="margin-bottom: 10px;">ライセンス認証:</p>
-                    <ul style="font-size: 0.85rem; padding-left: 20px; line-height: 1.6;">
-                        <li>ITパスポート試験 (IP)</li>
-                        <li>高等学校教諭一種免許状 (国語)</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="prop-content" id="tab-history">
-                <p style="margin-bottom: 10px;">システムログ (経歴):</p>
-                <ul style="text-align: left; font-size: 0.85rem; padding-left: 20px; line-height: 1.6;">
-                    <li style="margin-bottom: 10px;">
-                        <span style="font-weight:bold; color:var(--main-color);">2026.01</span> - Current<br>
-                        プロジェクト "TOYBOX.exe" 起動<br>
-                        <span style="font-size:0.8rem; color:#666;">>> Web Developerとして稼働中</span>
-                    </li>
-                    <li style="margin-bottom: 10px;">
-                        <span style="font-weight:bold;">20XX.XX</span> - System Reboot<br>
-                        モード切替: <span style="background:#eee; padding:0 4px;">Designer Mode</span><br>
-                        <span style="font-size:0.8rem; color:#666;">>> デザイン/クリエイティブ領域へ移行</span>
-                    </li>
-                </ul>
-            </div>
-            <div class="prop-footer">
-                <button class="pop-button small-btn" id="aboutOkBtn">OK</button>
-            </div>
+            <button id="aboutOkBtn" class="pop-button" style="margin-top:10px;">OK</button>
         </div>
     </div>
 
-    <div class="window-frame draggable-window" id="workWindow" style="display: none; width: 450px; top: 40%; left: 40%;">
-        <div class="window-header" id="workHeader">
-            <span class="window-title">📁 Projects - Locked</span>
+    <div id="workWindow" class="window-frame draggable-window" style="display:none;">
+        <div id="workHeader" class="window-header">
+            <span class="window-title">📁 Works</span>
             <div class="window-controls">
-                <button class="control-btn btn-close no-drag" id="workCloseBtn"><img src="images/close.svg" alt="close"></button>
-            </div>
-        </div>
-        <div class="window-body prop-body" id="workContentArea">
-            <div id="passwordFormSection">
-                <p style="margin-bottom: 15px;">このフォルダは保護されています。<br>パスワードを入力してください。</p>
-                <div style="display: flex; gap: 5px; justify-content: center; margin-bottom: 20px;">
-                    <input type="password" id="workPasswordInput" style="font-family: inherit; padding: 5px; border: 2px solid black; outline: none;">
-                    <button class="pop-button small-btn" id="workPasswordSubmitBtn">解除</button>
-                </div>
-                <p id="passwordErrorMsg" style="color: red; display: none; font-size: 0.9rem;">パスワードが違います。</p>
-            </div>
-            <div id="secretWorkContent" style="display: none;"></div>
-        </div>
-    </div>
-    
-    <div class="window-frame draggable-window" id="illustWindow" style="display: none; width: 400px; top: 50%; left: 60%;">
-        <div class="window-header" id="illustHeader">
-            <span class="window-title">🎨 Gallery_Viewer</span>
-            <div class="window-controls">
-                <button class="control-btn btn-min no-drag" id="illustMinBtn"><img src="images/min.svg" alt="min"></button>
-                <button class="control-btn btn-max no-drag" id="illustMaxBtn"><img src="images/max.svg" alt="max"></button>
-                <button class="control-btn btn-close no-drag" id="illustCloseBtn"><img src="images/close.svg" alt="close"></button>
+                <button id="workCloseBtn" class="control-btn btn-close"></button>
             </div>
         </div>
         <div class="window-body">
             <div class="gallery-container">
-                <img id="galleryImg" src="" alt="Gallery Image">
+                <img id="galleryImg" src="" alt="Gallery" style="max-width:100%; height:200px; object-fit:contain; border:2px solid black; background:#eee;">
+                <h3 id="galleryTitle">Loading...</h3>
+                <p id="galleryCounter">0 / 0</p>
+                <button id="galleryPrevBtn" class="pop-button">◀</button>
+                <button id="galleryNextBtn" class="pop-button">▶</button>
             </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <span id="galleryTitle" style="font-weight: bold; font-size: 0.9rem;">No Image</span>
-                <span id="galleryCounter" style="font-size: 0.8rem; background: black; color: white; padding: 2px 6px;">0/0</span>
+            
+            <hr>
+            
+            <div id="passwordFormSection">
+                <p>🔒 Secret Area</p>
+                <input type="password" id="workPasswordInput" placeholder="Password">
+                <button id="workPasswordSubmitBtn" class="pop-button">解除</button>
+                <p id="passwordErrorMsg" style="color:red; display:none;">パスワードが違います</p>
             </div>
-            <div style="display: flex; gap: 10px; justify-content: center;">
-                <button class="pop-button small-btn" id="galleryPrevBtn">◀ PREV</button>
-                <button class="pop-button small-btn" id="galleryNextBtn">NEXT ▶</button>
+            <div id="secretWorkContent" style="display:none;"></div>
+        </div>
+    </div>
+
+    <div id="illustWindow" class="window-frame draggable-window" style="display:none;">
+        <div class="window-header">
+            <span>🎨 Illust</span>
+            <div class="window-controls">
+                <button id="illustMinBtn" class="control-btn btn-min"></button>
+                <button id="illustMaxBtn" class="control-btn btn-max"></button>
+                <button id="illustCloseBtn" class="control-btn btn-close"></button>
+            </div>
+        </div>
+        <div class="window-body">
+            <p>イラスト展示室</p>
+            <div class="work-item">
+                <div class="work-thumbnail"><img src="https://placehold.co/100x100" onclick="openModal(this.src)"></div>
+                <div>ここにイラストが並びます</div>
             </div>
         </div>
     </div>
 
-    <div class="window-frame draggable-window" id="contactWindow" style="display: none; width: 400px; top: 30%; left: 70%;">
-        <div class="window-header" id="contactHeader">
-            <span class="window-title">✉️ Mailer_Daemon</span>
+    <div id="readmeWindow" class="window-frame draggable-window" style="display:none;">
+        <div class="window-header">
+            <span>📝 Readme.txt</span>
             <div class="window-controls">
-                <button class="control-btn btn-min no-drag" id="contactMinBtn"><img src="images/min.svg" alt="min"></button>
-                <button class="control-btn btn-max no-drag" id="contactMaxBtn"><img src="images/max.svg" alt="max"></button>
-                <button class="control-btn btn-close no-drag" id="contactCloseBtn"><img src="images/close.svg" alt="close"></button>
-            </div>
-        </div>
-        <div class="window-body prop-body">
-            <div style="text-align: center; margin-bottom: 15px;">
-                <div style="font-size: 3rem;">📡</div>
-                <p style="font-weight: bold;">External_Connection.exe</p>
-            </div>
-            <div style="border: 2px solid black; background: #eee; padding: 10px; font-size: 0.85rem; line-height: 1.4; margin-bottom: 20px;">
-                <p>安全な外部連絡用フォームへの接続準備が完了しました。</p>
-                <p style="color: #666; font-size: 0.75rem;">>> 接続先: Google_Forms_Server</p>
-            </div>
-            <div class="prop-footer">
-                <a href="https://forms.gle/ECKdALhsNe25CEwz7" target="_blank" style="text-decoration: none;">
-                    <button class="pop-button" style="width: 100%; cursor: pointer;">
-                        外部フォームを開く
-                    </button>
-                </a>
-            </div>
-            <p style="font-size: 0.7rem; color: #999; margin-top: 15px; text-align: center;">
-                ※クリックすると新しいタブで入力画面が開きます。
-            </p>
-        </div>
-    </div>
-
-    <div class="window-frame draggable-window" id="readmeWindow" style="display: none; width: 400px; top: 20%; left: 30%;">
-        <div class="window-header" id="readmeHeader" style="background: #000080; color: white;">
-            <span class="window-title">📄 Readme.txt - メモ帳</span>
-            <div class="window-controls">
-                <button class="control-btn btn-min no-drag" id="readmeMinBtn"><img src="images/min.svg" alt="min"></button>
-                <button class="control-btn btn-max no-drag" id="readmeMaxBtn"><img src="images/max.svg" alt="max"></button>
-                <button class="control-btn btn-close no-drag" id="readmeCloseBtn"><img src="images/close.svg" alt="close"></button>
+                <button id="readmeMinBtn" class="control-btn btn-min"></button>
+                <button id="readmeMaxBtn" class="control-btn btn-max"></button>
+                <button id="readmeCloseBtn" class="control-btn btn-close"></button>
             </div>
         </div>
         <div class="window-body notepad-body">
             <div class="notepad-content">
-【TOYBOX.exe へようこそ】
-
-このサイトは、Web制作者 [TOYBOX Design] の
-ポートフォリオサイトです。
-
-■ 基本操作
-・デスクトップ上のアイコンは
-　マウスや指で自由に動かせます（Drag & Drop）。
-・ウィンドウは最小化・最大化が可能です。
-
-■ 隠し要素について
-・「WORK」フォルダはパスワードで保護されています。
-・「DANGER」アイコンは押さないでください。
-　システムエラーの原因になります。
-
-■ 推奨環境
-・Google Chrome (Latest)
-・Safari (Latest)
-・解像度: 1024x768 以上推奨
-　（スマホでも動作しますが、一部表示が異なります）
-
---------------------------------------------------
-Copyright (C) 2026 TOYBOX.exe All Rights Reserved.
+TOYBOX OS v1.0
+----------------
+このサイトはポートフォリオです。
+ドラッグでウィンドウを動かせます。
+右上のドクロアイコンは押さないでください。
             </div>
         </div>
     </div>
 
-    <div id="rpgOverlay">
-        <div class="rpg-battle-container">
-            <div class="rpg-enemy-area">
-                <div class="hp-gauge-box enemy-hp-box">
-                    <span class="hp-label">BUG.exe</span>
-                    <div class="hp-bar-frame">
-                        <div class="hp-bar-fill" id="enemyHpBar" style="width: 100%;"></div>
-                    </div>
-                </div>
-                <div class="rpg-enemy glitch-effect" id="rpgEnemy" data-text="👾">👾</div>
-                <div class="rpg-damage" id="rpgDamage"></div>
-                <div class="rpg-effect-overlay" id="rpgEffectOverlay"></div>
+    <div id="contactWindow" class="window-frame draggable-window" style="display:none;">
+        <div class="window-header">
+            <span>✉️ Contact</span>
+            <div class="window-controls">
+                <button id="contactMinBtn" class="control-btn btn-min"></button>
+                <button id="contactMaxBtn" class="control-btn btn-max"></button>
+                <button id="contactCloseBtn" class="control-btn btn-close"></button>
             </div>
-            <div class="rpg-ui-wrapper">
-                <div class="player-status-box">
-                    <div class="hp-gauge-box">
-                        <span class="hp-label">PLAYER</span>
-                        <div class="hp-bar-frame">
-                            <div class="hp-bar-fill" id="playerHpBar" style="width: 100%; background: #00ff00;"></div>
-                        </div>
-                        <span class="hp-num" id="playerHpNum">100/100</span>
-                    </div>
-                </div>
-                <div class="rpg-ui-box">
-                    <div class="rpg-message-box">
-                        <p id="rpgText">あ！　やせいの　バグが　とびだしてきた！</p>
-                    </div>
-                    <div class="rpg-command-box" id="mainCommandBox">
-                        <ul>
-                            <li id="cmdAttack">たたかう</li>
-                            <li id="cmdSkill">スキル</li>
-                            <li id="cmdRun">にげる</li>
-                        </ul>
-                    </div>
-                    <div class="rpg-command-box" id="skillCommandBox" style="display: none;">
-                        <ul>
-                            <li class="skill-item" data-skill="debug">デバッグ(強)</li>
-                            <li class="skill-item" data-skill="reload">再起動(回復)</li>
-                            <li class="skill-item" data-skill="force">強制終了(運)</li>
-                            <li id="skillBack">もどる</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+        </div>
+        <div class="window-body">
+            <p>お問い合わせはこちら</p>
+            <textarea style="width:100%; height:100px; margin-bottom:10px;"></textarea>
+            <button id="contactSendBtn" class="pop-button">送信</button>
         </div>
     </div>
 
-    <div id="startMenu" style="display: none;">
-        <div class="start-side-bar">
-            <span>TOYBOX <span style="font-size: 0.8em;">OS</span></span>
-        </div>
-        <div class="start-list">
-            <div class="start-item" id="menuTop"><span class="icon">🏠</span> TOP</div>
-            <div class="start-item" id="menuAbout"><span class="icon">👤</span> ABOUT</div>
-            <div class="start-item" id="menuWork"><span class="icon">📁</span> WORK</div>
-            <div class="start-item" id="menuIllust"><span class="icon">🎨</span> ILLUST</div>
-            <div class="start-item" id="menuContact"><span class="icon">✉️</span> CONTACT</div>
-            <div class="start-divider"></div>
-            <div class="start-item" id="menuShutdown"><span class="icon">🔌</span> SHUTDOWN...</div>
+    <div id="sentPopup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:99999; justify-content:center; align-items:center;">
+        <div class="window-frame" style="position:relative; top:auto; left:auto; transform:none; width:300px;">
+            <div class="window-header"><span>Message</span><button id="sentCloseX" class="control-btn btn-close"></button></div>
+            <div class="window-body">
+                <p>送信しました！</p>
+                <button id="sentBtnOk" class="pop-button">OK</button>
+            </div>
         </div>
     </div>
     
-    <div id="shutdownScreen" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:black; z-index:99999999;"></div>
-    
+    <div id="imageModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:100000; justify-content:center; align-items:center;" onclick="closeModal()">
+        <img id="modalImg" src="" style="max-width:90%; max-height:90%; border:5px solid white;">
+    </div>
+
+    <div id="rpgOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:20000; color:white; font-family:'DotGothic16', sans-serif;">
+        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:100%; max-width:600px; text-align:center;">
+            
+            <div id="rpgEnemy" style="margin-bottom:20px;">
+                <img src="images/bug_enemy.png" alt="BUG" style="width:150px; image-rendering:pixelated;" onerror="this.src='https://placehold.co/150x150/ff0000/fff?text=👾'">
+                <div id="enemyHpBar" style="width:100%; height:10px; background:red; margin:10px auto; max-width:200px; border:2px solid white;"></div>
+            </div>
+            <div id="rpgDamage" style="position:absolute; top:40%; left:50%; transform:translateX(-50%); font-size:3rem; color:red; font-weight:bold; opacity:0;"></div>
+
+            <div style="background:black; border:4px solid white; padding:20px; border-radius:10px; text-align:left; min-height:100px; margin-bottom:10px;">
+                <p id="rpgText">あ！　やせいの　バグが　とびだしてきた！</p>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; background:black; border:2px solid white; padding:10px; margin-bottom:10px;">
+                <span>PLAYER HP</span>
+                <div style="width:150px; background:#333; height:20px; border:1px solid white;">
+                    <div id="playerHpBar" style="width:100%; height:100%; background:#00ff00;"></div>
+                </div>
+                <span id="playerHpNum">100/100</span>
+            </div>
+
+            <div id="mainCommandBox" style="display:flex; justify-content:space-around; background:black; border:2px solid white; padding:10px;">
+                <button id="cmdAttack" class="pop-button">たたかう</button>
+                <button id="cmdSkill" class="pop-button">スキル</button>
+                <button id="cmdRun" class="pop-button">にげる</button>
+            </div>
+            
+            <div id="skillCommandBox" style="display:none; flex-wrap:wrap; justify-content:center; gap:10px; background:black; border:2px solid white; padding:10px;">
+                <button class="skill-item pop-button" data-skill="debug">デバッグ</button>
+                <button class="skill-item pop-button" data-skill="reload">再読み込み</button>
+                <button class="skill-item pop-button" data-skill="force">強制終了</button>
+                <button id="skillBack" class="pop-button" style="background:#555;">もどる</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="bsodScreen" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#0000aa; color:white; z-index:9999999; padding:50px; font-family:'Courier New', monospace;">
+        <h1>A problem has been detected...</h1>
+        <p>SYSTEM_SERVICE_EXCEPTION</p>
+        <p>Collecting data for crash dump...</p>
+        <p>Initializing... <span id="bsodPercent">0</span>%</p>
+    </div>
+
+    <div id="startMenu" style="display:none; position:fixed; bottom:42px; left:0; width:200px; background:#c0c0c0; border:2px solid white; box-shadow:4px 4px 0 black; flex-direction:column; z-index:9001;">
+        <div style="background:#000080; color:white; padding:5px 10px; font-weight:bold;">TOYBOX 95</div>
+        <div id="menuTop" style="padding:10px; cursor:pointer; border-bottom:1px dotted gray;">🏠 Top</div>
+        <div id="menuAbout" style="padding:10px; cursor:pointer; border-bottom:1px dotted gray;">👤 Profile</div>
+        <div id="menuWork" style="padding:10px; cursor:pointer; border-bottom:1px dotted gray;">📁 Works</div>
+        <div id="menuIllust" style="padding:10px; cursor:pointer; border-bottom:1px dotted gray;">🎨 Illust</div>
+        <div id="menuContact" style="padding:10px; cursor:pointer; border-bottom:1px dotted gray;">✉️ Contact</div>
+        <div id="menuShutdown" style="padding:10px; cursor:pointer; background:#ffcccb;">🔌 Shutdown</div>
+    </div>
+
     <div class="taskbar">
-        <button class="start-btn" id="startBtn">
-            <span style="font-size: 1.2rem;">🧸</span> START
-        </button>
-        <div class="taskbar-right">
-            <div class="taskbar-clock" id="taskbarClock">00:00</div>
-        </div>
+        <button id="startBtn" class="start-btn">🐻 START</button>
+        <div id="taskbarClock" style="border:2px solid gray; padding:2px 10px; background:#e0e0e0;">00:00</div>
     </div>
 
-    <div id="bsodScreen" style="display: none;">
-        <div class="bsod-content">
-            <p>:(</p>
-            <p>Your PC ran into a problem and needs to restart.</p>
-            <p>Stop Code: CRITICAL_PROCESS_DIED</p>
-            <p>Error: TOYBOX_OVERLOAD_EXCEPTION</p>
-            <br>
-            <p>Complete: <span id="bsodPercent">0</span>%</p>
-        </div>
-    </div>
-
-    <div id="imageModal" class="popup-overlay" onclick="closeModal()">
-        <img id="modalImg" src="" style="max-width: 90%; max-height: 90%; border: 4px solid white;">
-    </div>
+    <div id="shutdownScreen" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:black; z-index:99999999; opacity:0;"></div>
 
     <script src="script.js"></script>
 </body>
