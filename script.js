@@ -1,19 +1,17 @@
-window.onload = () => { // DOMContentLoadedより確実なwindow.onloadに変更
-    const boot = document.getElementById('bootScreen');
-    const startBtn = document.getElementById('startBtn');
-    const startMenu = document.getElementById('startMenu');
-    
-    // --- 1. Boot Screenを2秒後に確実に消す ---
-    setTimeout(() => {
-        if (boot) {
-            boot.style.transition = "opacity 0.5s";
-            boot.style.opacity = "0";
-            setTimeout(() => boot.style.display = "none", 500);
-        }
-    }, 2000);
+document.addEventListener('DOMContentLoaded', () => {
+    // --- 1. Boot Screen Control (確実に消す) ---
+    const bootScreen = document.getElementById('bootScreen');
+    if (bootScreen) {
+        setTimeout(() => {
+            bootScreen.classList.add('fade-out'); // CSSのフェードアウトクラスを追加
+            setTimeout(() => {
+                bootScreen.style.display = 'none'; // 完全に非表示にする
+            }, 1000);
+        }, 2500); // 2.5秒後に開始
+    }
 
-    // --- 2. ウィンドウ操作の基本セット ---
-    let maxZ = 1000;
+    // --- 2. Window Management (開閉・最前面) ---
+    let maxZIndex = 100;
     const wins = {
         top: document.getElementById('mainWindow'),
         about: document.getElementById('aboutWindow'),
@@ -23,77 +21,141 @@ window.onload = () => { // DOMContentLoadedより確実なwindow.onloadに変更
         readme: document.getElementById('readmeWindow')
     };
 
-    function openWin(win) {
+    function openWindow(win) {
         if (!win) return;
         win.style.display = 'block';
-        maxZ++;
-        win.style.zIndex = maxZ;
-        // GSAPが読み込まれていない場合のエラー回避
-        if (window.gsap) {
-            gsap.fromTo(win, {scale: 0.9, opacity: 0}, {scale: 1, opacity: 1, duration: 0.2});
-        }
+        maxZIndex++;
+        win.style.zIndex = maxZIndex;
+        win.classList.remove('minimized');
+        win.classList.add('active-window');
+        
+        // ギャラリーウィンドウなら画像を更新
+        if (win.id === 'illustWindow') updateGallery();
     }
 
-    // --- 3. イベント紐付け (IDを一つずつ確実に) ---
-    const ids = [
-        {btn: 'iconTop', win: wins.top}, {btn: 'menuTop', win: wins.top},
-        {btn: 'iconAbout', win: wins.about}, {btn: 'menuAbout', win: wins.about},
-        {btn: 'iconWork', win: wins.work}, {btn: 'menuWork', win: wins.work},
-        {btn: 'iconIllust', win: wins.illust}, {btn: 'menuIllust', win: wins.illust},
-        {btn: 'iconContact', win: wins.contact}, {btn: 'menuContact', win: wins.contact},
-        {btn: 'iconReadme', win: wins.readme}
-    ];
-
-    ids.forEach(item => {
-        document.getElementById(item.btn)?.addEventListener('click', () => {
-            openWin(item.win);
-            startMenu.style.display = 'none';
+    // Close Buttons
+    document.querySelectorAll('.btn-close').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const win = e.target.closest('.window-frame');
+            if (win) win.style.display = 'none';
         });
     });
 
-    // --- 4. DANGER ---
-    let dClicks = 0;
+    // --- 3. Click Events (アイコン & メニュー) ---
+    const linkId = (id, win) => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('click', () => {
+            openWindow(win);
+            document.getElementById('startMenu').style.display = 'none'; // メニューを閉じる
+        });
+    };
+
+    linkId('iconTop', wins.top); linkId('menuTop', wins.top);
+    linkId('iconAbout', wins.about); linkId('menuAbout', wins.about);
+    linkId('iconWork', wins.work); linkId('menuWork', wins.work);
+    linkId('iconIllust', wins.illust); linkId('menuIllust', wins.illust);
+    linkId('iconContact', wins.contact); linkId('menuContact', wins.contact);
+    linkId('iconReadme', wins.readme);
+
+    // --- 4. Dragging Logic (CSSのtransformに対応) ---
+    document.querySelectorAll('.window-header').forEach(header => {
+        header.addEventListener('mousedown', (e) => {
+            if (e.target.closest('.control-btn')) return; // ボタンならドラッグしない
+            
+            const win = header.closest('.window-frame');
+            maxZIndex++;
+            win.style.zIndex = maxZIndex;
+
+            // ドラッグ開始時の座標計算
+            const shiftX = e.clientX - win.getBoundingClientRect().left;
+            const shiftY = e.clientY - win.getBoundingClientRect().top;
+
+            // CSSのtransform解除用クラスを追加
+            win.classList.add('moved');
+            win.classList.add('dragging');
+
+            function moveAt(pageX, pageY) {
+                // transformが外れるので、現在のマウス位置に追従させる
+                win.style.left = pageX - shiftX + 'px';
+                win.style.top = pageY - shiftY + 'px';
+            }
+
+            // 初期位置合わせ
+            moveAt(e.pageX, e.pageY);
+
+            function onMouseMove(event) {
+                moveAt(event.pageX, event.pageY);
+            }
+
+            document.addEventListener('mousemove', onMouseMove);
+
+            document.onmouseup = function() {
+                document.removeEventListener('mousemove', onMouseMove);
+                win.classList.remove('dragging');
+                document.onmouseup = null;
+            };
+        });
+    });
+
+    // --- 5. Start Menu & Clock ---
+    const startBtn = document.getElementById('startBtn');
+    const startMenu = document.getElementById('startMenu');
+    
+    if (startBtn && startMenu) {
+        startBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            startMenu.style.display = (startMenu.style.display === 'flex') ? 'none' : 'flex';
+        });
+        document.addEventListener('click', () => startMenu.style.display = 'none');
+    }
+
+    const clock = document.getElementById('taskbarClock');
+    setInterval(() => {
+        if(clock) {
+            const now = new Date();
+            clock.textContent = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
+        }
+    }, 1000);
+
+    // --- 6. Gallery System ---
+    const galleryData = [
+        { src: 'images/illust1.png', title: 'Work 01' },
+        { src: 'images/illust2.png', title: 'Work 02' }
+    ];
+    let currentIdx = 0;
+
+    function updateGallery() {
+        const img = document.getElementById('galleryImg');
+        const title = document.getElementById('galleryTitle');
+        const counter = document.getElementById('galleryCounter');
+        
+        if (img && galleryData[currentIdx]) {
+            img.src = galleryData[currentIdx].src;
+            if(title) title.textContent = galleryData[currentIdx].title;
+            if(counter) counter.textContent = `${currentIdx + 1}/${galleryData.length}`;
+        }
+    }
+
+    document.getElementById('galleryNextBtn')?.addEventListener('click', () => {
+        currentIdx = (currentIdx + 1) % galleryData.length;
+        updateGallery();
+    });
+    
+    document.getElementById('galleryPrevBtn')?.addEventListener('click', () => {
+        currentIdx = (currentIdx - 1 + galleryData.length) % galleryData.length;
+        updateGallery();
+    });
+
+    // --- 7. Danger & BSOD ---
+    let dangerCount = 0;
     document.getElementById('iconDanger')?.addEventListener('click', () => {
-        dClicks++;
-        if (dClicks < 3) alert(`警告: システム領域です (${dClicks}/3)`);
-        else {
+        dangerCount++;
+        if (dangerCount < 3) {
+            alert(`警告: システム領域にアクセスしないでください (${dangerCount}/3)`);
+        } else {
             const bsod = document.getElementById('bsodScreen');
             if (bsod) bsod.style.display = 'block';
             setTimeout(() => location.reload(), 3000);
         }
     });
-
-    // --- 5. スタートメニュー ---
-    startBtn?.addEventListener('click', (e) => {
-        e.stopPropagation();
-        startMenu.style.display = (startMenu.style.display === 'flex') ? 'none' : 'flex';
-    });
-    document.addEventListener('click', () => { if(startMenu) startMenu.style.display = 'none'; });
-
-    // --- 6. ドラッグ ---
-    document.querySelectorAll('.window-frame').forEach(win => {
-        const header = win.querySelector('.window-header');
-        if (!header) return;
-        header.onmousedown = (e) => {
-            if (e.target.closest('.control-btn')) return;
-            maxZ++; win.style.zIndex = maxZ;
-            let ox = e.clientX - win.offsetLeft, oy = e.clientY - win.offsetTop;
-            document.onmousemove = (me) => {
-                win.style.left = (me.clientX - ox) + 'px';
-                win.style.top = (me.clientY - oy) + 'px';
-            };
-            document.onmouseup = () => document.onmousemove = null;
-        };
-        // 閉じるボタン
-        win.querySelector('.btn-close')?.addEventListener('click', () => win.style.display = 'none');
-    });
-
-    // --- 7. 時計 ---
-    setInterval(() => {
-        const clock = document.getElementById('taskbarClock');
-        if (clock) {
-            const d = new Date();
-            clock.textContent = d.getHours().toString().padStart(2, '0') + ":" + d.getMinutes().toString().padStart(2, '0');
-        }
-    }, 1000);
-};
+});
