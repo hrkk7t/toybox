@@ -1070,3 +1070,29 @@ p {
 
 }
 
+/* 実績のカテゴリ見出し */
+.work-cat-title {
+    font-size: 1.2rem;
+    color: var(--accent-black);
+    background: #e0e0e0;
+    padding: 5px 10px;
+    border: 2px solid var(--accent-black);
+    margin-top: 40px !important;
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+}
+
+/* スクロールバーのデザインをOS風に（任意） */
+.window-body::-webkit-scrollbar {
+    width: 12px;
+}
+.window-body::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-left: 2px solid var(--accent-black);
+}
+.window-body::-webkit-scrollbar-thumb {
+    background: #c0c0c0;
+    border: 2px solid var(--accent-black);
+    box-shadow: inset 1px 1px 0 #fff;
+}
+
+
