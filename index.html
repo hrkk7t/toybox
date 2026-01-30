@@ -9,22 +9,20 @@
     <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style type="text/css">
-    body,td,th {
-    font-family: DotGothic16, sans-serif;
-}
+        body,td,th {
+            font-family: DotGothic16, sans-serif;
+        }
     </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
 <body>
-	<div id="bootScreen">
-    <div class="boot-logo">
-        <img src="images/loading.png" alt="Loading...">
-    </div>
-    
-    <div id="bootContainer">
+    <div id="bootScreen">
+        <div class="boot-logo">
+            <img src="images/loading.png" alt="Loading...">
         </div>
-    <div class="blinking-cursor">_</div>
-</div>
+        <div id="bootContainer"></div>
+        <div class="blinking-cursor">_</div>
+    </div>
 
     <div class="desktop-icons-container">
         <div class="desktop-icon draggable-icon" id="iconTop" style="top: 20px; left: 20px;">
@@ -47,11 +45,11 @@
             <div class="icon-img">✉️</div>
             <div class="icon-label">CONTACT</div>
         </div>
-		<div class="desktop-icon draggable-icon" id="iconReadme" style="top: 20px; left: 100px;">
+        <div class="desktop-icon draggable-icon" id="iconReadme" style="top: 20px; left: 100px;">
             <div class="icon-img">📄</div>
             <div class="icon-label" style="color: black; background: transparent; text-shadow: 1px 1px 0 #fff;">Readme.txt</div>
         </div>
-		<div class="desktop-icon draggable-icon" id="iconDanger" style="top: 20px; right: 20px; left: auto;">
+        <div class="desktop-icon draggable-icon" id="iconDanger" style="top: 20px; right: 20px; left: auto;">
             <div class="icon-img">⚠️</div>
             <div class="icon-label" style="background: red;">DANGER</div>
         </div>
@@ -104,7 +102,7 @@
                     <div class="prop-item"><span class="label">作成日:</span> 199X年 XX月 XX日</div>
                 </div>
             </div>
-           <div class="prop-content" id="tab-skills">
+            <div class="prop-content" id="tab-skills">
                 <p style="margin-bottom: 10px;">実装済みモジュール:</p>
                 <div class="skill-bar"><label>HTML/CSS/JavaScript</label><div class="bar"><div class="fill" style="width: 90%;"></div></div></div>
                 <div class="skill-bar"><label>PHP</label><div class="bar"><div class="fill" style="width: 70%;"></div></div></div>
@@ -118,7 +116,7 @@
                         <li>高等学校教諭一種免許状 (国語)</li>
                     </ul>
                 </div>
-                </div>
+            </div>
             <div class="prop-content" id="tab-history">
                 <p style="margin-bottom: 10px;">システムログ (経歴):</p>
                 <ul style="text-align: left; font-size: 0.85rem; padding-left: 20px; line-height: 1.6;">
@@ -127,17 +125,10 @@
                         プロジェクト "TOYBOX.exe" 起動<br>
                         <span style="font-size:0.8rem; color:#666;">>> Web Developerとして稼働中</span>
                     </li>
-
                     <li style="margin-bottom: 10px;">
                         <span style="font-weight:bold;">20XX.XX</span> - System Reboot<br>
                         モード切替: <span style="background:#eee; padding:0 4px;">Designer Mode</span><br>
                         <span style="font-size:0.8rem; color:#666;">>> デザイン/クリエイティブ領域へ移行</span>
-                    </li>
-
-                    <li style="margin-bottom: 10px;">
-                        <span style="font-weight:bold;">20XX.XX</span> (8年間)<br>
-                        バックグラウンドプロセス: "Teacher"<br>
-                        <span style="font-size:0.8rem; color:#666;">>> 大学院M2より高等学校教諭(国語)として従事。<br>>> 言語化能力と言葉の教育を担当。</span>
                     </li>
                 </ul>
             </div>
@@ -155,7 +146,6 @@
             </div>
         </div>
         <div class="window-body prop-body" id="workContentArea">
-            
             <div id="passwordFormSection">
                 <p style="margin-bottom: 15px;">このフォルダは保護されています。<br>パスワードを入力してください。</p>
                 <div style="display: flex; gap: 5px; justify-content: center; margin-bottom: 20px;">
@@ -164,13 +154,11 @@
                 </div>
                 <p id="passwordErrorMsg" style="color: red; display: none; font-size: 0.9rem;">パスワードが違います。</p>
             </div>
-
             <div id="secretWorkContent" style="display: none;"></div>
-            
         </div>
     </div>
     
-	<div class="window-frame draggable-window" id="illustWindow" style="display: none; width: 400px; top: 50%; left: 60%;">
+    <div class="window-frame draggable-window" id="illustWindow" style="display: none; width: 400px; top: 50%; left: 60%;">
         <div class="window-header" id="illustHeader">
             <span class="window-title">🎨 Gallery_Viewer</span>
             <div class="window-controls">
@@ -183,42 +171,47 @@
             <div class="gallery-container">
                 <img id="galleryImg" src="" alt="Gallery Image">
             </div>
-            
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                 <span id="galleryTitle" style="font-weight: bold; font-size: 0.9rem;">No Image</span>
                 <span id="galleryCounter" style="font-size: 0.8rem; background: black; color: white; padding: 2px 6px;">0/0</span>
             </div>
-
             <div style="display: flex; gap: 10px; justify-content: center;">
                 <button class="pop-button small-btn" id="galleryPrevBtn">◀ PREV</button>
                 <button class="pop-button small-btn" id="galleryNextBtn">NEXT ▶</button>
             </div>
         </div>
+    </div>
+
+    <div class="window-frame draggable-window" id="contactWindow" style="display: none; width: 400px; top: 30%; left: 70%;">
+        <div class="window-header" id="contactHeader">
+            <span class="window-title">✉️ Mailer_Daemon</span>
+            <div class="window-controls">
+                <button class="control-btn btn-min no-drag" id="contactMinBtn"><img src="images/min.svg" alt="min"></button>
+                <button class="control-btn btn-max no-drag" id="contactMaxBtn"><img src="images/max.svg" alt="max"></button>
+                <button class="control-btn btn-close no-drag" id="contactCloseBtn"><img src="images/close.svg" alt="close"></button>
+            </div>
         </div>
-
-   <div class="window-body prop-body">
-    <div style="text-align: center; margin-bottom: 15px;">
-        <div style="font-size: 3rem;">📡</div>
-        <p style="font-weight: bold;">External_Connection.exe</p>
+        <div class="window-body prop-body">
+            <div style="text-align: center; margin-bottom: 15px;">
+                <div style="font-size: 3rem;">📡</div>
+                <p style="font-weight: bold;">External_Connection.exe</p>
+            </div>
+            <div style="border: 2px solid black; background: #eee; padding: 10px; font-size: 0.85rem; line-height: 1.4; margin-bottom: 20px;">
+                <p>安全な外部連絡用フォームへの接続準備が完了しました。</p>
+                <p style="color: #666; font-size: 0.75rem;">>> 接続先: Google_Forms_Server</p>
+            </div>
+            <div class="prop-footer">
+                <a href="https://forms.gle/ECKdALhsNe25CEwz7" target="_blank" style="text-decoration: none;">
+                    <button class="pop-button" style="width: 100%; cursor: pointer;">
+                        外部フォームを開く
+                    </button>
+                </a>
+            </div>
+            <p style="font-size: 0.7rem; color: #999; margin-top: 15px; text-align: center;">
+                ※クリックすると新しいタブで入力画面が開きます。
+            </p>
+        </div>
     </div>
-    
-    <div style="border: 2px solid black; background: #eee; padding: 10px; font-size: 0.85rem; line-height: 1.4; margin-bottom: 20px;">
-        <p>安全な外部連絡用フォームへの接続準備が完了しました。</p>
-        <p style="color: #666; font-size: 0.75rem;">>> 接続先: Google_Forms_Server</p>
-    </div>
-
-    <div class="prop-footer">
-        <a href="https://forms.gle/ECKdALhsNe25CEwz7" target="_blank" style="text-decoration: none;">
-            <button class="pop-button" style="width: 100%;">
-                外部フォームを開く
-            </button>
-        </a>
-    </div>
-    
-    <p style="font-size: 0.7rem; color: #999; margin-top: 15px; text-align: center;">
-        ※クリックすると新しいタブで入力画面が開きます。
-    </p>
-</div>
 
     <div class="window-frame draggable-window" id="readmeWindow" style="display: none; width: 400px; top: 20%; left: 30%;">
         <div class="window-header" id="readmeHeader" style="background: #000080; color: white;">
@@ -238,7 +231,7 @@
 
 ■ 基本操作
 ・デスクトップ上のアイコンは
-　マウスや指で自由に動かせます（Drag &amp; Drop）。
+　マウスや指で自由に動かせます（Drag & Drop）。
 ・ウィンドウは最小化・最大化が可能です。
 
 ■ 隠し要素について
@@ -258,23 +251,6 @@ Copyright (C) 2026 TOYBOX.exe All Rights Reserved.
         </div>
     </div>
 
-    <div class="popup-overlay" id="sentPopup">
-        <div class="window-frame popup-size draggable-window" style="position: relative;">
-            <div class="window-header" id="sentHeader">
-                <span class="window-title">✅ SUCCESS</span>
-                <div class="window-controls">
-                    <button class="control-btn btn-close no-drag" id="sentCloseX"><img src="images/close.svg" alt="close"></button>
-                </div>
-            </div>
-            <div class="window-body popup-content">
-                <p>送信完了。デジタル空間の藻屑となりました。</p>
-                <div class="popup-buttons">
-                    <button class="pop-button small-btn" id="sentBtnOk">了解</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div id="rpgOverlay">
         <div class="rpg-battle-container">
             <div class="rpg-enemy-area">
@@ -284,12 +260,10 @@ Copyright (C) 2026 TOYBOX.exe All Rights Reserved.
                         <div class="hp-bar-fill" id="enemyHpBar" style="width: 100%;"></div>
                     </div>
                 </div>
-                
                 <div class="rpg-enemy glitch-effect" id="rpgEnemy" data-text="👾">👾</div>
                 <div class="rpg-damage" id="rpgDamage"></div>
                 <div class="rpg-effect-overlay" id="rpgEffectOverlay"></div>
             </div>
-
             <div class="rpg-ui-wrapper">
                 <div class="player-status-box">
                     <div class="hp-gauge-box">
@@ -300,21 +274,17 @@ Copyright (C) 2026 TOYBOX.exe All Rights Reserved.
                         <span class="hp-num" id="playerHpNum">100/100</span>
                     </div>
                 </div>
-
                 <div class="rpg-ui-box">
                     <div class="rpg-message-box">
                         <p id="rpgText">あ！　やせいの　バグが　とびだしてきた！</p>
                     </div>
-                    
                     <div class="rpg-command-box" id="mainCommandBox">
                         <ul>
                             <li id="cmdAttack">たたかう</li>
-
                             <li id="cmdSkill">スキル</li>
                             <li id="cmdRun">にげる</li>
                         </ul>
                     </div>
-
                     <div class="rpg-command-box" id="skillCommandBox" style="display: none;">
                         <ul>
                             <li class="skill-item" data-skill="debug">デバッグ(強)</li>
@@ -338,14 +308,13 @@ Copyright (C) 2026 TOYBOX.exe All Rights Reserved.
             <div class="start-item" id="menuWork"><span class="icon">📁</span> WORK</div>
             <div class="start-item" id="menuIllust"><span class="icon">🎨</span> ILLUST</div>
             <div class="start-item" id="menuContact"><span class="icon">✉️</span> CONTACT</div>
-            
             <div class="start-divider"></div>
-            
             <div class="start-item" id="menuShutdown"><span class="icon">🔌</span> SHUTDOWN...</div>
         </div>
     </div>
     
     <div id="shutdownScreen" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:black; z-index:99999999;"></div>
+    
     <div class="taskbar">
         <button class="start-btn" id="startBtn">
             <span style="font-size: 1.2rem;">🧸</span> START
@@ -355,7 +324,7 @@ Copyright (C) 2026 TOYBOX.exe All Rights Reserved.
         </div>
     </div>
 
-	<div id="bsodScreen" style="display: none;">
+    <div id="bsodScreen" style="display: none;">
         <div class="bsod-content">
             <p>:(</p>
             <p>Your PC ran into a problem and needs to restart.</p>
@@ -365,11 +334,11 @@ Copyright (C) 2026 TOYBOX.exe All Rights Reserved.
             <p>Complete: <span id="bsodPercent">0</span>%</p>
         </div>
     </div>
-	<div id="imageModal" class="popup-overlay" onclick="closeModal()">
-    <img id="modalImg" src="" style="max-width: 90%; max-height: 90%; border: 4px solid white;">
-</div>
+
+    <div id="imageModal" class="popup-overlay" onclick="closeModal()">
+        <img id="modalImg" src="" style="max-width: 90%; max-height: 90%; border: 4px solid white;">
+    </div>
+
     <script src="script.js"></script>
 </body>
-
 </html>
-
