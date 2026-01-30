@@ -139,6 +139,9 @@ body {
 .window-frame {
     width: 90%;
     max-width: 600px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
     background-color: var(--window-bg);
     border: 3px solid var(--accent-black);
     box-shadow: 8px 8px 0px var(--accent-black);
@@ -147,8 +150,7 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
-    border-radius: 0;
-    animation: float 4s ease-in-out infinite;
+    overflow: hidden; /* フレーム自体からはみ出さないようにする */
 }
 
 .window-frame.dragging {
@@ -225,12 +227,10 @@ body {
 .btn-close { background-color: #ff5f56; }
 
 .window-body {
+    flex: 1;          /* 残りの高さをすべて使う */
     padding: 30px;
-    text-align: center;
     overflow-y: auto; 
-    max-height: 70vh;
-    transition: max-height 0.3s ease-out, padding 0.3s ease;
-    scroll-behavior: smooth;
+    /* max-heightの指定を削除してflexにお任せする */
 }
 
 .window-frame.minimized .window-body {
@@ -690,3 +690,4 @@ p {
 .gallery-container img:hover {
     filter: brightness(0.8);
 }
+
