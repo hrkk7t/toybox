@@ -487,47 +487,34 @@ workPasswordSubmitBtn.addEventListener('click', async () => {
 
     workPasswordSubmitBtn.disabled = true;
     workPasswordSubmitBtn.textContent = '照合中...';
-    
-    await wait(500);
 
-    if (password === "toybox2026") {
-        const secretHtml = `
-            <div class="work-list-container">
-                <p style="color:green; font-weight:bold;">>> Access Granted.</p>
-                
-                <div class="work-item">
-                    <div class="work-thumbnail">
-                        <a href="#" target="_blank"><img src="images/hp-01.jpg" alt="Work 01"></a>
-                    </div>
-                    <div class="work-details">
-                        <h3>Secret Project A</h3>
-                        <ul class="work-info-list">
-                            <li><span class="label">Role:</span>Design, Coding</li>
-                            <li><span class="label">Year:</span>2024</li>
-                        </ul>
-                    </div>
-                </div>
+    try {
+        // ここで Netlify のプログラム（getwork）を呼び出すように変更！
+        const response = await fetch("/.netlify/functions/getwork", {
+            method: "POST",
+            body: JSON.stringify({ password: password }),
+        });
 
-                <div class="work-item">
-                     <div class="work-details">
-                        <h3>Confidential Data B</h3>
-                        <p>詳細は面談にてお話しします。</p>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        secretWorkContent.innerHTML = secretHtml;
-        passwordFormSection.style.display = 'none';
-        secretWorkContent.style.display = 'block';
-        document.querySelector('#workHeader .window-title').textContent = '📁 Projects';
-    } else {
-        passwordErrorMsg.style.display = 'block';
-        workPasswordInput.select();
+        if (response.ok) {
+            // 正解の場合
+            const data = await response.json();
+            secretWorkContent.innerHTML = data.html; // Netlifyから届いた中身を表示
+            passwordFormSection.style.display = 'none';
+            secretWorkContent.style.display = 'block';
+            document.querySelector('#workHeader .window-title').textContent = '📁 Projects';
+        } else {
+            // 不正解の場合（401エラーなど）
+            passwordErrorMsg.style.display = 'block';
+            workPasswordInput.select();
+        }
+    } catch (error) {
+        // 通信エラーなど
+        console.error("Error:", error);
+        alert("システムエラーが発生しました。");
+    } finally {
+        workPasswordSubmitBtn.disabled = false;
+        workPasswordSubmitBtn.textContent = '解除';
     }
-
-    workPasswordSubmitBtn.disabled = false;
-    workPasswordSubmitBtn.textContent = '解除';
 });
 
 
@@ -653,4 +640,5 @@ document.getElementById('menuShutdown').addEventListener('click', () => {
             location.reload();
         }, 1500);
     }});
+
 });
