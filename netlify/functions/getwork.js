@@ -87,9 +87,9 @@ exports.handler = async (event, context) => {
                         <div class="work-details">
                             <h3>オリジナルアイコン制作</h3>
                             <ul class="work-info-list">
-                                <li><span class="label">Role:</span>デザイン・清書</li>
-                                <li><span class="label">Tools:</span>Illustrator</li>
-                                <li><span class="label">Comment:</span>ブランドの世界観に合わせたピクトグラム・アイコンの制作。</li>
+                                <li><span class="label">Role:</span>デザイン</li>
+                                <li><span class="label">Tools:</span>Adobe Illustrator</li>
+                                <li><span class="label">Comment:</span>HPの雰囲気に合わせたピクトグラム・アイコンの制作。</li>
                             </ul>
                         </div>
                     </div>
@@ -126,6 +126,7 @@ exports.handler = async (event, context) => {
     }
 
 };
+
 
 
 
