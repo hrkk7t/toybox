@@ -1,148 +1,174 @@
-/* --- Base Variables & Reset --- */
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+
+/* --- 変数定義 (画像の色味に合わせました) --- */
 :root {
-    --main-color: #0088a3;
-    --accent-black: #000000;
-    --accent-white: #ffffff;
-    --button-color: #0088a3;
-    --window-bg: #ffffff;
-    --gray-bg: #f0f0f0;
+    --main-bg: #0088a3;       /* 背景の青緑 */
+    --win-bg: #ffffff;        /* ウィンドウの白 */
+    --win-border: #000000;    /* 枠線の黒 */
+    --taskbar-bg: #c0c0c0;    /* タスクバーのグレー */
+    --shadow-hard: 8px 8px 0px #000000; /* 濃い影 */
+    --font-base: "DotGothic16", sans-serif;
 }
 
 * { box-sizing: border-box; }
 
 body {
     margin: 0; padding: 0;
-    font-family: "DotGothic16", sans-serif;
-    background-color: var(--main-color);
-    background-image: radial-gradient(rgba(255, 255, 255, 0.2) 2px, transparent 2px);
+    font-family: var(--font-base);
+    background-color: var(--main-bg);
+    /* ドット柄の背景を復元 */
+    background-image: radial-gradient(rgba(255, 255, 255, 0.3) 2px, transparent 2px);
     background-size: 30px 30px;
-    display: flex; justify-content: center; align-items: center;
-    min-height: 100vh; overflow: hidden; position: relative;
+    height: 100vh; overflow: hidden;
+    user-select: none; /* デスクトップっぽく選択不可に */
 }
 
-/* --- Boot Screen --- */
+/* --- 1. Boot Screen (お化けの画面) --- */
 #bootScreen {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: #000000; color: #00ff00; z-index: 999999;
-    font-family: "DotGothic16", sans-serif;
-    display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden;
-}
-.boot-logo { margin-bottom: 30px; }
-.boot-logo img { width: 150px; height: auto; animation: float-ghost 2s ease-in-out infinite; }
-@keyframes float-ghost { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-#bootContainer { width: 80%; max-width: 500px; text-align: left; }
-.boot-line { margin-bottom: 5px; font-size: 1.2rem; opacity: 0.9; text-shadow: 0 0 5px #00ff00; }
-.blinking-cursor { font-size: 1.2rem; animation: blink 0.8s infinite; margin-top: 5px; width: 80%; max-width: 500px; text-align: left; }
-@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-.fade-out { opacity: 0; transition: opacity 1s ease-out; pointer-events: none; }
-
-/* --- Desktop Icons --- */
-.desktop-icon {
-    position: absolute; width: 60px; text-align: center; cursor: pointer; z-index: 5;
-    transition: transform 0.1s; user-select: none; -webkit-user-select: none;
-}
-.desktop-icon:hover { filter: brightness(1.1); }
-.desktop-icon:active { transform: scale(0.95); }
-.icon-img { font-size: 2rem; margin-bottom: 5px; filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.3)); }
-.icon-label {
-    background-color: var(--accent-black); color: var(--accent-white);
-    padding: 2px 4px; font-size: 0.8rem; border-radius: 0;
-    display: inline-block; box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+    background-color: #000000; color: #ffffff;
+    z-index: 999999; /* 最前面 */
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
 }
 
-/* --- Window System --- */
-.window-frame {
-    width: 90%; max-width: 600px;
-    background-color: var(--window-bg); border: 3px solid var(--accent-black);
-    box-shadow: 8px 8px 0px var(--accent-black);
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    z-index: 10; border-radius: 0; display: none; /* 初期状態は非表示 */
-    animation: float 4s ease-in-out infinite;
-}
-.window-frame.dragging {
-    animation: none; transition: none; cursor: grabbing;
-    box-shadow: 10px 10px 0px rgba(0,0,0,0.2); z-index: 100;
-}
-.window-frame.moved { animation: none; transform: none !important; }
-.window-frame.active-window { z-index: 50; }
-@keyframes float {
-    0% { transform: translate(-50%, -50%) translateY(0px); }
-    50% { transform: translate(-50%, -50%) translateY(-10px); }
-    100% { transform: translate(-50%, -50%) translateY(0px); }
-}
-.window-header {
-    background-color: var(--accent-black); padding: 6px 10px;
-    display: flex; justify-content: space-between; align-items: center;
-    border-bottom: 3px solid var(--accent-black); color: var(--accent-white);
-    font-weight: bold; font-size: 1rem; letter-spacing: 1px;
-    cursor: grab; user-select: none;
-}
-.window-controls { display: flex; gap: 6px; }
-.control-btn {
-    width: 20px; height: 20px; padding: 0; border: none; cursor: pointer;
-    transition: transform 0.1s; display: flex; justify-content: center; align-items: center; border-radius: 0;
-}
-.control-btn img { width: 60%; height: 60%; display: block; pointer-events: none; }
-.btn-min { background-color: #ffbd2e; } .btn-max { background-color: #27c93f; } .btn-close { background-color: #ff5f56; }
-.window-body {
-    padding: 30px; text-align: center; overflow-y: auto;
-    max-height: 70vh; transition: max-height 0.3s ease-out, padding 0.3s ease; scroll-behavior: smooth;
+.ghost-container img {
+    width: 120px;
+    animation: floatGhost 3s ease-in-out infinite;
 }
 
-/* --- Content & Buttons --- */
-h1 { color: var(--main-color); text-shadow: 2px 2px 0 var(--accent-black); font-size: 2rem; margin-bottom: 15px; font-style: italic; }
-p { font-size: 0.95rem; line-height: 1.6; margin-bottom: 30px; color: #333; font-weight: bold; }
-.pop-button {
-    display: inline-block; background-color: var(--button-color); color: var(--accent-white);
-    font-size: 1.1rem; font-weight: bold; text-decoration: none; padding: 10px 30px;
-    border: 3px solid var(--accent-black); box-shadow: 5px 5px 0px var(--accent-black);
-    cursor: pointer; position: relative;
+@keyframes floatGhost {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
 }
-.pop-button:active { box-shadow: 0px 0px 0px var(--accent-black); top: 5px; left: 5px; }
 
-/* --- Gallery Viewer --- */
-.gallery-container {
-    width: 100%; height: 200px; background-color: #eee; border: 2px solid var(--accent-black);
-    margin-bottom: 10px; display: flex; align-items: center; justify-content: center; overflow: hidden;
+.loading-bar {
+    margin-top: 20px; width: 200px; height: 10px; border: 2px solid #fff;
     position: relative;
-    background-image: linear-gradient(45deg, #ddd 25%, transparent 25%), linear-gradient(-45deg, #ddd 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ddd 75%), linear-gradient(-45deg, transparent 75%, #ddd 75%);
-    background-size: 20px 20px;
 }
-.gallery-container img { max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 2px 2px 5px rgba(0,0,0,0.2); }
-
-/* --- RPG & Popups --- */
-#rpgOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #111; z-index: 99999; font-family: "DotGothic16", sans-serif; color: white; }
-.popup-overlay {
-    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px);
-    z-index: 9999; justify-content: center; align-items: center;
-    animation: modalFadeIn 0.3s ease-out forwards;
+.loading-fill {
+    height: 100%; background: #00ff00; width: 0%;
+    transition: width 0.1s;
 }
 
-/* --- Taskbar & Start Menu --- */
+/* --- 2. Desktop Icons --- */
+.desktop-icon {
+    position: absolute;
+    width: 80px; text-align: center;
+    cursor: pointer; color: white;
+    text-shadow: 1px 1px 2px black;
+    z-index: 10;
+}
+.desktop-icon img {
+    width: 48px; height: 48px;
+    filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.5));
+}
+.icon-text {
+    background: rgba(0,0,0,0.5); padding: 2px 5px;
+    font-size: 14px; margin-top: 5px; display: inline-block;
+}
+/* アイコンの初期位置 (HTML側でstyle指定がない場合の保険) */
+#iconReadme { top: 20px; left: 20px; }
+#iconTop    { top: 120px; left: 20px; }
+#iconDanger { top: 20px; right: 20px; }
+
+/* --- 3. Window System (黒いヘッダーのデザイン) --- */
+.window-frame {
+    position: absolute;
+    width: 600px; max-width: 90%;
+    background: var(--win-bg);
+    border: 3px solid var(--win-border);
+    box-shadow: var(--shadow-hard);
+    display: none; /* 最初は隠す */
+    flex-direction: column;
+    /* 中央配置用 */
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+}
+
+.window-header {
+    background: #000000; color: #ffffff;
+    padding: 8px 10px; height: 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    cursor: grab;
+}
+.window-title { font-size: 18px; display: flex; align-items: center; gap: 10px; }
+
+/* ウィンドウ操作ボタン (画像の色を再現) */
+.win-controls { display: flex; gap: 5px; }
+.win-btn {
+    width: 20px; height: 20px; border: none; cursor: pointer;
+    font-weight: bold; color: white; display: flex; justify-content: center; align-items: center;
+}
+.btn-min { background: #ffbd2e; color: black; } /* 黄色/オレンジ */
+.btn-max { background: #27c93f; } /* 緑 */
+.btn-close { background: #ff5f56; } /* 赤 */
+
+.window-body {
+    padding: 20px;
+    overflow-y: auto; max-height: 70vh;
+    color: #000;
+}
+
+/* プロフィールウィンドウ固有のデザイン */
+.profile-content { text-align: left; }
+.profile-img { width: 100px; margin: 0 auto; display: block; }
+
+/* ギャラリービューアーのデザイン */
+.gallery-display {
+    width: 100%; height: 250px;
+    background: #e0e0e0; border: 2px solid #000;
+    display: flex; justify-content: center; align-items: center;
+    margin-bottom: 10px;
+}
+.gallery-display img { max-width: 100%; max-height: 100%; }
+.gallery-nav { display: flex; justify-content: center; gap: 20px; }
+.nav-btn {
+    background: #0088a3; color: white; border: 2px solid black;
+    padding: 5px 20px; cursor: pointer; box-shadow: 4px 4px 0 black;
+    font-family: var(--font-base); font-size: 16px;
+}
+.nav-btn:active { box-shadow: 2px 2px 0 black; transform: translate(2px, 2px); }
+
+/* --- 4. Taskbar & Start Menu --- */
 .taskbar {
-    position: fixed; bottom: 0; left: 0; width: 100%; height: 40px;
-    background-color: #c0c0c0; border-top: 2px solid #ffffff; box-shadow: 0 -2px 0 var(--accent-black);
-    display: flex; justify-content: space-between; align-items: center; padding: 3px 5px; z-index: 9000;
+    position: fixed; bottom: 0; left: 0; width: 100%; height: 45px;
+    background: var(--taskbar-bg);
+    border-top: 2px solid #fff;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5px; z-index: 99990;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
 }
-.start-btn { padding: 0 10px; background-color: #c0c0c0; border: 2px solid; border-color: #fff #000 #000 #fff; font-weight: bold; cursor: pointer; }
+
+.start-btn {
+    display: flex; align-items: center; gap: 5px;
+    padding: 5px 10px; border: 2px solid;
+    border-color: #fff #888 #888 #fff;
+    background: #c0c0c0; cursor: pointer;
+    font-weight: bold; font-size: 16px;
+}
+.start-btn:active { border-color: #888 #fff #fff #888; }
+.start-btn img { width: 24px; } /* クマのアイコン */
+
+.clock {
+    border: 2px solid; border-color: #888 #fff #fff #888;
+    padding: 5px 10px; background: #c0c0c0;
+    margin-right: 5px; font-family: monospace;
+}
+
 #startMenu {
-    position: fixed; bottom: 42px; left: 2px; width: 250px; background-color: #c0c0c0;
-    border: 2px solid; border-color: #fff #888 #888 #fff; display: none; z-index: 8999;
+    position: fixed; bottom: 48px; left: 5px;
+    width: 250px; background: #c0c0c0;
+    border: 2px solid #fff; box-shadow: 4px 4px 0 #000;
+    display: none; flex-direction: column;
+    z-index: 99991;
 }
-.start-side-bar { width: 40px; background: linear-gradient(to bottom, #000080, #0000ff); color: white; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 10px; }
-.start-side-bar span { writing-mode: vertical-rl; transform: rotate(180deg); font-weight: bold; }
-.start-item { padding: 10px; cursor: pointer; }
-.start-item:hover { background-color: #000080; color: white; }
-
-/* BSOD */
-#bsodScreen {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #0078d7;
-    color: white; z-index: 9999999; padding: 10%; display: none;
+.menu-item {
+    padding: 10px; cursor: pointer; border-bottom: 1px dotted #888;
 }
+.menu-item:hover { background: #000080; color: white; }
 
-/* Mobile */
-@media (max-width: 600px) {
-    body { display: block; padding-top: 60px; padding-bottom: 50px; overflow: auto; }
-    .window-frame { position: relative; top: auto !important; left: auto !important; transform: none !important; margin: 20px auto; width: 95% !important; animation: none; }
+/* BSOD (ブルースクリーン) */
+#bsod {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #0000aa; color: white; padding: 50px; z-index: 9999999;
 }
