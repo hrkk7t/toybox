@@ -707,7 +707,6 @@ p {
     max-height: 90%;
     border: 4px solid white;
     box-shadow: 0 0 30px rgba(0,0,0,0.5);
-    /* 演出：ちょっとだけバウンドしながら拡大 */
     animation: modalZoom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
@@ -733,3 +732,21 @@ p {
     cursor: zoom-out;
 }
 
+/* --- Work Item Image Hover Effect --- */
+
+/* 作品リストの画像にマウスを乗せた時の演出 */
+.work-thumbnail img {
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
+}
+
+.work-thumbnail img:hover {
+    transform: translateY(-5px) scale(1.02);
+    filter: brightness(1.1);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+/* クリックした瞬間の手応え */
+.work-thumbnail img:active {
+    transform: translateY(-2px) scale(0.98);
+}
