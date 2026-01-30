@@ -17,9 +17,10 @@ exports.handler = async (event, context) => {
             // ■■■ パスワード正解時の「中身」をここに書く ■■■
             // HTMLタグをそのまま書けます
             const secretHtml = `
-            const secretHtml = `
                 <div class="work-list-container">
-                    <p style="margin-bottom:20px; color:green; font-weight:bold;">>> Access Granted. Loading 4 items...</p>
+                    <p style="margin-bottom:20px; color:green; font-weight:bold;">>> Access Granted. Loading category-wise data...</p>
+
+                    <h2 class="work-cat-title" style="border-left: 5px solid green; padding-left: 10px; margin: 30px 0 15px;">WEB DESIGN</h2>
 
                     <div class="work-item">
                         <div class="work-thumbnail">
@@ -28,10 +29,10 @@ exports.handler = async (event, context) => {
                         <div class="work-details">
                             <h3>SNS運用代行 Webサイト</h3>
                             <ul class="work-info-list">
-                                <li><span class="label">Role:</span>HPデザイン、サービス紹介イラスト</li>
+                                <li><span class="label">Role:</span>HPデザイン、イラスト</li>
                                 <li><span class="label">Period:</span>約20時間</li>
-                                <li><span class="label">Tools:</span>Adobe Illustrator, Adobe XD</li>
-                                <li><span class="label">Comment:</span>サイトは現在閉鎖されていますが、親しみやすいイラストを含めたトータルデザインを担当しました。</li>
+                                <li><span class="label">Tools:</span>Illustrator, XD</li>
+                                <li><span class="label">Comment:</span>サイト閉鎖につき画像のみ掲載。</li>
                             </ul>
                         </div>
                     </div>
@@ -59,9 +60,7 @@ exports.handler = async (event, context) => {
                             <h3>美容室グループ Webサイト</h3>
                             <ul class="work-info-list">
                                 <li><span class="label">Role:</span>HPデザイン</li>
-                                <li><span class="label">Period:</span>約20時間</li>
                                 <li><span class="label">Tools:</span>Adobe XD</li>
-                                <li><span class="label">URL:</span><a href="https://crayon-beauty.jp/" target="_blank">View Site</a></li>
                             </ul>
                         </div>
                     </div>
@@ -74,9 +73,36 @@ exports.handler = async (event, context) => {
                             <h3>食糧保管協会 Webサイト</h3>
                             <ul class="work-info-list">
                                 <li><span class="label">Role:</span>HPデザイン</li>
-                                <li><span class="label">Period:</span>約10時間</li>
                                 <li><span class="label">Tools:</span>Adobe XD</li>
-                                <li><span class="label">URL:</span><a href="https://aomori-shokkankyo.com/" target="_blank">View Site</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h2 class="work-cat-title" style="border-left: 5px solid blue; padding-left: 10px; margin: 40px 0 15px;">GRAPHIC DESIGN</h2>
+
+                    <div class="work-item">
+                        <div class="work-thumbnail">
+                            <img src="images/graphic-01.jpg" alt="Icon Design">
+                        </div>
+                        <div class="work-details">
+                            <h3>オリジナルアイコン制作</h3>
+                            <ul class="work-info-list">
+                                <li><span class="label">Role:</span>デザイン・清書</li>
+                                <li><span class="label">Tools:</span>Illustrator</li>
+                                <li><span class="label">Comment:</span>ブランドの世界観に合わせたピクトグラム・アイコンの制作。</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="work-item">
+                        <div class="work-thumbnail">
+                            <img src="images/graphic-02.jpg" alt="Main Visual">
+                        </div>
+                        <div class="work-details">
+                            <h3>Webサイト用メインビジュアル</h3>
+                            <ul class="work-info-list">
+                                <li><span class="label">Role:</span>合成・レタッチ・タイポグラフィ</li>
+                                <li><span class="label">Tools:</span>Photoshop</li>
                             </ul>
                         </div>
                     </div>
@@ -100,6 +126,7 @@ exports.handler = async (event, context) => {
     }
 
 };
+
 
 
 
