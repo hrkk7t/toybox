@@ -136,26 +136,37 @@ body {
 }
 
 /* --- Window System (Frame & Controls) --- */
+/* --- Window System (Frame & Controls) --- */
 .window-frame {
     width: 90%;
     max-width: 600px;
     background-color: var(--window-bg);
     border: 3px solid var(--accent-black);
     box-shadow: 8px 8px 0px var(--accent-black);
-    position: absolute;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
+    position: absolute; 
+    /* !important を削除しました */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 10;
     border-radius: 0;
+    /* アニメーションを復活 */
+    animation: float 4s ease-in-out infinite;
 }
 
+/* ドラッグ中はアニメーションを止める */
 .window-frame.dragging {
     animation: none;
     transition: none;
     cursor: grabbing;
     box-shadow: 10px 10px 0px rgba(0,0,0,0.2);
     z-index: 100;
+}
+
+/* 一度動かした後は中央固定を解除する */
+.window-frame.moved {
+    animation: none;
+    transform: none !important; /* 動かした後は translate(-50%, -50%) を消す */
 }
 
 .window-frame.active-window {
@@ -1094,5 +1105,6 @@ p {
     border: 2px solid var(--accent-black);
     box-shadow: inset 1px 1px 0 #fff;
 }
+
 
 
