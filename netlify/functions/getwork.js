@@ -54,6 +54,7 @@ exports.handler = async (event, context) => {
                             <ul class="work-info-list">
                                 <li><span class="label">Role:</span>HPデザイン</li>
                                 <li><span class="label">Tools:</span>Adobe XD</li>
+                                <li><span class="label">URL:</span><a href="https://crayon-beauty.jp/" target="_blank">View Site</a></li>
                             </ul>
                         </div>
                     </div>
@@ -67,6 +68,7 @@ exports.handler = async (event, context) => {
                             <ul class="work-info-list">
                                 <li><span class="label">Role:</span>HPデザイン</li>
                                 <li><span class="label">Tools:</span>Adobe XD</li>
+                                <li><span class="label">URL:</span><a href="https://aomori-shokkankyo.com/" target="_blank">View Site</a></li>
                             </ul>
                         </div>
                     </div>
@@ -82,6 +84,7 @@ exports.handler = async (event, context) => {
                             <ul class="work-info-list">
                                 <li><span class="label">Role:</span>デザイン</li>
                                 <li><span class="label">Tools:</span>Adobe Illustrator</li>
+                                <li><span class="label">Comment:</span>HPの雰囲気に合わせたピクトグラム・アイコンの制作。</li>
                             </ul>
                         </div>
                     </div>
@@ -95,6 +98,7 @@ exports.handler = async (event, context) => {
                             <ul class="work-info-list">
                                 <li><span class="label">Role:</span>イラストデザイン</li>
                                 <li><span class="label">Tools:</span>Clip Studio</li>
+                                <li><span class="label">Comment:</span>クライアントの要望に合わせた主線のないイラストの制作。</li>
                             </ul>
                         </div>
                     </div>
@@ -108,6 +112,7 @@ exports.handler = async (event, context) => {
                             <ul class="work-info-list">
                                 <li><span class="label">Role:</span>イラストデザイン</li>
                                 <li><span class="label">Tools:</span>Adobe Illustrator</li>
+                                <li><span class="label">Comment:</span>アイソメトリック図法を使いつつ、丸みのある柔らかい雰囲気のイラストを制作した。</li>
                             </ul>
                         </div>
                     </div>
