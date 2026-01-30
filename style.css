@@ -1,10 +1,8 @@
-/* --- Base Variables & Reset --- */
 :root {
     --main-color: #0088a3;
     --accent-black: #000000;
     --accent-white: #ffffff;
     --button-color: #0088a3;
-    --window-bg: #ffffff;
 }
 
 * { box-sizing: border-box; }
@@ -15,68 +13,51 @@ body {
     background-color: var(--main-color);
     background-image: radial-gradient(rgba(255, 255, 255, 0.2) 2px, transparent 2px);
     background-size: 30px 30px;
-    min-height: 100vh; overflow: hidden; position: relative;
+    height: 100vh; overflow: hidden; position: relative;
 }
 
-/* --- 指マークの設定 (最重要) --- */
+/* クリック・指マークの強制 */
 .desktop-icon, .start-btn, .start-item, .control-btn, .pop-button, #galleryNextBtn, #galleryPrevBtn {
     cursor: pointer !important;
+    pointer-events: auto !important;
 }
 
-/* --- Boot Screen --- */
+/* --- Boot Screen (固まる元凶を修正) --- */
 #bootScreen {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: #000000; color: #00ff00; z-index: 1000000;
+    background-color: #000000; color: #00ff00; z-index: 999999;
     display: flex; flex-direction: column; justify-content: center; align-items: center;
 }
-
-/* --- Desktop Icons --- */
-.desktop-icon {
-    position: absolute; width: 80px; text-align: center; z-index: 5;
-    user-select: none; transition: transform 0.1s;
-}
-.icon-img { font-size: 2.5rem; filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.3)); }
-.icon-label { background: var(--accent-black); color: white; padding: 2px 5px; font-size: 0.8rem; }
 
 /* --- Window System --- */
 .window-frame {
     position: absolute; width: 90%; max-width: 600px;
-    background-color: var(--window-bg); border: 3px solid var(--accent-black);
-    box-shadow: 8px 8px 0px var(--accent-black); display: none; z-index: 100;
+    background-color: #ffffff; border: 3px solid var(--accent-black);
+    box-shadow: 8px 8px 0px var(--accent-black);
+    display: none; z-index: 100;
 }
 .window-header {
     background-color: var(--accent-black); color: white;
     padding: 8px 10px; display: flex; justify-content: space-between; align-items: center;
     cursor: grab;
 }
-.window-body { padding: 20px; text-align: center; }
-
-/* --- Gallery (修正) --- */
-.gallery-container {
-    width: 100%; height: 250px; background: #eee; border: 3px inset #808080;
-    display: flex; justify-content: center; align-items: center; margin-bottom: 10px; overflow: hidden;
-}
-#galleryImg { max-width: 100%; max-height: 100%; object-fit: contain; }
 
 /* --- Taskbar & Menu --- */
 .taskbar {
     position: fixed; bottom: 0; left: 0; width: 100%; height: 40px;
     background-color: #c0c0c0; border-top: 2px solid #ffffff;
     display: flex; justify-content: space-between; align-items: center;
-    padding: 0 10px; z-index: 99999;
+    padding: 0 10px; z-index: 10000;
 }
 #startMenu {
     position: fixed; bottom: 40px; left: 2px; width: 220px;
     background-color: #c0c0c0; border: 2px solid; border-color: #fff #888 #888 #fff;
-    display: none; flex-direction: row; z-index: 99998;
+    display: none; z-index: 9999;
 }
-.start-side-bar { width: 30px; background: linear-gradient(#000080, #0000ff); color: white; writing-mode: vertical-rl; transform: rotate(180deg); padding: 5px; font-weight: bold; }
-.start-list { flex-grow: 1; display: flex; flex-direction: column; }
-.start-item { padding: 10px; color: black; text-decoration: none; display: block; }
 .start-item:hover { background: #000080; color: white; }
 
-/* BSOD */
+/* BSOD (Blue Screen) */
 #bsodScreen {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #0000aa; color: white; padding: 50px; display: none; z-index: 1100000;
+    background: #0000aa; color: white; padding: 50px; display: none; z-index: 2000000;
 }
