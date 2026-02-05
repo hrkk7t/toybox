@@ -22,9 +22,9 @@ exports.handler = async (event, context) => {
                         <div class="work-details">
                             <h3>保険代理店 Webサイト</h3>
                             <ul class="work-info-list">
-                                <li><span class="label">Role:</span>デザイン / 構築 / イラスト</li>
-                                <li><span class="label">Tools:</span>WordPress (Astra), Illustrator</li>
-                                <li><span class="label">Comment:</span>Astraの子テーマを使用。デザイン・イラスト・構築の全てを0から制作。</li>
+                             <li><span class="label">Role:</span>WF作成 / デザイン / 構築 / 全イラスト制作</li>
+                                <li><span class="label">Tools:</span>WordPress (Astra子テーマ), Illustrator, Photoshop</li>
+                                <li><span class="label">Point:</span>ワイヤーフレーム段階からUXを設計。公開後、ユーザーの行動に基づき「一覧への戻り導線」や「ナビゲーションの配置」を調整し、回遊性を向上させた。</li>
                                 <li><span class="label">URL:</span><a href="https://hosho1986.com/" target="_blank">View Site</a></li>
                             </ul>
                         </div>
@@ -193,5 +193,6 @@ exports.handler = async (event, context) => {
         return { statusCode: 500, body: "Internal Server Error" };
     }
 };
+
 
 
