@@ -24,7 +24,7 @@ exports.handler = async (event, context) => {
                             <ul class="work-info-list">
                                 <li><span class="label">Role:</span>デザイン / 構築 / イラスト</li>
                                 <li><span class="label">Tools:</span>WordPress (Astra), Illustrator</li>
-                                <li><span class="label">Comment:</span>Astraの子テーマを使用。デザイン・イラスト・構築の全てを0から制作しました。</li>
+                                <li><span class="label">Comment:</span>Astraの子テーマを使用。デザイン・イラスト・構築の全てを0から制作。</li>
                                 <li><span class="label">URL:</span><a href="https://hosho1986.com/" target="_blank">View Site</a></li>
                             </ul>
                         </div>
@@ -143,7 +143,7 @@ exports.handler = async (event, context) => {
                             <ul class="work-info-list">
                                 <li><span class="label">Role:</span>ロゴデザイン</li>
                                 <li><span class="label">Tools:</span>Adobe Illustrator</li>
-                                <li><span class="label">Comment:</span>イニシャルと法律の柱のイメージを組み合わせ、信頼感のあるデザインに仕上げました。</li>
+                                <li><span class="label">Comment:</span>イニシャルと法律の柱のイメージを組み合わせ、信頼感のあるデザインに仕上げた。</li>
                             </ul>
                         </div>
                     </div>
@@ -171,7 +171,7 @@ exports.handler = async (event, context) => {
                             <ul class="work-info-list">
                                 <li><span class="label">Role:</span>ロゴデザイン、タイトルデザイン</li>
                                 <li><span class="label">Tools:</span>Adobe Illustrator</li>
-                                <li><span class="label">Comment:</span>器具を用いた体操教室という特徴をふまえ、躍動感のあるシンボルを制作しました。</li>
+                                <li><span class="label">Comment:</span>器具を用いた体操教室という特徴をふまえ、躍動感のあるシンボルを制作した。</li>
                             </ul>
                         </div>
                     </div>
@@ -193,4 +193,5 @@ exports.handler = async (event, context) => {
         return { statusCode: 500, body: "Internal Server Error" };
     }
 };
+
 
