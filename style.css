@@ -576,6 +576,11 @@ p {
     cursor: pointer;
 }
 
+.start-btn.active {
+    background: #e0e0e0;
+    border-color: #000 #fff #fff #000;
+}
+
 #startMenu {
     position: fixed;
     bottom: 42px;
@@ -602,6 +607,35 @@ p {
     writing-mode: vertical-rl;
     transform: rotate(180deg);
     font-weight: bold;
+}
+
+.start-list {
+    flex: 1;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.start-item {
+    padding: 8px 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: black;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.start-item:hover {
+    background-color: #000080;
+    color: white;
+}
+
+.start-divider {
+    height: 1px;
+    background: #888;
+    margin: 5px 0;
+    border-bottom: 1px solid white;
 }
 
 /* --- BSOD --- */
@@ -637,6 +671,16 @@ p {
         justify-content: space-around;
         align-items: center;
         z-index: 2000;
+    }
+
+    /* 修正箇所: インラインスタイルを強制上書きして配置をリセット */
+    .desktop-icon {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        transform: none !important;
+        margin: 0 !important;
+        width: auto;
     }
 
     .icon-img { display: none; }
@@ -692,9 +736,7 @@ p {
 
 /* --- Modal Animation Additions --- */
 
-/* 1. モーダル背景：ふわっと暗くする */
 .popup-overlay {
-    /* 既存の background を上書きして、より滑らかに */
     background: rgba(0, 0, 0, 0.85); 
     backdrop-filter: blur(5px);
     transition: all 0.3s ease;
@@ -706,11 +748,9 @@ p {
     max-height: 90%;
     border: 4px solid white;
     box-shadow: 0 0 30px rgba(0,0,0,0.5);
-    /* 演出：ちょっとだけバウンドしながら拡大 */
     animation: modalZoom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
-/* キーフレームの定義 */
 @keyframes modalFadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -727,8 +767,6 @@ p {
     }
 }
 
-/* 閉じるボタンなどがある場合のホバー演出（おまけ） */
 .popup-overlay:hover {
     cursor: zoom-out;
 }
-

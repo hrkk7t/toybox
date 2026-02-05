@@ -18,6 +18,7 @@ const contactSendBtn = document.getElementById('contactSendBtn');
 const aboutOkBtn = document.getElementById('aboutOkBtn');
 const gameStartBtn = document.getElementById('gameStartBtn');
 
+// 修正: HTMLに追加したポップアップ要素を取得
 const sentPopup = document.getElementById('sentPopup');
 const sentCloseX = document.getElementById('sentCloseX');
 const sentBtnOk = document.getElementById('sentBtnOk');
@@ -489,26 +490,22 @@ workPasswordSubmitBtn.addEventListener('click', async () => {
     workPasswordSubmitBtn.textContent = '照合中...';
 
     try {
-        // ここで Netlify のプログラム（getwork）を呼び出すように変更！
         const response = await fetch("/.netlify/functions/getwork", {
             method: "POST",
             body: JSON.stringify({ password: password }),
         });
 
         if (response.ok) {
-            // 正解の場合
             const data = await response.json();
-            secretWorkContent.innerHTML = data.html; // Netlifyから届いた中身を表示
+            secretWorkContent.innerHTML = data.html;
             passwordFormSection.style.display = 'none';
             secretWorkContent.style.display = 'block';
             document.querySelector('#workHeader .window-title').textContent = '📁 Projects';
         } else {
-            // 不正解の場合（401エラーなど）
             passwordErrorMsg.style.display = 'block';
             workPasswordInput.select();
         }
     } catch (error) {
-        // 通信エラーなど
         console.error("Error:", error);
         alert("システムエラーが発生しました。");
     } finally {
@@ -598,6 +595,7 @@ function rebootSystem() {
     runBootSequence();
 }
 
+
 // --- Start Menu ---
 startBtn.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -613,6 +611,7 @@ startBtn.addEventListener('click', (e) => {
 document.addEventListener('click', (e) => {
     if (startMenu.style.display !== 'none' && !startMenu.contains(e.target) && e.target !== startBtn) {
         startMenu.style.display = 'none';
+        startBtn.classList.remove('active');
     }
 });
 
@@ -628,11 +627,13 @@ Object.keys(menuActions).forEach(id => {
     document.getElementById(id).addEventListener('click', () => {
         openWindow(menuActions[id]);
         startMenu.style.display = 'none';
+        startBtn.classList.remove('active');
     });
 });
 
 document.getElementById('menuShutdown').addEventListener('click', () => {
     startMenu.style.display = 'none';
+    startBtn.classList.remove('active');
     shutdownScreen.style.display = 'block';
     
     gsap.to(shutdownScreen, { opacity: 1, duration: 0.5, onComplete: () => {
@@ -640,5 +641,4 @@ document.getElementById('menuShutdown').addEventListener('click', () => {
             location.reload();
         }, 1500);
     }});
-
 });

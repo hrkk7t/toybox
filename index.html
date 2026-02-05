@@ -99,7 +99,7 @@
                     <div class="prop-item"><span class="label">種類:</span> 人間 (Web Developer)</div>
                     <div class="prop-item"><span class="label">場所:</span> C:\Users\Toybox\Brain</div>
                     <div class="prop-item"><span class="label">サイズ:</span> 157cm / XXkg</div>
-                    <div class="prop-item"><span class="label">作成日:</span> 199X年 XX月 XX日</div>
+                    <div class="prop-item"><span class="label">作成日:</span> 1992年 10月 19日</div>
                 </div>
             </div>
             <div class="prop-content" id="tab-skills">
@@ -200,12 +200,15 @@
                 <p>安全な外部連絡用フォームへの接続準備が完了しました。</p>
                 <p style="color: #666; font-size: 0.75rem;">>> 接続先: Google_Forms_Server</p>
             </div>
-            <div class="prop-footer">
-                <a href="https://forms.gle/ECKdALhsNe25CEwz7" target="_blank" style="text-decoration: none;">
+            <div class="prop-footer" style="display: flex; gap: 10px; justify-content: center;">
+                <a href="https://forms.gle/ECKdALhsNe25CEwz7" target="_blank" style="text-decoration: none; flex: 1;">
                     <button class="pop-button" style="width: 100%; cursor: pointer;">
-                        外部フォームを開く
+                        フォームを開く
                     </button>
                 </a>
+                 <button class="pop-button" id="contactSendBtn" style="flex: 1; cursor: pointer;">
+                    送信完了(デモ)
+                </button>
             </div>
             <p style="font-size: 0.7rem; color: #999; margin-top: 15px; text-align: center;">
                 ※クリックすると新しいタブで入力画面が開きます。
@@ -248,6 +251,19 @@
 --------------------------------------------------
 Copyright (C) 2026 TOYBOX.exe All Rights Reserved.
             </div>
+        </div>
+    </div>
+
+    <div id="sentPopup" class="popup-overlay">
+        <div class="window-frame popup-size">
+             <div class="window-header">
+                <span>Message Sent</span>
+                <button class="control-btn btn-close" id="sentCloseX"><img src="images/close.svg" alt="close"></button>
+             </div>
+             <div class="window-body">
+                <p>お問い合わせありがとうございます。<br>送信完了しました。</p>
+                <button class="pop-button small-btn" id="sentBtnOk">OK</button>
+             </div>
         </div>
     </div>
 
