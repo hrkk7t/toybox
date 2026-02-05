@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_x32_" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 512 512">
+  <!-- Generator: Adobe Illustrator 30.0.0, SVG Export Plug-In . SVG Version: 2.1.1 Build 123)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <g>
+    <rect class="st0" x="155.88" y="4.49" width="30.28" height="151.38"/>
+    <rect class="st0" x="155.88" y="155.87" width="30.28" height="30.28"/>
+    <rect class="st0" x="125.6" y="125.59" width="30.28" height="30.28"/>
+    <rect class="st0" x="95.33" y="95.32" width="30.28" height="30.28"/>
+    <rect class="st0" x="65.05" y="65.04" width="30.28" height="30.28"/>
+    <rect class="st0" x="34.78" y="34.77" width="30.28" height="30.28"/>
+    <rect class="st0" x="4.5" y="4.49" width="30.28" height="30.28"/>
+    <rect class="st0" x="4.5" y="155.87" width="151.38" height="30.28"/>
+  </g>
+  <g>
+    <rect class="st0" x="325.84" y="4.49" width="30.28" height="151.38" transform="translate(681.96 160.36) rotate(-180)"/>
+    <rect class="st0" x="325.84" y="155.87" width="30.28" height="30.28" transform="translate(681.96 342.02) rotate(-180)"/>
+    <rect class="st0" x="356.12" y="125.59" width="30.28" height="30.28" transform="translate(742.52 281.47) rotate(-180)"/>
+    <rect class="st0" x="386.4" y="95.32" width="30.28" height="30.28" transform="translate(803.07 220.91) rotate(-180)"/>
+    <rect class="st0" x="416.67" y="65.04" width="30.28" height="30.28" transform="translate(863.62 160.36) rotate(-180)"/>
+    <rect class="st0" x="446.95" y="34.77" width="30.28" height="30.28" transform="translate(924.17 99.81) rotate(-180)"/>
+    <rect class="st0" x="477.22" y="4.49" width="30.28" height="30.28" transform="translate(984.72 39.26) rotate(-180)"/>
+    <rect class="st0" x="356.12" y="155.87" width="151.38" height="30.28" transform="translate(863.62 342.02) rotate(-180)"/>
+  </g>
+  <g>
+    <rect class="st0" x="155.88" y="356.13" width="30.28" height="151.38"/>
+    <rect class="st0" x="155.88" y="325.85" width="30.28" height="30.28"/>
+    <rect class="st0" x="125.6" y="356.13" width="30.28" height="30.28"/>
+    <rect class="st0" x="95.33" y="386.41" width="30.28" height="30.28"/>
+    <rect class="st0" x="65.05" y="416.68" width="30.28" height="30.28"/>
+    <rect class="st0" x="34.78" y="446.96" width="30.28" height="30.28"/>
+    <rect class="st0" x="4.5" y="477.23" width="30.28" height="30.28"/>
+    <rect class="st0" x="4.5" y="325.85" width="151.38" height="30.28"/>
+  </g>
+  <g>
+    <rect class="st0" x="325.84" y="356.13" width="30.28" height="151.38" transform="translate(681.96 863.64) rotate(180)"/>
+    <rect class="st0" x="325.84" y="325.85" width="30.28" height="30.28" transform="translate(681.96 681.98) rotate(180)"/>
+    <rect class="st0" x="356.12" y="356.13" width="30.28" height="30.28" transform="translate(742.52 742.53) rotate(180)"/>
+    <rect class="st0" x="386.4" y="386.41" width="30.28" height="30.28" transform="translate(803.07 803.09) rotate(180)"/>
+    <rect class="st0" x="416.67" y="416.68" width="30.28" height="30.28" transform="translate(863.62 863.64) rotate(180)"/>
+    <rect class="st0" x="446.95" y="446.96" width="30.28" height="30.28" transform="translate(924.17 924.19) rotate(180)"/>
+    <rect class="st0" x="477.22" y="477.23" width="30.28" height="30.28" transform="translate(984.72 984.74) rotate(180)"/>
+    <rect class="st0" x="356.12" y="325.85" width="151.38" height="30.28" transform="translate(863.62 681.98) rotate(180)"/>
+  </g>
+</svg>

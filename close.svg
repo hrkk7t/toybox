@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_x32_" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 512 512">
+  <!-- Generator: Adobe Illustrator 30.0.0, SVG Export Plug-In . SVG Version: 2.1.1 Build 123)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <rect class="st0" x="227.68" y="227.68" width="56.64" height="56.64"/>
+  <g>
+    <rect class="st0" x="171.04" y="171.04" width="56.64" height="56.64"/>
+    <rect class="st0" x="114.4" y="114.4" width="56.64" height="56.64"/>
+    <rect class="st0" x="57.77" y="57.77" width="56.64" height="56.64"/>
+  </g>
+  <g>
+    <rect class="st0" x="171.04" y="284.32" width="56.64" height="56.64" transform="translate(-113.28 512) rotate(-90)"/>
+    <rect class="st0" x="114.4" y="340.96" width="56.64" height="56.64" transform="translate(-226.55 512) rotate(-90)"/>
+    <rect class="st0" x="57.77" y="397.59" width="56.64" height="56.64" transform="translate(-339.83 512) rotate(-90)"/>
+  </g>
+  <g>
+    <rect class="st0" x="284.32" y="284.32" width="56.64" height="56.64" transform="translate(625.28 625.28) rotate(-180)"/>
+    <rect class="st0" x="340.96" y="340.96" width="56.64" height="56.64" transform="translate(738.55 738.55) rotate(-180)"/>
+    <rect class="st0" x="397.6" y="397.59" width="56.64" height="56.64" transform="translate(851.83 851.83) rotate(-180)"/>
+  </g>
+  <g>
+    <rect class="st0" x="284.32" y="171.04" width="56.64" height="56.64" transform="translate(512 -113.28) rotate(90)"/>
+    <rect class="st0" x="340.96" y="114.4" width="56.64" height="56.64" transform="translate(512 -226.55) rotate(90)"/>
+    <rect class="st0" x="397.6" y="57.77" width="56.64" height="56.64" transform="translate(512 -339.83) rotate(90)"/>
+    <rect class="st0" x="454.23" y="0" width="56.64" height="56.64" transform="translate(510.87 -454.23) rotate(90)"/>
+    <rect class="st0" x="0" y="1.13" width="56.64" height="56.64"/>
+    <rect class="st0" x="1.13" y="455.36" width="56.64" height="56.64" transform="translate(-454.23 513.13) rotate(-90)"/>
+    <rect class="st0" x="455.36" y="454.23" width="56.64" height="56.64" transform="translate(967.36 965.1) rotate(-180)"/>
+  </g>
+</svg>
